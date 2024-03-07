@@ -14,18 +14,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-/**
- *
- * @author reido
- */
-public class FXMLDocumentController extends ScreenManager implements Initializable {
+public class FXMLDocumentController implements Initializable {
     
+    private ScreenManager screenManager;
+
     public FXMLDocumentController() {
-        super(new Stage());
+        // Construtor vazio
     }
 
-    private ScreenManager screenManager;
-    
+    public void setScreenManager(ScreenManager screenManager) {
+        this.screenManager = screenManager;
+    }
     @FXML
     private Button bntCadastrar;
 
@@ -62,8 +61,8 @@ public class FXMLDocumentController extends ScreenManager implements Initializab
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    public void setScreenManager(ScreenManager screenManager) {
-        this.screenManager = screenManager;
-    }
     
+    /*    public void setScreenManager(ScreenManager screenManager) {
+    this.screenManager = screenManager;
+    }*/
 }

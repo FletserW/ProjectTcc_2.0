@@ -1,22 +1,21 @@
 package projecttcc_2.pkg0.control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class FXMLInscreverController implements Initializable {
 
-    private ScreenManager screenManager;
-
     public FXMLInscreverController() {
         // Este é um construtor padrão sem argumentos
-    }
-
-    public void setScreenManager(ScreenManager screenManager) {
-        this.screenManager = screenManager;
     }
 
     @FXML
@@ -49,12 +48,22 @@ public class FXMLInscreverController implements Initializable {
     }
 
     @FXML
-    private void cadastroButtonAction(ActionEvent event) {
-        System.out.println("Botão cadastro selecionado");
-        if (screenManager != null) {
-            screenManager.switchScreen("/projecttcc_2/pkg0/View/FXMLCadastrar.fxml");
-        } else {
-            System.err.println("ScreenManager não foi definido.");
-        }
+private void cadastroButtonAction(ActionEvent event) {
+    try {
+        // Carrega a nova cena
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLCadastrar.fxml"));
+        Parent root = loader.load();
+        
+        // Obtém o palco atual
+        Stage stage = (Stage) bntCadastrar1.getScene().getWindow();
+        
+        // Define a nova cena no palco
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
+
 }

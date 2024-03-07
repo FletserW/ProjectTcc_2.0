@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -41,18 +42,17 @@ public class FXMLCadastrarController implements Initializable {
      @FXML
     void acessarButtonAction(ActionEvent event) {
         try {
-            // Carrega o FXML da segunda tela
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLInscrever.fxml"));
-            Parent root = loader.load();
-
-            // Obtém o controlador da segunda tela
-            FXMLInscreverController controller = loader.getController();
-
-            // Obtém a cena atual
-            Scene scene = bntAcessar.getScene();
-
-            // Substitui a cena atual pela cena da segunda tela
-            scene.setRoot(root);
+        // Carrega a nova cena
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLInscrever.fxml"));
+        Parent root = loader.load();
+        
+        // Obtém o palco atual
+        Stage stage = (Stage) bntAcessar.getScene().getWindow();
+        
+        // Define a nova cena no palco
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

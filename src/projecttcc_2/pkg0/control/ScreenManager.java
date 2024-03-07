@@ -4,10 +4,6 @@
  */
 package projecttcc_2.pkg0.control;
 
-/**
- *
- * @author reido
- */
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
