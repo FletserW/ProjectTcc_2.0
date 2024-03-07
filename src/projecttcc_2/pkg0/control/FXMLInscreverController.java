@@ -61,7 +61,7 @@ public class FXMLInscreverController implements Initializable {
     
     @FXML
     void cadastraButtonAction(ActionEvent event) {
-        System.out.println("Botão de entrada pressionado.");
+        System.out.println("Botão de entrada pressionado..");
         screenManager.switchScreen("/projecttcc_2/pkg0/View/FXMLCadastrar.fxml");
     } 
     
