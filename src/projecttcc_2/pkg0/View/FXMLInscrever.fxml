@@ -31,14 +31,14 @@
                         <Font name="Ebrima" size="18.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="55.0" layoutY="192.0" prefHeight="25.0" prefWidth="252.0" />
-                  <PasswordField layoutX="55.0" layoutY="261.0" prefHeight="25.0" prefWidth="252.0" />
+                  <TextField fx:id="txtEmail" layoutX="55.0" layoutY="192.0" prefHeight="25.0" prefWidth="252.0" />
+                  <PasswordField fx:id="password1" layoutX="55.0" layoutY="261.0" prefHeight="25.0" prefWidth="252.0" />
                   <Label layoutX="56.0" layoutY="116.0" prefHeight="25.0" prefWidth="268.0" text="Por favor se inscreva para continuar">
                      <font>
                         <Font name="Ebrima Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Button fx:id="bntRegistrar" layoutX="55.0" layoutY="361.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="252.0" style="-fx-border-radius: 50px; -fx-background-color: #3ca64c; -fx-background-radius: 20px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);" text="Registrar">
+                  <Button fx:id="bntRegistrar" layoutX="55.0" layoutY="361.0" mnemonicParsing="false" onAction="#RegistrarButtonAction" prefHeight="40.0" prefWidth="252.0" style="-fx-border-radius: 50px; -fx-background-color: #3ca64c; -fx-background-radius: 20px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);" text="Acessar">
                      <font>
                         <Font name="Ebrima Bold" size="20.0" />
                      </font>
@@ -53,8 +53,8 @@
                         <Font name="Ebrima Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnGoogle" layoutX="107.0" layoutY="482.0" onAction="#cadastroGoogle" style="-fx-background-color: transparent;" />
-              <Button fx:id="btnFacebook" layoutX="198.0" layoutY="475.0" onAction="#cadastroFacebook" style="-fx-background-color: transparent;" />
+                  <Button fx:id="btnGoogle" layoutX="119.0" layoutY="453.0" onAction="#cadastroGoogleAction" style="-fx-background-color: transparent;" />
+              <Button fx:id="btnFacebook" layoutX="183.0" layoutY="453.0" minWidth="52.0" onAction="#cadastroFacebookAction" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: transparent;" />
                 <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="126.0" layoutY="448.0">
                     <image>
                         <Image url="@../img/google-Icon.png" />
@@ -65,6 +65,11 @@
                         <Image url="@../img/facebook-Icon.png" />
                     </image>
                 </ImageView>
+                  <Label fx:id="lblErro" layoutX="50.0" layoutY="316.0" prefHeight="26.0" prefWidth="226.0" text="Usuario ou senha invalido!" textAlignment="CENTER" textFill="#d71919" visible="false">
+                     <font>
+                        <Font name="Ebrima" size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="465.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
@@ -77,7 +82,7 @@
                   <Font name="Ebrima Bold" size="18.0" />
                </font>
             </Button>
-            <Label layoutX="486.0" layoutY="286.0" prefHeight="27.0" prefWidth="175.0" text="Não tem uma conta?">
+            <Label fx:id="lblErro" layoutX="486.0" layoutY="286.0" prefHeight="27.0" prefWidth="175.0" text="Não tem uma conta?">
                <font>
                   <Font name="Ebrima Bold" size="14.0" />
                </font>

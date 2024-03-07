@@ -6,7 +6,9 @@ package projecttcc_2.pkg0.control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
@@ -18,6 +20,13 @@ public class FXMLHomePageController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    
+    @FXML
+    private Label lblUsuario;
+    
+    
+
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

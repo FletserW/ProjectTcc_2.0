@@ -17,14 +17,14 @@
       <Pane layoutX="207.0" layoutY="26.0" prefHeight="552.0" prefWidth="570.0" style="-fx-background-color: white; -fx-background-radius: 20px;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="26.0" />
       <Pane prefHeight="600.0" prefWidth="188.0" style="-fx-background-color: #6d7f65;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="36.0" layoutY="88.0" prefHeight="47.0" prefWidth="117.0" text="Nome do usuario" textFill="WHITE">
+            <Label fx:id="lblUsuario" layoutX="36.0" layoutY="88.0" prefHeight="47.0" prefWidth="117.0" text="Nome do usuario" textFill="WHITE">
                <font>
                   <Font name="Ebrima Bold" size="14.0" />
                </font>
             </Label>
             <VBox layoutY="159.0" prefHeight="441.0" prefWidth="188.0">
                <children>
-                  <Accordion style="-fx-background-color: #6d7f65;">
+                  <Accordion style="-fx-background-color: #6d7f65;" stylesheets="@../../DTO/style.css">
                     <panes>
                       <TitledPane animated="false" prefHeight="104.0" prefWidth="188.0" stylesheets="@../style.css" text="Estoque" textFill="WHITE">
                            <content>
@@ -32,7 +32,7 @@
                                  <children>
                                     <VBox prefHeight="73.0" prefWidth="163.0">
                                        <children>
-                                          <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="167.0" text="Deposito" />
+                                          <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="191.0" text="Deposito" />
                                           <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="163.0" text="Frezzer " />
                                        </children>
                                     </VBox>
@@ -45,7 +45,7 @@
                         </TitledPane>
                       <TitledPane animated="false" style="-fx-background-color: #6d7f65;" stylesheets="@../style.css" text="Vendas" textFill="WHITE">
                            <content>
-                              <TilePane prefHeight="0.0" prefWidth="186.0" />
+                              <TilePane prefHeight="0.0" prefWidth="186.0" style="-fx-background-color: #6d7f65;" />
                            </content>
                            <font>
                               <Font name="Ebrima Bold" size="14.0" />
@@ -53,7 +53,7 @@
                         </TitledPane>
                         <TitledPane prefHeight="57.0" prefWidth="188.0" style="-fx-background-color: #6d7f65;" stylesheets="@../style.css" text="Pedidos" textFill="WHITE">
                            <content>
-                              <TilePane prefHeight="200.0" prefWidth="200.0" />
+                              <TilePane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #6d7f65;" />
                            </content>
                            <font>
                               <Font name="Ebrima Bold" size="14.0" />
@@ -66,7 +66,7 @@
                         </TitledPane>
                         <TitledPane animated="false" prefHeight="73.0" prefWidth="188.0" style="-fx-background-color: #6d7f65;" stylesheets="@../style.css" text="Configurações" textFill="WHITE">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #6d7f65;" />
                           </content>
                            <font>
                               <Font name="Ebrima Bold" size="14.0" />
