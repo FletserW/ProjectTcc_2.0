@@ -1,35 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package projecttcc_2.pkg0.control;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author reido
- */
 public class FXMLInscreverController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
-    
+    private ScreenManager screenManager;
+
+    public FXMLInscreverController() {
+        // Este é um construtor padrão sem argumentos
+    }
+
+    public void setScreenManager(ScreenManager screenManager) {
+        this.screenManager = screenManager;
+    }
+
     @FXML
-    private Button bntCadastrar;
-    
+    private Button bntCadastrar1;
+
     @FXML
     private Button bntRegistrar;
 
@@ -38,15 +30,12 @@ public class FXMLInscreverController implements Initializable {
 
     @FXML
     private Button btnGoogle;
-    
-    private ScreenManager screenManager;
-    private Stage stage;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        screenManager = new ScreenManager(stage);
-    }    
-    
+
+    }
+
     @FXML
     private void cadastroGoogle(ActionEvent event) {
         // Implemente aqui a lógica para o cadastro com Google
@@ -58,14 +47,14 @@ public class FXMLInscreverController implements Initializable {
         // Implemente aqui a lógica para o cadastro com Facebook
         System.out.println("Cadastro com Facebook");
     }
-    
+
     @FXML
-    void cadastraButtonAction(ActionEvent event) {
-        System.out.println("Botão de entrada pressionado..");
-        screenManager.switchScreen("/projecttcc_2/pkg0/View/FXMLCadastrar.fxml");
-    } 
-    
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    private void cadastroButtonAction(ActionEvent event) {
+        System.out.println("Botão cadastro selecionado");
+        if (screenManager != null) {
+            screenManager.switchScreen("/projecttcc_2/pkg0/View/FXMLCadastrar.fxml");
+        } else {
+            System.err.println("ScreenManager não foi definido.");
+        }
     }
 }

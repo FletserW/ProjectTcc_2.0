@@ -72,7 +72,7 @@
                   <Image url="@../img/Graphicloads-100-Flat-Tea.64.png" />
                </image>
             </ImageView>
-            <Button fx:id="bntCadastrar" layoutX="464.0" layoutY="321.0" mnemonicParsing="false" onAction="#cadastraButtonAction" prefHeight="40.0" prefWidth="153.0" style="-fx-background-color: #3ca64c; -fx-border-radius: 20px; -fx-background-radius: 20px;" text="Cadastrar-se">
+            <Button fx:id="bntCadastrar1" layoutX="464.0" layoutY="321.0" mnemonicParsing="false" onAction="#cadastroButtonAction" prefHeight="40.0" prefWidth="153.0" style="-fx-background-color: #3ca64c; -fx-border-radius: 20px; -fx-background-radius: 20px;" text="Cadastrar-se">
                <font>
                   <Font name="Ebrima Bold" size="18.0" />
                </font>
