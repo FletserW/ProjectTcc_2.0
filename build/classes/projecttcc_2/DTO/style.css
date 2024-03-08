@@ -7,6 +7,17 @@
     -fx-border-radius: 10;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);
 }
+
+.button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.icon:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
 .titled-pane > .title {
     -fx-background-color: #6d7f65; /* Define a cor de fundo do cabeçalho */
     -fx-font-family: "Segoe UI", "Brirma", sans-serif;

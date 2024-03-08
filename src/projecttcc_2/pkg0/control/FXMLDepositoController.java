@@ -6,7 +6,16 @@ package projecttcc_2.pkg0.control;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -23,4 +32,31 @@ public class FXMLDepositoController implements Initializable {
         // TODO
     }    
     
+     @FXML
+    private Button btnProduto;
+
+    @FXML
+    private TextField txtPesquisa;
+
+    @FXML
+    void addProdutoActionButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLAddProdutos.fxml"));
+            Parent root = loader.load();
+
+            // Crie um novo controlador, se necessário  
+            FXMLAddProdutosController addProdutosController = loader.getController();
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Adicionar Produto");
+            stage.setScene(new Scene(root));
+
+            // Configurar mais propriedades da janela, se necessário
+
+            stage.showAndWait(); // Mostrar a janela e esperar até que ela seja fechada
+        } catch (Exception e) {
+            e.printStackTrace(); // Lidar com exceções, como IOException ou FXMLLoaderException
+        }
+    }
 }
