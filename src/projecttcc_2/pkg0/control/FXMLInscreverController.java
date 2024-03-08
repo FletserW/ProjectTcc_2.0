@@ -38,9 +38,6 @@ public class FXMLInscreverController implements Initializable {
 
     @FXML
     private TextField txtEmail;
-
-    @FXML
-    private Label lblErro;
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -100,11 +97,11 @@ public class FXMLInscreverController implements Initializable {
             // Define a nova cena no palco
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setResizable(true);
             stage.show();
         } else {
             // deu errado
             JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos");
-            lblErro.setVisible(true);
         }
     }
     }

@@ -29,7 +29,7 @@
                <children>
                   <Accordion style="-fx-background-color: #6d7f65;" stylesheets="@../../DTO/style.css">
                     <panes>
-                      <TitledPane alignment="CENTER" animated="false" contentDisplay="CENTER" prefHeight="106.0" prefWidth="188.0" stylesheets="@../style.css" text="Estoque" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                        <TitledPane alignment="CENTER" animated="false" prefHeight="69.0" prefWidth="188.0" stylesheets="@../../DTO/style.css" text="Estoque" textFill="#f8f8f8">
                            <content>
                               <TilePane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #6d7f65;">
                                  <children>

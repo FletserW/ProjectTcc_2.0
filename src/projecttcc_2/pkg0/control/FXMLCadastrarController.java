@@ -73,6 +73,7 @@ public class FXMLCadastrarController implements Initializable {
         // Define a nova cena no palco
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(true);
         stage.show();
         } catch (IOException e) {
             e.printStackTrace();

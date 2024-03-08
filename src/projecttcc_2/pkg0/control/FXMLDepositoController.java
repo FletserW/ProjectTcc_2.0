@@ -4,6 +4,7 @@
  */
 package projecttcc_2.pkg0.control;
 
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -38,6 +40,14 @@ public class FXMLDepositoController implements Initializable {
     @FXML
     private TextField txtPesquisa;
 
+     @FXML
+    private ImageView imgBuscar;
+
+     @FXML
+    void buscarActionButton(MouseEvent event) {
+
+    }
+    
     @FXML
     void addProdutoActionButton(ActionEvent event) {
         try {
@@ -53,6 +63,8 @@ public class FXMLDepositoController implements Initializable {
             stage.setScene(new Scene(root));
 
             // Configurar mais propriedades da janela, se necessário
+            // Impede a redimensionamento da janela
+            stage.setResizable(false);
 
             stage.showAndWait(); // Mostrar a janela e esperar até que ela seja fechada
         } catch (Exception e) {

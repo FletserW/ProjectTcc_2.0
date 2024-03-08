@@ -11,11 +11,19 @@
 .button:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
+    -fx-cursor: HAND;
 }
 
 .icon:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
+    -fx-cursor: HAND;
+}
+
+.imgIcon:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-cursor: HAND;
 }
 
 .titled-pane > .title {
