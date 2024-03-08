@@ -14,7 +14,10 @@
 
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #dbe3da;" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLHomePageController">
    <children>
-      <Pane layoutX="207.0" layoutY="26.0" prefHeight="552.0" prefWidth="570.0" style="-fx-background-color: white; -fx-background-radius: 20px;" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="26.0" />
+      <Pane layoutX="207.0" layoutY="27.0" prefHeight="552.0" prefWidth="564.0" style="-fx-background-color: white; -fx-background-radius: 20px;" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="27.0">
+         <children>
+            <fx:include fx:id="FXMLDeposito" source="FXMLDeposito.fxml" />
+         </children></Pane>
       <Pane prefHeight="600.0" prefWidth="188.0" style="-fx-background-color: #6d7f65;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="lblUsuario" layoutX="36.0" layoutY="88.0" prefHeight="47.0" prefWidth="117.0" text="Nome do usuario" textFill="WHITE">
@@ -22,11 +25,11 @@
                   <Font name="Ebrima Bold" size="14.0" />
                </font>
             </Label>
-            <VBox layoutY="159.0" prefHeight="441.0" prefWidth="188.0">
+            <VBox layoutY="159.0" prefHeight="299.0" prefWidth="188.0" stylesheets="@../../DTO/style.css">
                <children>
                   <Accordion style="-fx-background-color: #6d7f65;" stylesheets="@../../DTO/style.css">
                     <panes>
-                      <TitledPane animated="false" prefHeight="104.0" prefWidth="188.0" stylesheets="@../style.css" text="Estoque" textFill="WHITE">
+                      <TitledPane alignment="CENTER" animated="false" contentDisplay="CENTER" prefHeight="106.0" prefWidth="188.0" stylesheets="@../style.css" text="Estoque" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
                            <content>
                               <TilePane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #6d7f65;">
                                  <children>
@@ -43,37 +46,12 @@
                               <Font name="Ebrima Bold" size="14.0" />
                            </font>
                         </TitledPane>
-                      <TitledPane animated="false" style="-fx-background-color: #6d7f65;" stylesheets="@../style.css" text="Vendas" textFill="WHITE">
-                           <content>
-                              <TilePane prefHeight="0.0" prefWidth="186.0" style="-fx-background-color: #6d7f65;" />
-                           </content>
-                           <font>
-                              <Font name="Ebrima Bold" size="14.0" />
-                           </font>
-                        </TitledPane>
-                        <TitledPane prefHeight="57.0" prefWidth="188.0" style="-fx-background-color: #6d7f65;" stylesheets="@../style.css" text="Pedidos" textFill="WHITE">
-                           <content>
-                              <TilePane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #6d7f65;" />
-                           </content>
-                           <font>
-                              <Font name="Ebrima Bold" size="14.0" />
-                           </font>
-                        </TitledPane>
-                        <TitledPane animated="false" style="-fx-background-color: #6d7f65;" stylesheets="@../style.css" text="Relatorios" textFill="WHITE">
-                           <font>
-                              <Font name="Ebrima Bold" size="14.0" />
-                           </font>
-                        </TitledPane>
-                        <TitledPane animated="false" prefHeight="73.0" prefWidth="188.0" style="-fx-background-color: #6d7f65;" stylesheets="@../style.css" text="Configurações" textFill="WHITE">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #6d7f65;" />
-                          </content>
-                           <font>
-                              <Font name="Ebrima Bold" size="14.0" />
-                           </font>
-                        </TitledPane>
                     </panes>
                   </Accordion>
+                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="Vendas" />
+                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="Pedidos" />
+                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="Relatorios" />
+                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="Configurções" />
                </children>
             </VBox>
             <ImageView fitHeight="81.0" fitWidth="82.0" layoutX="53.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">

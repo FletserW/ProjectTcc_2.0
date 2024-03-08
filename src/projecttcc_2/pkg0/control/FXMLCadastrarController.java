@@ -129,7 +129,7 @@ public class FXMLCadastrarController implements Initializable {
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar usuário: " + e.getMessage());
         }
 
-    }
+    }   
 
     @FXML
     void cadastroFacebook(ActionEvent event) {
