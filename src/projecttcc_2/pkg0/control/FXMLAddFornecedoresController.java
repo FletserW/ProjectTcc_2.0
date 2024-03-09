@@ -13,15 +13,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import projecttcc_2.BD.ConexaoBD;
 
 
 public class FXMLAddFornecedoresController {
-
-    @FXML
-    private Button btnCancelar;
 
     @FXML
     private Button btnRegistrar;
@@ -34,15 +32,10 @@ public class FXMLAddFornecedoresController {
 
     @FXML
     private TextField txtTelefone;
-
+    
     @FXML
-    void cancelarActionButton(ActionEvent event) {
-        // Obtém o palco (Stage) associado ao evento
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    private AnchorPane addFornecedorInclude;
 
-        // Fecha a janela atual
-        stage.close();
-    }
 
     @FXML
     void registrarAnctionButton(ActionEvent event) {

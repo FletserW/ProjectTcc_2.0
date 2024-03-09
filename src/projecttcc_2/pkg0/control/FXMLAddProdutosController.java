@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import projecttcc_2.BD.ConexaoBD;
 import projecttcc_2.DTO.ProdutosDTO;
@@ -30,6 +31,9 @@ public class FXMLAddProdutosController implements Initializable {
 
     @FXML
     private Button bntAdicionar;
+    
+    @FXML
+    private Button bntFornecedorCancelar;
 
     @FXML
     private Button bntCancelar;
@@ -49,8 +53,11 @@ public class FXMLAddProdutosController implements Initializable {
     @FXML
     private TextField txtPrecoUnid;
 
-      @FXML
+    @FXML
     private TextField txtQtd;
+      
+    @FXML
+    private AnchorPane addFornecedorInclude;
 
 
     @Override
@@ -64,8 +71,25 @@ public class FXMLAddProdutosController implements Initializable {
 
     @FXML
     void addFornecedorActionButton(ActionEvent event) {
-        // Implemente a lógica aqui
+        if (addFornecedorInclude.isVisible()) {
+            // Se o addFornecedorInclude for visível, torne-o invisível
+            addFornecedorInclude.setVisible(false);
+            bntFornecedorCancelar.setVisible(false);
+
+            // Reposicione a imagem para a posição inicial
+            iconBeer.setLayoutY(iconBeer.getLayoutY() + 120);
+        } else {
+            // Se o addFornecedorInclude não estiver visível, torne-o visível
+            addFornecedorInclude.setVisible(true);
+            bntFornecedorCancelar.setVisible(true);
+
+            // Ajuste a posição do iconBeer, se necessário
+            iconBeer.setLayoutY(iconBeer.getLayoutY() - 120);
+        }
+
+        System.out.println("addFornecedorActionButton chamado");
     }
+
 
     @FXML
     void adicionarActionButton(ActionEvent event) {

@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="250.0" prefWidth="250.0" stylesheets="@../../DTO/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="projecttcc_2.pkg0.control.FXMLAddFornecedoresController">
+<AnchorPane id="AnchorPane" prefHeight="250.0" prefWidth="250.0" stylesheets="@../../DTO/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLAddFornecedoresController">
    <children>
       <VBox layoutY="37.0" prefHeight="152.0" prefWidth="250.0">
          <children>
@@ -42,6 +41,5 @@
          </font>
       </Label>
       <Button fx:id="btnRegistrar" layoutX="22.0" layoutY="196.0" mnemonicParsing="false" onAction="#registrarAnctionButton" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #3ca64c; -fx-background-radius: 20;" text="Registrar" />
-      <Button fx:id="btnCancelar" layoutX="148.0" layoutY="196.0" mnemonicParsing="false" onAction="#cancelarActionButton" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #3ca64c; -fx-background-radius: 20;" text="Cancelar" />
    </children>
 </AnchorPane>
