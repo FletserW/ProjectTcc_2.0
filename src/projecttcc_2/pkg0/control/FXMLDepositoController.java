@@ -5,8 +5,15 @@
 package projecttcc_2.pkg0.control;
 
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +21,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
+import projecttcc_2.BD.ConexaoBD;
+import projecttcc_2.DTO.ProdutosDTO;  // Alteração do nome da classe
+import projecttcc_2.DTO.ProdutosDTO;
 
 /**
  * FXML Controller class
@@ -32,22 +46,26 @@ public class FXMLDepositoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        preencherTabela();
     }    
     
-     @FXML
+    @FXML
     private Button btnProduto;
 
     @FXML
     private TextField txtPesquisa;
 
-     @FXML
+    @FXML
     private ImageView imgBuscar;
 
-     @FXML
+    @FXML
+    private TableView<ProdutosDTO> tblProdutos;  // Alteração do tipo da tabela
+
+    @FXML
     void buscarActionButton(MouseEvent event) {
 
     }
-    
+
     @FXML
     void addProdutoActionButton(ActionEvent event) {
         try {
@@ -69,6 +87,58 @@ public class FXMLDepositoController implements Initializable {
             stage.showAndWait(); // Mostrar a janela e esperar até que ela seja fechada
         } catch (Exception e) {
             e.printStackTrace(); // Lidar com exceções, como IOException ou FXMLLoaderException
+        }
+    }
+
+    // Método para preencher a tabela
+    private void preencherTabela() {
+        try {
+            Connection conexao = ConexaoBD.conectar();
+
+            // Consulta SQL para obter informações dos produtos
+            String sql = "SELECT id, nome, quantidade, preco, preco_Venda FROM produtos";
+
+            try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+                // Criação do modelo da tabela
+                ObservableList<ProdutosDTO> dadosTabela = FXCollections.observableArrayList();  // Alteração do tipo da lista
+
+                // Adiciona as colunas à tabela
+
+                TableColumn<ProdutosDTO, String> colunaNome = new TableColumn<>("Nome do Produto");
+                colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+
+                TableColumn<ProdutosDTO, Integer> colunaQuantidade = new TableColumn<>("Quantidade");
+                colunaQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+
+                TableColumn<ProdutosDTO, BigDecimal> colunaPreco = new TableColumn<>("Preço");
+                colunaPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
+
+                TableColumn<ProdutosDTO, BigDecimal> colunaPrecoVenda = new TableColumn<>("Preço de Venda");
+                colunaPrecoVenda.setCellValueFactory(new PropertyValueFactory<>("preco_venda"));
+
+                tblProdutos.getColumns().addAll( colunaNome, colunaQuantidade, colunaPreco, colunaPrecoVenda);
+
+                // Adiciona as linhas à tabela
+                while (rs.next()) {
+                    ProdutosDTO produtoDTO = new ProdutosDTO(
+                            Integer.parseInt(rs.getString("id")),
+                            rs.getString("nome"),
+                            rs.getInt("quantidade"),
+                            new BigDecimal(rs.getDouble("preco")),
+                            new BigDecimal(rs.getDouble("preco_Venda")),
+                            0, // valor padrão para id_fornecedor
+                            null // valor padrão para localizacao_produto
+                    );
+                    dadosTabela.add(produtoDTO);
+                }
+
+                tblProdutos.setItems(dadosTabela);
+            }
+
+            conexao.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela de produtos.");
         }
     }
 }

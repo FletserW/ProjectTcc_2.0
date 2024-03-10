@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ProjectTcc_2.0.jar" size="5277935" download="eager" />
+    <jar href="ProjectTcc_2.0.jar" size="5279785" download="eager" />
     <jar href="lib\mysql-connector-j-8.2.0.jar" size="2489850" download="eager" />
   </resources>
   <jfx:javafx-desc  width="800" height="600" main-class="projecttcc_2.pkg0.control.ProjectTcc_20"  name="ProjectTcc_2.0" />

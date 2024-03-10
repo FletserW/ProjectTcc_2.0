@@ -18,10 +18,10 @@ public class ProdutosDAO {
         try (PreparedStatement pstm = conn.prepareStatement(
                 "INSERT INTO produtos (nome, quantidade, preco, preco_venda, fornecedor_id) VALUES (?, ?, ?, ?, ?)")) {
 
-            pstm.setString(1, objProdutosDTO.getNome_produto());
-            pstm.setInt(2, objProdutosDTO.getQuantidade_produto());
-            pstm.setBigDecimal(3, objProdutosDTO.getPreco_produto());
-            pstm.setBigDecimal(4, objProdutosDTO.getPrecoVenda_produto());
+            pstm.setString(1, objProdutosDTO.getNome());
+            pstm.setInt(2, objProdutosDTO.getQuantidade());
+            pstm.setBigDecimal(3, objProdutosDTO.getPreco());
+            pstm.setBigDecimal(4, objProdutosDTO.getPrecoVenda());
             pstm.setInt(5, objProdutosDTO.getId_fornecedor());
 
             pstm.executeUpdate();

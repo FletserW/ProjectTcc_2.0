@@ -4,79 +4,77 @@
  */
 package projecttcc_2.DTO;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author reido
  */
-
-import java.math.BigDecimal;
-
 public class ProdutosDTO {
 
-    private int id_produto;
-    private String nome_produto;
-    private int quantidade_produto;
-    private BigDecimal preco_produto;
-    private BigDecimal precoVenda_produto; 
+    private int id;
+    private String nome;
+    private int quantidade;
+    private BigDecimal preco;
+    private BigDecimal preco_venda; 
     private int id_fornecedor;  // Adicionado o campo fornecedor_id
-    private String localizacao_produto;
+    private String localizacao;
 
     // Construtor padrão
     public ProdutosDTO() {
     }
 
     // Construtor com todos os parâmetros, incluindo fornecedor_id
-    public ProdutosDTO(int id_produto, String nome_produto, int quantidade_produto, BigDecimal preco_produto, BigDecimal precoVenda_produto, int id_fornecedor, String localizacao_produto) {
-        this.id_produto = id_produto;
-        this.nome_produto = nome_produto;
-        this.quantidade_produto = quantidade_produto;
-        this.preco_produto = preco_produto;
-        this.precoVenda_produto = precoVenda_produto;
+    public ProdutosDTO(int id, String nome, int quantidade, BigDecimal preco, BigDecimal preco_venda, int id_fornecedor, String localizacao) {
+        this.id = id;
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.preco = preco;
+        this.preco_venda = preco_venda;
         this.id_fornecedor = id_fornecedor;
-        this.localizacao_produto = localizacao_produto;
+        this.localizacao = localizacao;
     }
-
 
     // Métodos getters e setters para cada campo
 
-    public int getId_produto() {
-        return id_produto;
+    public int getId() {
+        return id;
     }
 
-    public void setId_produto(int id_produto) {
-        this.id_produto = id_produto;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getNome_produto() {
-        return nome_produto;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNome_produto(String nome_produto) {
-        this.nome_produto = nome_produto;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public int getQuantidade_produto() {
-        return quantidade_produto;
+    public int getQuantidade() {
+        return quantidade;
     }
 
-    public void setQuantidade_produto(int quantidade_produto) {
-        this.quantidade_produto = quantidade_produto;
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
-    public BigDecimal getPreco_produto() {
-        return preco_produto;
+    public BigDecimal getPreco() {
+        return preco;
     }
 
-    public void setPreco_produto(BigDecimal preco_produto) {
-        this.preco_produto = preco_produto;
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
     }
 
-    public BigDecimal getPrecoVenda_produto() {
-        return precoVenda_produto;
+    public BigDecimal getPrecoVenda() {
+        return preco_venda;
     }
 
-    public void setPrecoVenda_produto(BigDecimal precoVenda_produto) {
-        this.precoVenda_produto = precoVenda_produto;
+    public void setPreco_venda(BigDecimal preco_venda) {
+        this.preco_venda = preco_venda;
     }
 
     public int getId_fornecedor() {
@@ -87,13 +85,12 @@ public class ProdutosDTO {
         this.id_fornecedor = id_fornecedor;
     }
 
-
-    public String getLocalizacao_produto() {
-        return localizacao_produto;
+    public String getLocalizacao() {
+        return localizacao;
     }
 
-    public void setLocalizacao_produto(String localizacao_produto) {
-        this.localizacao_produto = localizacao_produto;
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
     }
 
     // Outros métodos, se necessário
