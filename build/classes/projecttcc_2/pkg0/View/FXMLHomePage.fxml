@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <AnchorPane prefHeight="600.0" prefWidth="203.0" BorderPane.alignment="CENTER">
@@ -48,10 +47,10 @@
                               </TitledPane>
                            </panes>
                         </Accordion>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="Vendas" />
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="Pedidos" />
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="Relatorios" />
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="Configurções" />
+                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Vendas" />
+                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Pedidos" />
+                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Relatorios" />
+                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Configurções" />
                      </children>
                   </VBox>
                   <ImageView fitHeight="81.0" fitWidth="82.0" layoutX="53.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">

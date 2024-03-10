@@ -29,6 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javax.swing.JOptionPane;
 import projecttcc_2.BD.ConexaoBD;
 import projecttcc_2.DTO.ProdutosDTO;  // Alteração do nome da classe
@@ -139,9 +140,51 @@ public class FXMLDepositoController implements Initializable {
 
             TableColumn<ProdutosDTO, Integer> colunaQuantidadeEstoque = new TableColumn<>("Quantidade em Estoque");
             colunaQuantidadeEstoque.setCellValueFactory(new PropertyValueFactory<>("quantidade_estoque"));
+            
+            // Coluna de Edição
+            TableColumn<ProdutosDTO, Void> colunaEditar = new TableColumn<>("Opções");
+            colunaEditar.setCellFactory(new Callback<TableColumn<ProdutosDTO, Void>, TableCell<ProdutosDTO, Void>>() {
+                @Override
+                public TableCell<ProdutosDTO, Void> call(TableColumn<ProdutosDTO, Void> param) {
+                    return new TableCell<ProdutosDTO, Void>() {
+                        private final Button btnEditar = new Button("Editar");
 
-            tblProdutos.getColumns().addAll(colunaNome, colunaPreco, colunaPrecoVenda, colunaQuantidadeEstoque);
+                        {
+                            btnEditar.setOnAction(event -> {
+                                ProdutosDTO produtoDTO = getTableView().getItems().get(getIndex());
+                                // Aqui você pode abrir uma janela de edição ou fazer qualquer ação desejada
+                                System.out.println("Editar " + produtoDTO.getNome());
+                            });
 
+                            // Estilo para aumentar a fonte
+                            btnEditar.setStyle("-fx-font-size: 14;");
+                            
+                        }
+
+                        @Override
+                        protected void updateItem(Void item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
+                            } else {
+                                setGraphic(btnEditar);
+                            }
+                        }
+                    };
+                }
+            });
+
+            // Tamanho fixo para a coluna "Opções"
+            colunaEditar.setMaxWidth(145);
+            colunaEditar.setMinWidth(65);
+
+            tblProdutos.getColumns().addAll(colunaNome, colunaPreco, colunaPrecoVenda, colunaQuantidadeEstoque, colunaEditar);
+
+            // Ajuste do estilo CSS para as células de dados
+           // tblProdutos.setStyle("-fx-font-size: 18;");
+           // tblProdutos.setFixedCellSize(30);
+           tblProdutos.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+            
             // Adiciona as linhas à tabela
             while (rs.next()) {
                 ProdutosDTO produtoDTO = new ProdutosDTO(

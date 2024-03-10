@@ -2,9 +2,9 @@
     -fx-font-family: "Segoe UI", "Brirma", sans-serif;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-background-color: #6d7f65;
+    -fx-background-color: #3ca64c;
     -fx-text-fill: white;
-    -fx-border-radius: 10;
+    -fx-border-radius: 20;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);
 }
 
@@ -12,6 +12,17 @@
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
     -fx-cursor: HAND;
+}
+
+.basicButton {
+    -fx-background-color: #6d7f65;
+    -fx-border-radius: 10;
+    
+}
+
+#bntEditar{
+    width: 100px; /* Largura do botão */
+    height: 50px;/* Altura do botão */
 }
 
 .icon:hover {
