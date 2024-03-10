@@ -19,6 +19,7 @@ public class ProdutosDTO {
     private BigDecimal preco_venda; 
     private int id_fornecedor;  // Adicionado o campo fornecedor_id
     private String localizacao;
+    private int quantidade_estoque;
 
     // Construtor padrão
     public ProdutosDTO() {
@@ -92,6 +93,14 @@ public class ProdutosDTO {
     public void setLocalizacao(String localizacao) {
         this.localizacao = localizacao;
     }
+    
+    public int getQuantidadeEstoque() {
+        return quantidade_estoque;
+    }
 
-    // Outros métodos, se necessário
+    public void setQuantidadeEstoque(int quantidade_estoque) {
+        this.quantidade_estoque = quantidade_estoque;
+    }
+
+   
 }

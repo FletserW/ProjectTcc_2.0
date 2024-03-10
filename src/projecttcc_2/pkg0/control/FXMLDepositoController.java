@@ -93,71 +93,78 @@ public class FXMLDepositoController implements Initializable {
 
     // Método para preencher a tabela
     private void preencherTabela() {
-        try {
-            Connection conexao = ConexaoBD.conectar();
+    try {
+        Connection conexao = ConexaoBD.conectar();
 
-            // Consulta SQL para obter informações dos produtos
-            String sql = "SELECT id, nome, quantidade, preco, preco_venda FROM produtos";
+        // Consulta SQL para obter informações dos produtos
+        String sql = "SELECT p.id, p.nome, p.quantidade, p.preco, p.preco_venda, d.quantidade_estoque " +
+                "FROM produtos p " +
+                "LEFT JOIN deposito d ON p.id = d.produto_id";
 
-            try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-                // Criação do modelo da tabela
-                ObservableList<ProdutosDTO> dadosTabela = FXCollections.observableArrayList();  // Alteração do tipo da lista
+        try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            // Criação do modelo da tabela
+            ObservableList<ProdutosDTO> dadosTabela = FXCollections.observableArrayList();  // Alteração do tipo da lista
 
-                // Adiciona as colunas à tabela
+            // Adiciona as colunas à tabela
+            TableColumn<ProdutosDTO, String> colunaNome = new TableColumn<>("Nome do Produto");
+            colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 
-                TableColumn<ProdutosDTO, String> colunaNome = new TableColumn<>("Nome do Produto");
-                colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-
-                TableColumn<ProdutosDTO, BigDecimal> colunaPreco = new TableColumn<>("Preço(caixa)");
-                colunaPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
-                colunaPreco.setCellFactory(column -> new TableCell<ProdutosDTO, BigDecimal>() {
-                    @Override
-                    protected void updateItem(BigDecimal item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText("R$ " + item);
-                        }
+            TableColumn<ProdutosDTO, BigDecimal> colunaPreco = new TableColumn<>("Preço(caixa)");
+            colunaPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
+            colunaPreco.setCellFactory(column -> new TableCell<ProdutosDTO, BigDecimal>() {
+                @Override
+                protected void updateItem(BigDecimal item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText("R$ " + item);
                     }
-                });
-                
-                TableColumn<ProdutosDTO, BigDecimal> colunaPrecoVenda = new TableColumn<>("Preço de Venda(Unid)");
-                colunaPrecoVenda.setCellValueFactory(new PropertyValueFactory<>("preco_venda"));
-                colunaPrecoVenda.setCellFactory(column -> new TableCell<ProdutosDTO, BigDecimal>() {
-                    @Override
-                    protected void updateItem(BigDecimal item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setText(null);
-                        } else {
-                            setText("R$ " + item);
-                        }
-                    }
-                });
-                tblProdutos.getColumns().addAll( colunaNome, colunaPreco, colunaPrecoVenda);
-
-                // Adiciona as linhas à tabela
-                while (rs.next()) {
-                    ProdutosDTO produtoDTO = new ProdutosDTO(
-                            Integer.parseInt(rs.getString("id")),
-                            rs.getString("nome"),
-                            rs.getInt("quantidade"),
-                            new BigDecimal(rs.getDouble("preco")),
-                            new BigDecimal(rs.getDouble("preco_Venda")),
-                            0, // valor padrão para id_fornecedor
-                            null // valor padrão para localizacao_produto
-                    );
-                    dadosTabela.add(produtoDTO);
                 }
+            });
 
-                tblProdutos.setItems(dadosTabela);
+            TableColumn<ProdutosDTO, BigDecimal> colunaPrecoVenda = new TableColumn<>("Preço de Venda(Unid)");
+            colunaPrecoVenda.setCellValueFactory(new PropertyValueFactory<>("preco_venda"));
+            colunaPrecoVenda.setCellFactory(column -> new TableCell<ProdutosDTO, BigDecimal>() {
+                @Override
+                protected void updateItem(BigDecimal item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText("R$ " + item);
+                    }
+                }
+            });
+
+            TableColumn<ProdutosDTO, Integer> colunaQuantidadeEstoque = new TableColumn<>("Quantidade em Estoque");
+            colunaQuantidadeEstoque.setCellValueFactory(new PropertyValueFactory<>("quantidade_estoque"));
+
+            tblProdutos.getColumns().addAll(colunaNome, colunaPreco, colunaPrecoVenda, colunaQuantidadeEstoque);
+
+            // Adiciona as linhas à tabela
+            while (rs.next()) {
+                ProdutosDTO produtoDTO = new ProdutosDTO(
+                        Integer.parseInt(rs.getString("id")),
+                        rs.getString("nome"),
+                        rs.getInt("quantidade"),
+                        new BigDecimal(rs.getDouble("preco")),
+                        new BigDecimal(rs.getDouble("preco_Venda")),
+                        0, // valor padrão para id_fornecedor
+                        null // valor padrão para localizacao_produto
+                );
+                produtoDTO.setQuantidadeEstoque(rs.getInt("quantidade_estoque"));
+                dadosTabela.add(produtoDTO);
             }
 
-            conexao.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela de produtos.");
+            tblProdutos.setItems(dadosTabela);
         }
+
+        conexao.close();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela de produtos.");
     }
+}
+
 }
