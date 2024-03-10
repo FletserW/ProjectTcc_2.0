@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -96,7 +97,7 @@ public class FXMLDepositoController implements Initializable {
             Connection conexao = ConexaoBD.conectar();
 
             // Consulta SQL para obter informações dos produtos
-            String sql = "SELECT id, nome, quantidade, preco, preco_Venda FROM produtos";
+            String sql = "SELECT id, nome, quantidade, preco, preco_venda FROM produtos";
 
             try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
                 // Criação do modelo da tabela
@@ -107,16 +108,34 @@ public class FXMLDepositoController implements Initializable {
                 TableColumn<ProdutosDTO, String> colunaNome = new TableColumn<>("Nome do Produto");
                 colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 
-                TableColumn<ProdutosDTO, Integer> colunaQuantidade = new TableColumn<>("Quantidade");
-                colunaQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
-
-                TableColumn<ProdutosDTO, BigDecimal> colunaPreco = new TableColumn<>("Preço");
+                TableColumn<ProdutosDTO, BigDecimal> colunaPreco = new TableColumn<>("Preço(caixa)");
                 colunaPreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
-
-                TableColumn<ProdutosDTO, BigDecimal> colunaPrecoVenda = new TableColumn<>("Preço de Venda");
+                colunaPreco.setCellFactory(column -> new TableCell<ProdutosDTO, BigDecimal>() {
+                    @Override
+                    protected void updateItem(BigDecimal item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText("R$ " + item);
+                        }
+                    }
+                });
+                
+                TableColumn<ProdutosDTO, BigDecimal> colunaPrecoVenda = new TableColumn<>("Preço de Venda(Unid)");
                 colunaPrecoVenda.setCellValueFactory(new PropertyValueFactory<>("preco_venda"));
-
-                tblProdutos.getColumns().addAll( colunaNome, colunaQuantidade, colunaPreco, colunaPrecoVenda);
+                colunaPrecoVenda.setCellFactory(column -> new TableCell<ProdutosDTO, BigDecimal>() {
+                    @Override
+                    protected void updateItem(BigDecimal item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText("R$ " + item);
+                        }
+                    }
+                });
+                tblProdutos.getColumns().addAll( colunaNome, colunaPreco, colunaPrecoVenda);
 
                 // Adiciona as linhas à tabela
                 while (rs.next()) {

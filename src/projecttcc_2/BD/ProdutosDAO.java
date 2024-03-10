@@ -21,7 +21,7 @@ public class ProdutosDAO {
             pstm.setString(1, objProdutosDTO.getNome());
             pstm.setInt(2, objProdutosDTO.getQuantidade());
             pstm.setBigDecimal(3, objProdutosDTO.getPreco());
-            pstm.setBigDecimal(4, objProdutosDTO.getPrecoVenda());
+            pstm.setBigDecimal(4, objProdutosDTO.getPreco_venda());
             pstm.setInt(5, objProdutosDTO.getId_fornecedor());
 
             pstm.executeUpdate();

@@ -28,7 +28,7 @@
                   <Pane layoutX="45.0" layoutY="262.0" prefHeight="250.0" prefWidth="250.0">
                      <children>
                          <fx:include fx:id="addFornecedorInclude" source="FXMLAddFornecedores.fxml" visible="false" />
-                        <Button fx:id="bntFornecedorCancelar" layoutX="140.0" layoutY="196.0" mnemonicParsing="false" onAction="#addFornecedorActionButton" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #3ca64c; -fx-background-radius: 20;" text="Cancelar " visible="false"  />
+                        <Button fx:id="bntFornecedorCancelar" layoutX="140.0" layoutY="196.0" mnemonicParsing="false" onAction="#addFornecedorActionButton" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #3ca64c; -fx-background-radius: 20;" text="Cancelar " visible="false" />
                      </children>
                   </Pane>
                </children>
@@ -45,25 +45,25 @@
                      <children>
                         <Label prefHeight="31.0" prefWidth="224.0" text="Nome do Produto">
                            <font>
-                              <Font name="Ebrima Bold" size="18.0" />
+                              <Font name="Ebrima Bold" size="14.0" />
                            </font>
                         </Label>
                         <TextField fx:id="txtNome" />
                         <Label prefHeight="31.0" prefWidth="224.0" text="Quantidade por Pacote">
                            <font>
-                              <Font name="Ebrima Bold" size="18.0" />
+                              <Font name="Ebrima Bold" size="14.0" />
                            </font>
                         </Label>
                         <TextField fx:id="txtQtd" />
                         <Label prefHeight="31.0" prefWidth="226.0" text=" Preço por Pacote">
                            <font>
-                              <Font name="Ebrima Bold" size="18.0" />
+                              <Font name="Ebrima Bold" size="14.0" />
                            </font>
                         </Label>
                         <TextField fx:id="txtPreco" />
                         <Label prefHeight="17.0" prefWidth="224.0" text="Valor de venda (unid)">
                            <font>
-                              <Font name="Ebrima Bold" size="18.0" />
+                              <Font name="Ebrima Bold" size="14.0" />
                            </font>
                         </Label>
                         <TextField fx:id="txtPrecoUnid">
@@ -77,7 +77,7 @@
                         </TextField>
                         <Label prefHeight="31.0" prefWidth="224.0" text="Fornecedor">
                            <font>
-                              <Font name="Ebrima Bold" size="18.0" />
+                              <Font name="Ebrima Bold" size="14.0" />
                            </font>
                         </Label>
                         <ComboBox fx:id="comboFornecedor" prefHeight="25.0" prefWidth="223.0" />

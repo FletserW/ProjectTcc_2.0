@@ -69,7 +69,7 @@ public class ProdutosDTO {
         this.preco = preco;
     }
 
-    public BigDecimal getPrecoVenda() {
+    public BigDecimal getPreco_venda() {
         return preco_venda;
     }
 
