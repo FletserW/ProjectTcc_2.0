@@ -17,24 +17,26 @@ public class ProdutosDTO {
     private int quantidade;
     private BigDecimal preco;
     private BigDecimal preco_venda; 
-    private int id_fornecedor;  // Adicionado o campo fornecedor_id
+    private String fornecedor_id;  
+    private String fornecedor_nome;
     private String localizacao;
     private int quantidade_estoque;
+    
 
     // Construtor padrão
     public ProdutosDTO() {
     }
 
-    // Construtor com todos os parâmetros, incluindo fornecedor_id
-    public ProdutosDTO(int id, String nome, int quantidade, BigDecimal preco, BigDecimal preco_venda, int id_fornecedor, String localizacao) {
+    // Construtor com todos os parâmetros
+    public ProdutosDTO(int id, String nome, int quantidade, BigDecimal preco, BigDecimal preco_venda, String fornecedor_nome) {
         this.id = id;
         this.nome = nome;
         this.quantidade = quantidade;
         this.preco = preco;
         this.preco_venda = preco_venda;
-        this.id_fornecedor = id_fornecedor;
-        this.localizacao = localizacao;
+        this.fornecedor_nome = fornecedor_nome;
     }
+
 
     // Métodos getters e setters para cada campo
 
@@ -78,12 +80,20 @@ public class ProdutosDTO {
         this.preco_venda = preco_venda;
     }
 
-    public int getId_fornecedor() {
-        return id_fornecedor;
+    public String getFornecedor_id() {
+        return fornecedor_id;
     }
 
-    public void setId_fornecedor(int id_fornecedor) {
-        this.id_fornecedor = id_fornecedor;
+    public void setFornecedor_id(String fornecedor_id) {
+        this.fornecedor_id = fornecedor_id;
+    }
+    
+    public String getFornecedor_nome() {
+        return fornecedor_nome;
+    }
+
+    public void setFornecedor_nome(String fornecedor_nome) {
+        this.fornecedor_nome = fornecedor_nome;
     }
 
     public String getLocalizacao() {

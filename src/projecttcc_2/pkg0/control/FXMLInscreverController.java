@@ -34,10 +34,15 @@ public class FXMLInscreverController implements Initializable {
     private Button btnGoogle;
     
     @FXML
+    private Button bntViewPassword;
+    
+    @FXML
     private PasswordField password1;
 
     @FXML
     private TextField txtEmail;
+    
+    private boolean passwordVisible = false;
      
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -75,6 +80,17 @@ public class FXMLInscreverController implements Initializable {
 
     @FXML
     void cadastroGoogleAction(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void showPassworldActionButtons(ActionEvent event) {
+            System.out.println("botao selecionado");
+        // Inverte o estado da visibilidade da senha
+        passwordVisible = !passwordVisible;
+
+        // Configura a visibilidade da senha com base no estado atual
+        password1.setManaged(passwordVisible);
 
     }
     

@@ -98,9 +98,11 @@ public class FXMLDepositoController implements Initializable {
         Connection conexao = ConexaoBD.conectar();
 
         // Consulta SQL para obter informações dos produtos
-        String sql = "SELECT p.id, p.nome, p.quantidade, p.preco, p.preco_venda, d.quantidade_estoque " +
-                "FROM produtos p " +
-                "LEFT JOIN deposito d ON p.id = d.produto_id";
+        String sql = "SELECT p.id, p.nome, p.quantidade, p.preco, p.preco_venda, d.quantidade_estoque, p.fornecedor_id, f.nome as fornecedor_nome "
+                + "FROM produtos p "
+                + "LEFT JOIN deposito d ON p.id = d.produto_id "
+                + "LEFT JOIN fornecedores f ON p.fornecedor_id = f.id";
+
 
         try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             // Criação do modelo da tabela
@@ -138,6 +140,22 @@ public class FXMLDepositoController implements Initializable {
                 }
             });
 
+            TableColumn<ProdutosDTO, String> colunaFornecedor = new TableColumn<>("Fornecedor");
+            colunaFornecedor.setCellValueFactory(new PropertyValueFactory<>("fornecedor_nome"));
+            colunaFornecedor.setCellFactory(column -> new TableCell<ProdutosDTO, String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                    } else {
+                        setText(item);
+                    }
+                }
+            });
+
+
+            
             TableColumn<ProdutosDTO, Integer> colunaQuantidadeEstoque = new TableColumn<>("Quantidade em Estoque");
             colunaQuantidadeEstoque.setCellValueFactory(new PropertyValueFactory<>("quantidade_estoque"));
             
@@ -152,8 +170,27 @@ public class FXMLDepositoController implements Initializable {
                         {
                             btnEditar.setOnAction(event -> {
                                 ProdutosDTO produtoDTO = getTableView().getItems().get(getIndex());
-                                // Aqui você pode abrir uma janela de edição ou fazer qualquer ação desejada
-                                System.out.println("Editar " + produtoDTO.getNome());
+                                try {
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLEditarEstoque.fxml"));
+                                    Parent root = loader.load();
+
+                                    // Crie um novo controlador, se necessário  
+                                    FXMLEditarEstoqueController editarEstoqueController = loader.getController();
+
+                                    Stage stage = new Stage();
+                                    stage.initModality(Modality.APPLICATION_MODAL);
+                                    stage.setTitle("Editar Produto");
+                                    stage.setScene(new Scene(root));
+
+                                    // Configurar mais propriedades da janela, se necessário
+                                    // Impede a redimensionamento da janela
+                                    stage.setResizable(false);
+
+                                    stage.showAndWait(); // Mostrar a janela e esperar até que ela seja fechada
+                                } catch (Exception e) {
+                                    e.printStackTrace(); // Lidar com exceções, como IOException ou FXMLLoaderException
+                                }
+    
                             });
 
                             // Estilo para aumentar a fonte
@@ -178,7 +215,8 @@ public class FXMLDepositoController implements Initializable {
             colunaEditar.setMaxWidth(145);
             colunaEditar.setMinWidth(65);
 
-            tblProdutos.getColumns().addAll(colunaNome, colunaPreco, colunaPrecoVenda, colunaQuantidadeEstoque, colunaEditar);
+            tblProdutos.getColumns().addAll(colunaNome, colunaPreco, colunaPrecoVenda, colunaFornecedor, colunaQuantidadeEstoque, colunaEditar);
+
 
             // Ajuste do estilo CSS para as células de dados
            // tblProdutos.setStyle("-fx-font-size: 18;");
@@ -193,9 +231,9 @@ public class FXMLDepositoController implements Initializable {
                         rs.getInt("quantidade"),
                         new BigDecimal(rs.getDouble("preco")),
                         new BigDecimal(rs.getDouble("preco_Venda")),
-                        0, // valor padrão para id_fornecedor
-                        null // valor padrão para localizacao_produto
+                        rs.getString("fornecedor_nome") 
                 );
+
                 produtoDTO.setQuantidadeEstoque(rs.getInt("quantidade_estoque"));
                 dadosTabela.add(produtoDTO);
             }

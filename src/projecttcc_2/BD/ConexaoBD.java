@@ -18,6 +18,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexaoBD {
+
     // URL de conexão com o banco de dados
     private static final String URL = "jdbc:mysql://localhost:3306/gerenciamento_db";
 
