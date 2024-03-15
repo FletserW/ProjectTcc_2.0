@@ -139,7 +139,7 @@ public class FXMLAddProdutosController implements Initializable {
 
     private boolean inserirProdutos(String nomeProduto, int quantidade, BigDecimal preco, BigDecimal precoVenda, int idFornecedor) {
         Connection conn = ConexaoBD.conectar();
-        String query = "INSERT INTO produtos (nome, quantidade, preco, preco_venda, fornecedor_id) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO produtos (nome, quantidade, preco, preco_venda, fornecedor_id, localizacao) VALUES (?, ?, ?, ?, ?, 'deposito')";
         
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, nomeProduto);

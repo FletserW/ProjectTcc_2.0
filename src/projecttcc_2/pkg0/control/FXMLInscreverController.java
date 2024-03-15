@@ -86,7 +86,7 @@ public class FXMLInscreverController implements Initializable {
     @FXML
     void showPassworldActionButtons(ActionEvent event) {
             System.out.println("botao selecionado");
-        // Inverte o estado da visibilidade da senha
+        // Inverte o estado da visibilidade da senha 
         passwordVisible = !passwordVisible;
 
         // Configura a visibilidade da senha com base no estado atual

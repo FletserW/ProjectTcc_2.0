@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="320.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="projecttcc_2.pkg0.control.FXMLGerenciarEstoqueController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="319.0" prefWidth="300.0" stylesheets="@../../DTO/style.css">
+         <children>
+            <VBox layoutY="55.0" prefHeight="179.0" prefWidth="300.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
+               <children>
+                  <Label text="Quantidade:">
+                     <font>
+                        <Font name="Ebrima Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="txtQtd">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Tipo de quantidade:">
+                     <font>
+                        <Font name="Ebrima Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="24.0" prefWidth="270.0">
+                     <children>
+                        <RadioButton fx:id="radioCaixa" mnemonicParsing="false" selected="true" text="Caixa">
+                           <HBox.margin>
+                              <Insets right="30.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="quantidade" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="radioUnidade" mnemonicParsing="false" text="Unidade" toggleGroup="$quantidade">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                     </children>
+                  </HBox>
+                  <Label text="Tipo de ação:">
+                     <font>
+                        <Font name="Ebrima Bold" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="28.0" prefWidth="270.0">
+                     <children>
+                        <RadioButton fx:id="radioAdicionar" mnemonicParsing="false" text="Adicionar">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="acao" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="raddioVender" mnemonicParsing="false" text="Vender" toggleGroup="$acao">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                        <RadioButton fx:id="radioPerder" mnemonicParsing="false" text="Perder" toggleGroup="$acao">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </VBox>
+            <Label layoutX="125.0" layoutY="14.0" text="Editar">
+               <font>
+                  <Font name="Ebrima Bold" size="18.0" />
+               </font>
+            </Label>
+            <HBox alignment="BASELINE_CENTER" layoutY="249.0" prefHeight="42.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Button fx:id="bntEditar" mnemonicParsing="false" onAction="#editarActionButton" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 20;" text="Editar">
+                     <HBox.margin>
+                        <Insets right="25.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="bntCancelarEditar" mnemonicParsing="false" onAction="#cancelarEditarActionButton" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 20;" text="Cancelar">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

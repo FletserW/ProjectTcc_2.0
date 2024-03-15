@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import projecttcc_2.BD.DepositoDAO;
+import projecttcc_2.DTO.DepositoDTO;
 import projecttcc_2.BD.ProdutosDAO;
 import projecttcc_2.DTO.ProdutosDTO;
 
@@ -31,6 +32,7 @@ public class FXMLEditarEstoqueController {
     @FXML
     private TextField txtQtdEditar;
 
+
     private ProdutosDTO produtoSelecionado;
     private ProdutosDAO produtosDAO;
     private DepositoDAO depositoDAO;
@@ -45,7 +47,7 @@ public class FXMLEditarEstoqueController {
         txtNomeEditar.setText(produtoDTO.getNome());
         txtPrecoEditar.setText(produtoDTO.getPreco().toString());
         txtPrecoVendaEditar.setText(produtoDTO.getPreco_venda().toString());
-        txtQtdEditar.setText(String.valueOf(produtoDTO.getQuantidadeEstoque()));
+        txtQtdEditar.setText(String.valueOf(produtoDTO.getQuantidadeEstoque())); // Adicione este campo se quiser editar a quantidade também
     }
 
     @FXML
@@ -61,19 +63,15 @@ public class FXMLEditarEstoqueController {
             String novoNome = txtNomeEditar.getText();
             BigDecimal novoPreco = new BigDecimal(txtPrecoEditar.getText());
             BigDecimal novoPrecoVenda = new BigDecimal(txtPrecoVendaEditar.getText());
-            int novaQuantidade = Integer.parseInt(txtQtdEditar.getText());
 
-            // Atualizar o produtoSelecionado
+            // Atualizar os valores do produto selecionado
             produtoSelecionado.setNome(novoNome);
             produtoSelecionado.setPreco(novoPreco);
             produtoSelecionado.setPreco_venda(novoPrecoVenda);
-            produtoSelecionado.setQuantidadeEstoque(novaQuantidade);
+            // Atualize outros campos, se necessário
 
             // Atualizar o produto no banco de dados
             produtosDAO.atualizarProduto(produtoSelecionado);
-
-            // Atualizar a quantidade no depósito no banco de dados
-            depositoDAO.atualizarQuantidade(produtoSelecionado.getId(), novaQuantidade);
 
             // Fechar a janela de edição
             Stage stage = (Stage) txtNomeEditar.getScene().getWindow();
@@ -86,6 +84,7 @@ public class FXMLEditarEstoqueController {
             // Tratar outras exceções ou exibir uma mensagem de erro
             e.printStackTrace();
         }
+
     }
 
 }

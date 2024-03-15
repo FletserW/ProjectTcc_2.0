@@ -28,10 +28,9 @@ public class ProdutosDTO {
     }
 
     // Construtor com todos os parâmetros
-    public ProdutosDTO(int id, String nome, int quantidade, BigDecimal preco, BigDecimal preco_venda, String fornecedor_nome) {
+    public ProdutosDTO(int id, String nome, BigDecimal preco, BigDecimal preco_venda, String fornecedor_nome) {
         this.id = id;
         this.nome = nome;
-        this.quantidade = quantidade;
         this.preco = preco;
         this.preco_venda = preco_venda;
         this.fornecedor_nome = fornecedor_nome;

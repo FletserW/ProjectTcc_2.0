@@ -50,6 +50,10 @@ public class DepositoDAO {
             return false;
         }
     }
+    // Método para fechar a conexão com o banco de dados
+    public void fecharConexao() {
+        ConexaoBD.desconectar(conn);
+    }
 
 }
 
