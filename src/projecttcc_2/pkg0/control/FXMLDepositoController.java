@@ -30,6 +30,9 @@ import javafx.util.Callback;
 import javax.swing.JOptionPane;
 import projecttcc_2.BD.ConexaoBD;
 import projecttcc_2.DTO.ProdutosDTO;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
 
 /**
  * FXML Controller class
@@ -37,20 +40,24 @@ import projecttcc_2.DTO.ProdutosDTO;
  * @author reido
  */
 public class FXMLDepositoController implements Initializable {
+    
+    private ObservableList<ProdutosDTO> dadosTabela;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         preencherTabela();
-    }    
+        
+         // Adiciona um ouvinte para monitorar as alterações no texto de pesquisa
+        txtPesquisa.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            filtrarTabela(newValue);
+        });
+    }  
     
     @FXML
     private Button btnProduto;
 
     @FXML
     private TextField txtPesquisa;
-
-    @FXML
-    private ImageView imgBuscar;
 
     @FXML
     private TableView<ProdutosDTO> tblProdutos;
@@ -82,13 +89,6 @@ public class FXMLDepositoController implements Initializable {
 
     private void preencherTabela() {
         try {
-            
-            // Limpar as colunas da tabela
-            tblProdutos.getColumns().clear();
-
-            // Limpar os dados da tabela existente
-            tblProdutos.getItems().clear();
-            
             Connection conexao = ConexaoBD.conectar();
 
             String sql = "SELECT p.id, p.nome, p.preco, p.preco_venda, d.quantidade_estoque AS quantidade_estoque, p.fornecedor_id, f.nome AS fornecedor_nome "
@@ -98,7 +98,7 @@ public class FXMLDepositoController implements Initializable {
                     + "WHERE p.localizacao = 'deposito'";
 
             try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-                ObservableList<ProdutosDTO> dadosTabela = FXCollections.observableArrayList();
+                dadosTabela = FXCollections.observableArrayList();
 
                 TableColumn<ProdutosDTO, String> colunaNome = new TableColumn<>("Nome do Produto");
                 colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -158,9 +158,9 @@ public class FXMLDepositoController implements Initializable {
 
                             {
                                 btnEditar.setOnAction(event -> {
-                                    ProdutosDTO produtoSelecionado = getTableView().getItems().get(getIndex());
+                                    System.out.println("Botão Funcionando");
+                                    ProdutosDTO produtoSelecionado = tblProdutos.getSelectionModel().getSelectedItem();
                                     if (produtoSelecionado != null) {
-                                        // Aqui você pode abrir a janela de edição com os dados do produto selecionado
                                         try {
                                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLEditarEstoque.fxml"));
                                             Parent root = loader.load();
@@ -176,14 +176,17 @@ public class FXMLDepositoController implements Initializable {
 
                                             stage.showAndWait();
 
-                                            // Atualize a tabela após a edição
                                             preencherTabela();
 
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
+                                    } else {
+                                        // Exibir uma mensagem para o usuário selecionar um produto antes de editar
+                                        // Implemente de acordo com suas necessidades
                                     }
                                 });
+
                                 btnGerenciar.setOnAction(event -> {
                                     ProdutosDTO produtoDTO = getTableView().getItems().get(getIndex());
                                     try {
@@ -223,7 +226,6 @@ public class FXMLDepositoController implements Initializable {
                     }
                 });
 
-
                 colunaOpcoes.setMaxWidth(170);
                 colunaOpcoes.setMinWidth(170);
 
@@ -253,5 +255,34 @@ public class FXMLDepositoController implements Initializable {
             JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela de produtos.");
         }
     }
+    
+    private void filtrarTabela(String textoPesquisa) {
+        // Se o texto de pesquisa estiver vazio, mostra todos os itens
+        if (textoPesquisa == null || textoPesquisa.isEmpty()) {
+            tblProdutos.setItems(dadosTabela);
+            return;
+        }
+
+        // Obtém os itens da tabela
+        ObservableList<ProdutosDTO> dadosTabela = tblProdutos.getItems();
+
+        // Cria um filtro para os itens da tabela
+        FilteredList<ProdutosDTO> filteredData = new FilteredList<>(dadosTabela, p -> true);
+
+        // Define o predicado de filtragem com base no texto de pesquisa
+        filteredData.setPredicate(produto -> {
+            // Converte o texto de pesquisa e o nome do produto para minúsculas para tornar a pesquisa insensível a maiúsculas e minúsculas
+            String lowerCaseFilter = textoPesquisa.toLowerCase();
+            return produto.getNome().toLowerCase().contains(lowerCaseFilter);
+        });
+
+        // Atualiza a exibição da tabela com os dados filtrados
+        tblProdutos.setItems(filteredData);
+    }
+
+
+    public void atualizarTabela() {
+    preencherTabela();
+}
 
 }

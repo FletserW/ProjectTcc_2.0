@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import projecttcc_2.BD.ConexaoBD;
 import projecttcc_2.DTO.ProdutosDTO;
 
+
 public class FXMLAddProdutosController implements Initializable {
 
     @FXML
@@ -106,12 +107,19 @@ public class FXMLAddProdutosController implements Initializable {
 
         // Inserir o produto no banco de dados
         if (inserirProdutos(nomeProduto, quantidade, preco, precoVenda, idFornecedor)) {
+            // Produto adicionado com sucesso, agora vamos atualizar a tabela
             exibirAlerta("Produto adicionado com sucesso!", Alert.AlertType.INFORMATION);
+            // Obtendo a referência do FXMLDepositoController
+            FXMLDepositoController controller = (FXMLDepositoController) ((Node) event.getSource()).getScene().getUserData();
+            // Chamando o método atualizarTabela() do controller para atualizar a tabela
+            controller.atualizarTabela();
+            // Fechando a janela de adição de produtos
             fecharJanela(event);
         } else {
             exibirAlerta("Erro ao adicionar produto.", Alert.AlertType.ERROR);
         }
     }
+
 
     @FXML
     void cancelarActionButton(ActionEvent event) {
