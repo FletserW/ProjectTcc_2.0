@@ -36,9 +36,6 @@ public class ProdutosDAO {
 
             pstm.executeUpdate();
 
-            // Confirme explicitamente a transação
-            conn.commit();
-
             // Verifica se a inserção foi bem-sucedida
             return true;
         } catch (SQLException erro) {
@@ -58,9 +55,6 @@ public class ProdutosDAO {
             pstm.setInt(5, produto.getId());
 
             int rowsAffected = pstm.executeUpdate();
-
-            // Confirme explicitamente a transação
-            conn.commit();
 
             // Verifica se a atualização foi bem-sucedida
             return rowsAffected > 0;

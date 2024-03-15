@@ -74,7 +74,8 @@ public class FXMLDepositoController implements Initializable {
             Parent root = loader.load();
 
             FXMLAddProdutosController addProdutosController = loader.getController();
-
+            addProdutosController.setDepositoController(this); // Passa uma referência do controlador da classe DepositoController
+            
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Adicionar Produto");
@@ -87,7 +88,10 @@ public class FXMLDepositoController implements Initializable {
         }
     }
 
-    private void preencherTabela() {
+    public void preencherTabela() {
+        
+        limparTabela(); // Limpar a tabela antes de preencher com novos dados
+        
         try {
             Connection conexao = ConexaoBD.conectar();
 
@@ -285,4 +289,9 @@ public class FXMLDepositoController implements Initializable {
     preencherTabela();
 }
 
+    public void limparTabela() {
+        tblProdutos.getColumns().clear();
+        tblProdutos.getItems().clear();
+    }
+    
 }

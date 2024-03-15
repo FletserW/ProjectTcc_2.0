@@ -70,6 +70,26 @@ public class FXMLAddProdutosController implements Initializable {
         // Adicione isso para garantir que o valor padrão seja definido, evitando NullPointerException
         comboFornecedor.getSelectionModel().selectFirst();
     }
+    
+    private FXMLDepositoController depositoController; // Referência do controlador da classe DepositoController
+
+    // Método para definir o controlador da classe DepositoController
+    public void setDepositoController(FXMLDepositoController depositoController) {
+        this.depositoController = depositoController;
+    }
+    
+    // Método para chamar o método limparTabela() da classe DepositoController
+    public void limparTabelaDeposito() {
+        if (depositoController != null) {
+            depositoController.limparTabela();
+        }
+    }
+    
+    public void preencherTabelaDeposito() {
+        if (depositoController != null) {
+            depositoController.preencherTabela();
+        }
+    }
 
     @FXML
     void addFornecedorActionButton(ActionEvent event) {
@@ -110,10 +130,13 @@ public class FXMLAddProdutosController implements Initializable {
             // Produto adicionado com sucesso, agora vamos atualizar a tabela
             exibirAlerta("Produto adicionado com sucesso!", Alert.AlertType.INFORMATION);
             // Obtendo a referência do FXMLDepositoController
-            FXMLDepositoController controller = (FXMLDepositoController) ((Node) event.getSource()).getScene().getUserData();
-            // Chamando o método atualizarTabela() do controller para atualizar a tabela
-            controller.atualizarTabela();
-            // Fechando a janela de adição de produtos
+            if (depositoController != null) {
+                depositoController.atualizarTabela();
+                depositoController.limparTabela();
+                depositoController.preencherTabela();
+                
+            }
+
             fecharJanela(event);
         } else {
             exibirAlerta("Erro ao adicionar produto.", Alert.AlertType.ERROR);
