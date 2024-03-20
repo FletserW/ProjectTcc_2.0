@@ -116,6 +116,9 @@ public class FXMLDepositoController implements Initializable {
                             rs.getString("fornecedor_nome")
 
                     );
+                    
+                    // Adicione esta linha para imprimir a quantidade em estoque de cada produto
+                    System.out.println("Quantidade em Estoque: " + rs.getInt("quantidade_estoque"));
 
                     produtoDTO.setQuantidadeEstoque(rs.getInt("quantidade_estoque"));
                     dadosTabela.add(produtoDTO);
@@ -180,7 +183,7 @@ public class FXMLDepositoController implements Initializable {
         });
 
         TableColumn<ProdutosDTO, Integer> colunaQuantidadeEstoque = new TableColumn<>("Quantidade em Estoque");
-        colunaQuantidadeEstoque.setCellValueFactory(new PropertyValueFactory<>("quantidade_estoque"));
+        colunaQuantidadeEstoque.setCellValueFactory(new PropertyValueFactory<>("quantidadeEstoque"));
 
         TableColumn<ProdutosDTO, Void> colunaOpcoes = new TableColumn<>("Opções");
         colunaOpcoes.setCellFactory(new Callback<TableColumn<ProdutosDTO, Void>, TableCell<ProdutosDTO, Void>>() {

@@ -12,9 +12,9 @@
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <AnchorPane prefHeight="65.0" prefWidth="324.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="54.0" prefWidth="324.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField fx:id="txtPesquisarFreezer" layoutX="10.0" layoutY="14.0" prefHeight="39.0" prefWidth="304.0" promptText="Procurar Ṕroduto" style="-fx-background-radius: 20px;" />
+                  <TextField fx:id="txtPesquisarFreezer" layoutX="10.0" layoutY="14.0" prefHeight="29.0" prefWidth="304.0" promptText="Procurar Ṕroduto" style="-fx-background-radius: 20px;" />
                </children>
             </AnchorPane>
          </top>
