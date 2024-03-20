@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,6 +40,9 @@ public class FXMLAddProdutoFreezerController implements Initializable {
     private TextField txtPesquisarFreezer;
 
     private FXMLFreezerController freezerController;
+    
+    // Declaração do campo dadosTabela
+    private ObservableList<ProdutosDTO> dadosTabela = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -65,6 +70,10 @@ public class FXMLAddProdutoFreezerController implements Initializable {
                 header.setVisible(false);
             }
         });
+        // Adiciona um ouvinte para monitorar as alterações no texto de pesquisa
+        txtPesquisarFreezer.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            filtrarTabela(newValue);
+        });
     }
 
 
@@ -88,7 +97,8 @@ public class FXMLAddProdutoFreezerController implements Initializable {
 
             String sql = "SELECT nome FROM produtos WHERE localizacao = 'deposito'";
             try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-                ObservableList<ProdutosDTO> dadosTabela = FXCollections.observableArrayList();
+                // Não declare a variável dadosTabela novamente aqui
+                //ObservableList<ProdutosDTO> dadosTabela = FXCollections.observableArrayList();
 
                 while (rs.next()) {
                     String nomeProduto = rs.getString("nome");
@@ -108,10 +118,32 @@ public class FXMLAddProdutoFreezerController implements Initializable {
         }
     }
     
+    private void filtrarTabela(String textoPesquisa) {
+        // Se o texto de pesquisa estiver vazio, mostra todos os itens
+        if (textoPesquisa == null || textoPesquisa.isEmpty()) {
+            tblNovoProdutoFreezer.setItems(dadosTabela);
+            return;
+        }
+
+        // Obtém os itens da tabela
+        //ObservableList<ProdutosDTO> dadosTabela = tblNovoProdutoFreezer.getItems(); // Remova esta linha
+
+        // Cria um filtro para os itens da tabela
+        FilteredList<ProdutosDTO> filteredData = new FilteredList<>(dadosTabela, p -> true);
+
+        // Define o predicado de filtragem com base no texto de pesquisa
+        filteredData.setPredicate(produto -> {
+            // Converte o texto de pesquisa e o nome do produto para minúsculas para tornar a pesquisa insensível a maiúsculas e minúsculas
+            String lowerCaseFilter = textoPesquisa.toLowerCase();
+            return produto.getNome().toLowerCase().contains(lowerCaseFilter);
+        });
+
+        // Atualiza a exibição da tabela com os dados filtrados
+        tblNovoProdutoFreezer.setItems(filteredData);
+    }
+    
     private void fecharJanela(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 }
-
- 
