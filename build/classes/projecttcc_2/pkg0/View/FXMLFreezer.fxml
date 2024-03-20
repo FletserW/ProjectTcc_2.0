@@ -21,7 +21,7 @@
                               <Insets right="30.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="btnProduto" mnemonicParsing="false" onAction="#addProdutoActionButton" prefHeight="30.0" prefWidth="149.0" style="-fx-background-radius: 15px; -fx-background-color: #3ca64c;" text="Adicionar Produto" />
+                        <Button fx:id="btnProduto" mnemonicParsing="false" onAction="#addProdutoActionButton" prefHeight="30.0" prefWidth="149.0" style="-fx-background-radius: 15px; -fx-background-color: #3ca64c;" stylesheets="@../../DTO/style.css" text="Adicionar Produto" textFill="WHITE" />
                      </children>
                      <padding>
                         <Insets right="20.0" />

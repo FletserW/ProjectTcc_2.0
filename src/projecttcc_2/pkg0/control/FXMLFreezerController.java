@@ -183,7 +183,7 @@ public class FXMLFreezerController implements Initializable {
         });
 
         TableColumn<ProdutosDTO, Integer> colunaQuantidadeEstoque = new TableColumn<>("Quantidade em Estoque");
-        colunaQuantidadeEstoque.setCellValueFactory(new PropertyValueFactory<>("quantidade_estoque"));
+        colunaQuantidadeEstoque.setCellValueFactory(new PropertyValueFactory<>("quantidadeEstoque"));
 
         TableColumn<ProdutosDTO, Void> colunaOpcoes = new TableColumn<>("Opções");
         colunaOpcoes.setCellFactory(new Callback<TableColumn<ProdutosDTO, Void>, TableCell<ProdutosDTO, Void>>() {

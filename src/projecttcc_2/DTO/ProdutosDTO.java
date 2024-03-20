@@ -26,6 +26,10 @@ public class ProdutosDTO {
     // Construtor padrão
     public ProdutosDTO() {
     }
+    
+    public ProdutosDTO(String nome) {
+        this.nome = nome;
+    }
 
     // Construtor com todos os parâmetros
     public ProdutosDTO(int id, String nome, BigDecimal preco, BigDecimal preco_venda, String fornecedor_nome) {

@@ -116,9 +116,6 @@ public class FXMLDepositoController implements Initializable {
                             rs.getString("fornecedor_nome")
 
                     );
-                    
-                    // Adicione esta linha para imprimir a quantidade em estoque de cada produto
-                    System.out.println("Quantidade em Estoque: " + rs.getInt("quantidade_estoque"));
 
                     produtoDTO.setQuantidadeEstoque(rs.getInt("quantidade_estoque"));
                     dadosTabela.add(produtoDTO);
