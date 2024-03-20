@@ -29,9 +29,6 @@ public class FXMLEditarEstoqueController {
     @FXML
     private TextField txtPrecoVendaEditar;
 
-    @FXML
-    private TextField txtQtdEditar;
-
 
     private ProdutosDTO produtoSelecionado;
     private ProdutosDAO produtosDAO;
@@ -47,7 +44,6 @@ public class FXMLEditarEstoqueController {
         txtNomeEditar.setText(produtoDTO.getNome());
         txtPrecoEditar.setText(produtoDTO.getPreco().toString());
         txtPrecoVendaEditar.setText(produtoDTO.getPreco_venda().toString());
-        txtQtdEditar.setText(String.valueOf(produtoDTO.getQuantidadeEstoque())); // Adicione este campo se quiser editar a quantidade também
     }
 
     @FXML

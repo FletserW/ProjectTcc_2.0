@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="319.0" prefWidth="300.0" stylesheets="@../../DTO/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="projecttcc_2.pkg0.control.FXMLEditarEstoqueController">
+<AnchorPane id="AnchorPane" prefHeight="301.0" prefWidth="300.0" stylesheets="@../../DTO/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLEditarEstoqueController">
    <children>
       <VBox layoutY="36.0" prefHeight="218.0" prefWidth="300.0" AnchorPane.bottomAnchor="96.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0">
          <children>
@@ -44,16 +43,6 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextField>
-            <Label text="Quantidade">
-               <font>
-                  <Font name="Ebrima Bold" size="14.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtQtdEditar">
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </TextField>
          </children>
          <padding>
             <Insets left="15.0" right="15.0" />
@@ -64,7 +53,7 @@
             <Font name="Ebrima Bold" size="18.0" />
          </font>
       </Label>
-      <HBox alignment="BASELINE_CENTER" layoutY="267.0" prefHeight="42.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <HBox alignment="BASELINE_CENTER" layoutY="229.0" prefHeight="42.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Button fx:id="bntEditar" mnemonicParsing="false" onAction="#editarActionButton" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 20;" text="Editar">
                <HBox.margin>

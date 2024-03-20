@@ -8,15 +8,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="564.0" style="-fx-background-color: #dbe3da;" stylesheets="@../../DTO/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLDepositoController">
+<AnchorPane id="AnchorPane" style="-fx-background-color: #dbe3da;" stylesheets="@../../DTO/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLFreezerController">
    <children>
       <BorderPane prefHeight="547.0" prefWidth="564.0" style="-fx-background-radius: 20px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <center>
-             <TableView fx:id="tblProdutos" prefHeight="444.0" prefWidth="564.0" stylesheets="@../../DTO/style.css" BorderPane.alignment="CENTER">
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy></TableView>
-         </center>
          <top>
             <AnchorPane prefHeight="48.0" prefWidth="572.0" style="-fx-background-color: #a8a8a8;" BorderPane.alignment="CENTER">
                <children>
@@ -36,6 +30,13 @@
                </children>
             </AnchorPane>
          </top>
+         <center>
+            <TableView fx:id="tblProdutos" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../DTO/style.css" BorderPane.alignment="CENTER">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

@@ -13,14 +13,16 @@
       <BorderPane prefHeight="547.0" prefWidth="564.0" style="-fx-background-radius: 20px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
              <TableView fx:id="tblProdutos" prefHeight="444.0" prefWidth="564.0" stylesheets="@../../DTO/style.css" BorderPane.alignment="CENTER">
-             </TableView>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy></TableView>
          </center>
          <top>
-            <AnchorPane prefHeight="48.0" prefWidth="572.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="48.0" prefWidth="572.0" style="-fx-background-color: #a8a8a8;" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="TOP_RIGHT" layoutY="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="572.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <TextField fx:id="txtPesquisa" prefHeight="30.0" prefWidth="304.0">
+                        <TextField fx:id="txtPesquisa" prefHeight="30.0" prefWidth="304.0" promptText="Pesquisa" style="-fx-background-radius: 20px;">
                            <HBox.margin>
                               <Insets right="30.0" />
                            </HBox.margin>

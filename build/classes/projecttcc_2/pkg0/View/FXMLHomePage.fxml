@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLHomePageController">
    <left>
       <AnchorPane prefHeight="600.0" prefWidth="203.0" BorderPane.alignment="CENTER">
          <children>
@@ -34,8 +34,8 @@
                                        <children>
                                           <VBox prefHeight="73.0" prefWidth="163.0">
                                              <children>
-                                                <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="191.0" text="Deposito" />
-                                                <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="163.0" text="Frezzer " />
+                                                <Button fx:id="btnDeposito" mnemonicParsing="false" onAction="#depositoActionButton" prefHeight="32.0" prefWidth="191.0" style="-fx-background-color: #6d7f65;" text="Deposito" />
+                                                <Button fx:id="btnFreezer" mnemonicParsing="false" onAction="#freezerActionButton" prefHeight="30.0" prefWidth="163.0" style="-fx-background-color: #6d7f65;" text="Frezzer " />
                                              </children>
                                           </VBox>
                                        </children>
@@ -47,10 +47,10 @@
                               </TitledPane>
                            </panes>
                         </Accordion>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Vendas" />
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Pedidos" />
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Relatorios" />
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Configurções" />
+                        <Button fx:id="btnVendas" mnemonicParsing="false" onAction="#vendasActionButton" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Vendas" />
+                        <Button fx:id="btnPedidos" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Pedidos" />
+                        <Button fx:id="btnRelatorios" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Relatorios" />
+                        <Button fx:id="btnCofig" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Configurções" />
                      </children>
                   </VBox>
                   <ImageView fitHeight="81.0" fitWidth="82.0" layoutX="53.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -64,10 +64,10 @@
       </AnchorPane>
    </left>
    <center>
-      <AnchorPane prefHeight="600.0" prefWidth="613.0" BorderPane.alignment="CENTER">
-         <children>
-            <fx:include fx:id="FXMLDeposito" source="FXMLDeposito.fxml" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="10.0" />
-         </children>
-      </AnchorPane>
+       <AnchorPane fx:id="includeAnchorPane" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+           <!-- Conteúdo incluído -->
+           <fx:include fx:id="FXMLDeposito" source="FXMLDeposito.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+       </AnchorPane>
+
    </center>
 </BorderPane>

@@ -4,11 +4,16 @@
  */
 package projecttcc_2.pkg0.control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -17,19 +22,71 @@ import javafx.scene.control.Label;
  */
 public class FXMLHomePageController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private AnchorPane includeAnchorPane;
     
     @FXML
-    private Label lblUsuario;
-    
-    
+    private Button btnCofig;
 
+    @FXML
+    private Button btnDeposito;
+
+    @FXML
+    private Button btnFreezer;
+
+    @FXML
+    private Button btnPedidos;
+
+    @FXML
+    private Button btnRelatorios;
+
+    @FXML
+    private Button btnVendas;
+
+    @FXML
+    private Label lblUsuario;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }   
+
+    @FXML
+    void depositoActionButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLDeposito.fxml"));
+            AnchorPane estoquePane = loader.load();
+
+            // Substituir apenas o conteúdo dentro do AnchorPane
+            includeAnchorPane.getChildren().setAll(estoquePane.getChildren());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void freezerActionButton(ActionEvent event) {
+        try {
+            System.out.println("Botão Freezer funcionando");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLFreezer.fxml"));
+            AnchorPane freezerPane = loader.load();
+
+            // Substituir apenas o conteúdo dentro do AnchorPane
+            includeAnchorPane.getChildren().setAll(freezerPane.getChildren());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao carregar o arquivo FXML do freezer: " + e.getMessage());
+        }
+    }
+
+
+    @FXML
+    void vendasActionButton(ActionEvent event) {
+
+    }
+
+
+    
+     
     
 }

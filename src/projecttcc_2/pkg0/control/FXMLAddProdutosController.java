@@ -73,11 +73,13 @@ public class FXMLAddProdutosController implements Initializable {
     
     private FXMLDepositoController depositoController; // Referência do controlador da classe DepositoController
 
+
     // Método para definir o controlador da classe DepositoController
     public void setDepositoController(FXMLDepositoController depositoController) {
         this.depositoController = depositoController;
     }
     
+        
     // Método para chamar o método limparTabela() da classe DepositoController
     public void limparTabelaDeposito() {
         if (depositoController != null) {

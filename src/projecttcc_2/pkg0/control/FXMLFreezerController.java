@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ */
 package projecttcc_2.pkg0.control;
 
 import java.awt.event.MouseEvent;
@@ -34,24 +38,31 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
 
+
 /**
  * FXML Controller class
  *
  * @author reido
  */
-public class FXMLDepositoController implements Initializable {
-    
+public class FXMLFreezerController implements Initializable {
+
+    /**
+     * Initializes the controller class.
+     */
     private ObservableList<ProdutosDTO> dadosTabela;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         preencherTabela();
-        
-         // Adiciona um ouvinte para monitorar as alterações no texto de pesquisa
+
+        // Adiciona um ouvinte para monitorar as alterações no texto de pesquisa
         txtPesquisa.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             filtrarTabela(newValue);
         });
-    }  
+    }
+
+    @FXML
+    private TableView<ProdutosDTO> tblProdutos;
     
     @FXML
     private Button btnProduto;
@@ -59,23 +70,16 @@ public class FXMLDepositoController implements Initializable {
     @FXML
     private TextField txtPesquisa;
 
-    @FXML
-    private TableView<ProdutosDTO> tblProdutos;
-
-    @FXML
-    void buscarActionButton(MouseEvent event) {
-
-    }
 
     @FXML
     void addProdutoActionButton(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLAddProdutos.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLAddProdutoFreezer.fxml"));
             Parent root = loader.load();
 
-            FXMLAddProdutosController addProdutosController = loader.getController();
-            addProdutosController.setDepositoController(this); // Passa uma referência do controlador da classe DepositoController
-            
+            FXMLAddProdutoFreezerController addProdutosFreezerController = loader.getController();
+            addProdutosFreezerController.setFreezerController(this);
+
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Adicionar Produto");
@@ -89,9 +93,9 @@ public class FXMLDepositoController implements Initializable {
     }
 
     public void preencherTabela() {
-        
+
         limparTabela(); // Limpar a tabela antes de preencher com novos dados
-        
+
         try {
             Connection conexao = ConexaoBD.conectar();
 
@@ -99,14 +103,14 @@ public class FXMLDepositoController implements Initializable {
                     + "FROM produtos p "
                     + "LEFT JOIN deposito d ON p.id = d.produto_id "
                     + "LEFT JOIN fornecedores f ON p.fornecedor_id = f.id "
-                    + "WHERE p.localizacao = 'deposito'";
+                    + "WHERE p.localizacao = 'freezer'";
 
             try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
                 dadosTabela = FXCollections.observableArrayList();
-                
+
                 // Inicializa as colunas da tabela antes de preencher os dados
                 inicializarColunasTabela();
-                
+
                 while (rs.next()) {
                     ProdutosDTO produtoDTO = new ProdutosDTO(
                             Integer.parseInt(rs.getString("id")),
@@ -114,7 +118,6 @@ public class FXMLDepositoController implements Initializable {
                             new BigDecimal(rs.getDouble("preco")),
                             new BigDecimal(rs.getDouble("preco_Venda")),
                             rs.getString("fornecedor_nome")
-
                     );
 
                     produtoDTO.setQuantidadeEstoque(rs.getInt("quantidade_estoque"));
@@ -130,7 +133,7 @@ public class FXMLDepositoController implements Initializable {
             JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela de produtos.");
         }
     }
-    
+
     private void inicializarColunasTabela() {
         tblProdutos.getColumns().clear();
 
@@ -263,11 +266,10 @@ public class FXMLDepositoController implements Initializable {
         colunaOpcoes.setMaxWidth(170);
         colunaOpcoes.setMinWidth(170);
 
-        tblProdutos.getColumns().addAll(colunaNome, colunaPreco, colunaPrecoVenda, colunaFornecedor, colunaQuantidadeEstoque, colunaOpcoes);    
+        tblProdutos.getColumns().addAll(colunaNome, colunaPreco, colunaPrecoVenda, colunaFornecedor, colunaQuantidadeEstoque, colunaOpcoes);
         tblProdutos.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
-    
-    
+
     private void filtrarTabela(String textoPesquisa) {
         // Se o texto de pesquisa estiver vazio, mostra todos os itens
         if (textoPesquisa == null || textoPesquisa.isEmpty()) {
@@ -292,14 +294,15 @@ public class FXMLDepositoController implements Initializable {
         tblProdutos.setItems(filteredData);
     }
 
-
     public void atualizarTabela() {
-    preencherTabela();
-}
+        preencherTabela();
+    }
 
     public void limparTabela() {
         tblProdutos.getColumns().clear();
         tblProdutos.getItems().clear();
     }
-    
+
 }
+
+
