@@ -1,6 +1,7 @@
 package projecttcc_2.pkg0.control;
 
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.Connection;
@@ -59,10 +60,15 @@ public class FXMLDepositoController implements Initializable {
 
     @FXML
     private TableView<ProdutosDTO> tblProdutos;
+    
+    @FXML
+    private Button btnEditar;
 
     @FXML
-    void buscarActionButton(MouseEvent event) {
-
+    private Button btnGerenciar;
+    
+    public TableView<ProdutosDTO> getTblProdutos() {
+        return tblProdutos;
     }
 
     @FXML
@@ -191,7 +197,7 @@ public class FXMLDepositoController implements Initializable {
                     {
                         btnEditar.setOnAction(event -> {
                             System.out.println("Botão Funcionando");
-                            ProdutosDTO produtoSelecionado = tblProdutos.getSelectionModel().getSelectedItem();
+                            ProdutosDTO produtoSelecionado = getTableView().getItems().get(getIndex());
                             if (produtoSelecionado != null) {
                                 try {
                                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLEditarEstoque.fxml"));
@@ -225,8 +231,12 @@ public class FXMLDepositoController implements Initializable {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLGerenciarEstoque.fxml"));
                                 Parent root = loader.load();
 
+                                // Obtém o controlador do arquivo FXMLGerenciarEstoque.fxml
                                 FXMLGerenciarEstoqueController gerenciarEstoqueController = loader.getController();
 
+                                // Passa a referência do tblProdutos para o controlador FXMLGerenciarEstoqueController
+                                gerenciarEstoqueController.setTabelaProdutos(tblProdutos);
+                                
                                 Stage stage = new Stage();
                                 stage.initModality(Modality.APPLICATION_MODAL);
                                 stage.setTitle("Gerenciar Produto");
@@ -238,6 +248,8 @@ public class FXMLDepositoController implements Initializable {
                                 e.printStackTrace();
                             }
                         });
+
+
 
                         btnEditar.setStyle("-fx-font-size: 14;");
                         btnGerenciar.setStyle("-fx-font-size: 14;");
@@ -265,6 +277,15 @@ public class FXMLDepositoController implements Initializable {
         tblProdutos.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
     
+    @FXML
+    void editarProdutoActionButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void gerenciarProdutoActionButton(ActionEvent event) {
+
+    }
     
     private void filtrarTabela(String textoPesquisa) {
         // Se o texto de pesquisa estiver vazio, mostra todos os itens
@@ -289,7 +310,6 @@ public class FXMLDepositoController implements Initializable {
         // Atualiza a exibição da tabela com os dados filtrados
         tblProdutos.setItems(filteredData);
     }
-
 
     public void atualizarTabela() {
     preencherTabela();

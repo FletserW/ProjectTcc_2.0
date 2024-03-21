@@ -196,7 +196,7 @@ public class FXMLFreezerController implements Initializable {
                     {
                         btnEditar.setOnAction(event -> {
                             System.out.println("Botão Funcionando");
-                            ProdutosDTO produtoSelecionado = tblProdutos.getSelectionModel().getSelectedItem();
+                            ProdutosDTO produtoSelecionado = getTableView().getItems().get(getIndex());
                             if (produtoSelecionado != null) {
                                 try {
                                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLEditarEstoque.fxml"));
@@ -243,6 +243,7 @@ public class FXMLFreezerController implements Initializable {
                                 e.printStackTrace();
                             }
                         });
+
 
                         btnEditar.setStyle("-fx-font-size: 14;");
                         btnGerenciar.setStyle("-fx-font-size: 14;");

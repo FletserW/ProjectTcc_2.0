@@ -29,27 +29,24 @@ public class DepositoDAO {
     }
     
 
-    public boolean atualizarQuantidade(int produtoId, int novaQuantidade) {
-        try (PreparedStatement pstm = conn.prepareStatement(
-                "UPDATE deposito SET quantidade = ? WHERE produto_id = ?")) {
+    // Método para atualizar o valor da quantidade_estoque na tabela deposito
+    public static boolean atualizarQuantidadeEstoque(int quantidade, int produtoId) {
+        String sql = "UPDATE deposito SET quantidade_estoque = ? WHERE produto_id = ?";
 
-            pstm.setInt(1, novaQuantidade);
-            pstm.setInt(2, produtoId);
+        try (
+                Connection conn = ConexaoBD.conectar(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setInt(1, quantidade);
+            stmt.setInt(2, produtoId);
 
-            int rowsAffected = pstm.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
 
-            // Confirme explicitamente a transação
-            conn.commit();
-
-            // Verifica se a atualização foi bem-sucedida
             return rowsAffected > 0;
-
-        } catch (SQLException erro) {
-            erro.printStackTrace();
-            // Lidar com a exceção ou exibir uma mensagem de erro
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar a quantidade_estoque: " + e.getMessage());
             return false;
         }
     }
+
     // Método para fechar a conexão com o banco de dados
     public void fecharConexao() {
         ConexaoBD.desconectar(conn);

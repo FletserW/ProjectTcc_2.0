@@ -66,7 +66,7 @@ public class ProdutosDAO {
         }
     }
 
-
+   
 
     // Método para fechar a conexão com o banco de dados
     public void fecharConexao() {
