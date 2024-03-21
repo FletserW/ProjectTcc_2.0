@@ -293,6 +293,7 @@ public class FXMLFreezerController implements Initializable {
         // Atualiza a exibição da tabela com os dados filtrados
         tblProdutos.setItems(filteredData);
     }
+    
 
     public void atualizarTabela() {
         preencherTabela();

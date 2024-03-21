@@ -79,7 +79,29 @@ public class FXMLAddProdutoFreezerController implements Initializable {
 
     @FXML
     void AdicionarProdutoActionButton(ActionEvent event) {
+        System.out.println("Adicionando o novo produto");
+        // Obtém o produto selecionado na tabela
+        ProdutosDTO produtoSelecionado = tblNovoProdutoFreezer.getSelectionModel().getSelectedItem();
 
+        // Verifica se há um produto selecionado
+        if (produtoSelecionado != null) {
+            // Atualiza a localização do produto para "freezer"
+            produtoSelecionado.setLocalizacao("freezer");
+
+            // Atualiza a localização do produto no banco de dados
+            atualizarLocalizacaoNoBanco(produtoSelecionado);
+
+            // Atualiza a exibição da tabela
+            tblNovoProdutoFreezer.refresh();
+
+            // Preenche novamente a tabela para garantir que os dados estejam atualizados
+            preencherTabela();
+            
+            // Atualiza a exibição da tabela na janela FXMLFreezer
+            if (freezerController != null) {
+                freezerController.atualizarTabela();
+            }
+        }
     }
 
     @FXML
@@ -145,5 +167,27 @@ public class FXMLAddProdutoFreezerController implements Initializable {
     private void fecharJanela(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
+        
+        // Atualiza a tabela na janela FXMLFreezer quando a janela for fechada
+        if (freezerController != null) {
+            freezerController.atualizarTabela();
+        }
     }
+    
+    private void atualizarLocalizacaoNoBanco(ProdutosDTO produto) {
+        try {
+            Connection conexao = ConexaoBD.conectar();
+            Statement stmt = conexao.createStatement();
+            System.out.println("Produto id: "+ produto.getId());
+            // Atualiza a localização do produto no banco de dados
+            String sql = "UPDATE produtos SET localizacao = 'freezer' WHERE nome = '" + produto.getNome() + "'";
+            stmt.executeUpdate(sql);
+
+            // Fecha a conexão com o banco de dados
+            conexao.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }
