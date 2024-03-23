@@ -38,6 +38,9 @@ public class FXMLInscreverController implements Initializable {
     
     @FXML
     private PasswordField password1;
+    
+    @FXML
+    private TextField txtPassword;
 
     @FXML
     private TextField txtEmail;
@@ -90,8 +93,14 @@ public class FXMLInscreverController implements Initializable {
         passwordVisible = !passwordVisible;
 
         // Configura a visibilidade da senha com base no estado atual
-        password1.setManaged(passwordVisible);
-
+        if (passwordVisible) {
+            txtPassword.setVisible(true);
+            txtPassword.setText(password1.getText()); // Define o texto do TextField como a senha atual
+            password1.setVisible(false); // Oculta o PasswordField
+        } else {
+            password1.setVisible(true); // Mostra o PasswordField
+            txtPassword.setVisible(false); // Oculta o TextField
+        }
     }
     
     private void Logar() throws IOException{

@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -67,6 +68,11 @@ public class FXMLGerenciarEstoqueController implements Initializable {
     @FXML
     public TextField txtQtdDeposito;
     
+    @FXML
+    private TextField txtQuantidadeEstoque;
+    
+    private ProdutosDTO produtoSelecionado;
+    
     private TableView<ProdutosDTO> tblProdutos; // Declare uma variável para armazenar a referência da tabela
 
     @FXML
@@ -84,26 +90,34 @@ public class FXMLGerenciarEstoqueController implements Initializable {
             if (txtQtdDeposito.getText().isEmpty()) {
                 exibirMensagemErro("Campo Vazio", "Por favor, insira uma quantidade antes de editar o estoque.");
                 return;
-            }else{
-                int quantidadeDigitada = Integer.parseInt(txtQtdDeposito.getText());
-                if (radioCaixa.isSelected()) {
-                    quantidadeDigitada *= produtoSelecionado.getQuantidade();
-                }
-
-                if (radioAdicionar.isSelected()) {
-                    produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
-
-                } else if (raddioVender.isSelected()) {
-                    produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
-                } else if (radioPerder.isSelected()) {
-                    produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
-                }
-
-                DepositoDAO depositoDAO = new DepositoDAO();
-                // Atualizar o estoque no banco de dados utilizando o DepositoDAO
-                boolean atualizadoComSucesso = DepositoDAO.atualizarQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque(), produtoSelecionado.getId());
-
             }
+
+            int quantidadeDigitada = Integer.parseInt(txtQtdDeposito.getText());
+
+            // Verificar se a quantidade digitada é maior que 0
+            if (quantidadeDigitada <= 0) {
+                exibirMensagemErro("Quantidade Inválida", "A quantidade digitada deve ser maior que 0.");
+                return;
+            }
+
+            // Verificar se a opção "radioCaixa" está selecionada
+            if (radioCaixa.isSelected()) {
+                // Multiplicar pela quantidade do produto se a opção "radioCaixa" estiver selecionada
+                quantidadeDigitada *= produtoSelecionado.getQuantidade();
+            }
+
+            if (radioAdicionar.isSelected()) {
+                System.out.println(produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
+                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
+            } else if (raddioVender.isSelected()) {
+                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+            } else if (radioPerder.isSelected()) {
+                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+            }
+
+            DepositoDAO depositoDAO = new DepositoDAO();
+            // Atualizar o estoque no banco de dados utilizando o DepositoDAO
+            boolean atualizadoComSucesso = DepositoDAO.atualizarQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque(), produtoSelecionado.getId());
         } else {
             // Exibir uma mensagem de erro ao usuário informando que nenhum produto foi selecionado
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -113,10 +127,17 @@ public class FXMLGerenciarEstoqueController implements Initializable {
             alert.showAndWait();
         }
     }
+
+
     
     // Método para receber a referência do tblProdutos do FXMLDepositoController
     public void setTabelaProdutos(TableView<ProdutosDTO> tblProdutos) {
         this.tblProdutos = tblProdutos;
+    }
+    
+    // Método para definir o produto selecionado
+    public void setProdutoSelecionado(ProdutosDTO produtoSelecionado) {
+        this.produtoSelecionado = produtoSelecionado;
     }
     
     private void exibirMensagemErro(String titulo, String mensagem) {

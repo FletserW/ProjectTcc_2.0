@@ -45,12 +45,24 @@ public class FXMLDepositoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         preencherTabela();
-        
-         // Adiciona um ouvinte para monitorar as alterações no texto de pesquisa
+
+        // Inicialize o gerenciarEstoqueController
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLGerenciarEstoque.fxml"));
+            Parent root = loader.load();
+
+            // Obtém o controlador do arquivo FXMLGerenciarEstoque.fxml
+            gerenciarEstoqueController = loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Adiciona um ouvinte para monitorar as alterações no texto de pesquisa
         txtPesquisa.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
             filtrarTabela(newValue);
         });
-    }  
+    }
+
     
     @FXML
     private Button btnProduto;
@@ -66,6 +78,10 @@ public class FXMLDepositoController implements Initializable {
 
     @FXML
     private Button btnGerenciar;
+    
+    @FXML
+    private FXMLGerenciarEstoqueController gerenciarEstoqueController;
+
     
     public TableView<ProdutosDTO> getTblProdutos() {
         return tblProdutos;
@@ -186,105 +202,66 @@ public class FXMLDepositoController implements Initializable {
         TableColumn<ProdutosDTO, Integer> colunaQuantidadeEstoque = new TableColumn<>("Quantidade em Estoque");
         colunaQuantidadeEstoque.setCellValueFactory(new PropertyValueFactory<>("quantidadeEstoque"));
 
-        TableColumn<ProdutosDTO, Void> colunaOpcoes = new TableColumn<>("Opções");
-        colunaOpcoes.setCellFactory(new Callback<TableColumn<ProdutosDTO, Void>, TableCell<ProdutosDTO, Void>>() {
-            @Override
-            public TableCell<ProdutosDTO, Void> call(TableColumn<ProdutosDTO, Void> param) {
-                return new TableCell<ProdutosDTO, Void>() {
-                    private final Button btnEditar = new Button("Editar");
-                    private final Button btnGerenciar = new Button("Gerenciar");
-
-                    {
-                        btnEditar.setOnAction(event -> {
-                            System.out.println("Botão Funcionando");
-                            ProdutosDTO produtoSelecionado = getTableView().getItems().get(getIndex());
-                            if (produtoSelecionado != null) {
-                                try {
-                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLEditarEstoque.fxml"));
-                                    Parent root = loader.load();
-
-                                    FXMLEditarEstoqueController editarEstoqueController = loader.getController();
-                                    editarEstoqueController.setProdutoSelecionado(produtoSelecionado);
-
-                                    Stage stage = new Stage();
-                                    stage.initModality(Modality.APPLICATION_MODAL);
-                                    stage.setTitle("Editar Produto");
-                                    stage.setScene(new Scene(root));
-                                    stage.setResizable(false);
-
-                                    stage.showAndWait();
-
-                                    preencherTabela();
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                // Exibir uma mensagem para o usuário selecionar um produto antes de editar
-                                // Implemente de acordo com suas necessidades
-                            }
-                        });
-
-                        btnGerenciar.setOnAction(event -> {
-                            ProdutosDTO produtoDTO = getTableView().getItems().get(getIndex());
-                            try {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLGerenciarEstoque.fxml"));
-                                Parent root = loader.load();
-
-                                // Obtém o controlador do arquivo FXMLGerenciarEstoque.fxml
-                                FXMLGerenciarEstoqueController gerenciarEstoqueController = loader.getController();
-
-                                // Passa a referência do tblProdutos para o controlador FXMLGerenciarEstoqueController
-                                gerenciarEstoqueController.setTabelaProdutos(tblProdutos);
-                                
-                                Stage stage = new Stage();
-                                stage.initModality(Modality.APPLICATION_MODAL);
-                                stage.setTitle("Gerenciar Produto");
-                                stage.setScene(new Scene(root));
-                                stage.setResizable(false);
-
-                                stage.showAndWait();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-
-
-
-                        btnEditar.setStyle("-fx-font-size: 14;");
-                        btnGerenciar.setStyle("-fx-font-size: 14;");
-                    }
-
-                    @Override
-                    protected void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            HBox hbox = new HBox(btnEditar, btnGerenciar);
-                            hbox.setSpacing(5);
-                            setGraphic(hbox);
-                        }
-                    }
-                };
-            }
-        });
-
-        colunaOpcoes.setMaxWidth(170);
-        colunaOpcoes.setMinWidth(170);
-
-        tblProdutos.getColumns().addAll(colunaNome, colunaPreco, colunaPrecoVenda, colunaFornecedor, colunaQuantidadeEstoque, colunaOpcoes);    
+        tblProdutos.getColumns().addAll(colunaNome, colunaPreco, colunaPrecoVenda, colunaFornecedor, colunaQuantidadeEstoque);    
         tblProdutos.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
     
     @FXML
     void editarProdutoActionButton(ActionEvent event) {
+        ProdutosDTO produtoSelecionado = tblProdutos.getSelectionModel().getSelectedItem();
+        if (produtoSelecionado != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLEditarEstoque.fxml"));
+                Parent root = loader.load();
 
+                FXMLEditarEstoqueController editarEstoqueController = loader.getController();
+                editarEstoqueController.setProdutoSelecionado(produtoSelecionado);
+                
+                // Passe o produto selecionado para o controlador FXMLGerenciarEstoqueController
+                gerenciarEstoqueController.setProdutoSelecionado(produtoSelecionado);
+
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Editar Produto");
+                stage.setScene(new Scene(root));
+                stage.setResizable(false);
+
+                stage.showAndWait();
+
+                preencherTabela();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Exibir uma mensagem para o usuário selecionar um produto antes de editar
+            // Implemente de acordo com suas necessidades
+        }
     }
 
     @FXML
     void gerenciarProdutoActionButton(ActionEvent event) {
+        ProdutosDTO produtoSelecionado = tblProdutos.getSelectionModel().getSelectedItem();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLGerenciarEstoque.fxml"));
+            Parent root = loader.load();
 
+            // Obtém o controlador do arquivo FXMLGerenciarEstoque.fxml
+            FXMLGerenciarEstoqueController gerenciarEstoqueController = loader.getController();
+
+            // Passa a referência do tblProdutos para o controlador FXMLGerenciarEstoqueController
+            gerenciarEstoqueController.setTabelaProdutos(tblProdutos);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Gerenciar Produto");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     private void filtrarTabela(String textoPesquisa) {

@@ -10,6 +10,8 @@ import projecttcc_2.BD.ProdutosDAO;
 import projecttcc_2.DTO.ProdutosDTO;
 
 import java.math.BigDecimal;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 
 public class FXMLEditarEstoqueController {
@@ -33,6 +35,10 @@ public class FXMLEditarEstoqueController {
     private ProdutosDTO produtoSelecionado;
     private ProdutosDAO produtosDAO;
     private DepositoDAO depositoDAO;
+    
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }  
 
     public FXMLEditarEstoqueController() {
         this.produtosDAO = new ProdutosDAO();

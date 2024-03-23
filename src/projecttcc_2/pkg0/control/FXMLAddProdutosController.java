@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -172,17 +173,37 @@ public class FXMLAddProdutosController implements Initializable {
 
     private boolean inserirProdutos(String nomeProduto, int quantidade, BigDecimal preco, BigDecimal precoVenda, int idFornecedor) {
         Connection conn = ConexaoBD.conectar();
-        String query = "INSERT INTO produtos (nome, quantidade, preco, preco_venda, fornecedor_id, localizacao) VALUES (?, ?, ?, ?, ?, 'deposito')";
-        
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, nomeProduto);
-            stmt.setInt(2, quantidade);
-            stmt.setBigDecimal(3, preco);
-            stmt.setBigDecimal(4, precoVenda);
-            stmt.setInt(5, idFornecedor);
-            
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0;
+        String queryProdutos = "INSERT INTO produtos (nome, quantidade, preco, preco_venda, fornecedor_id, localizacao) VALUES (?, ?, ?, ?, ?, 'deposito')";
+        String queryDeposito = "INSERT INTO deposito (produto_id, quantidade_estoque) VALUES (?, 0)"; // Definindo quantidade_estoque como 0
+
+        try (PreparedStatement stmtProdutos = conn.prepareStatement(queryProdutos, Statement.RETURN_GENERATED_KEYS); PreparedStatement stmtDeposito = conn.prepareStatement(queryDeposito)) {
+            // Inserir o produto na tabela produtos
+            stmtProdutos.setString(1, nomeProduto);
+            stmtProdutos.setInt(2, quantidade);
+            stmtProdutos.setBigDecimal(3, preco);
+            stmtProdutos.setBigDecimal(4, precoVenda);
+            stmtProdutos.setInt(5, idFornecedor);
+
+            int rowsAffectedProdutos = stmtProdutos.executeUpdate();
+            if (rowsAffectedProdutos <= 0) {
+                return false; // Se não houver linhas afetadas na inserção de produtos, retorne false
+            }
+
+            // Obter o ID do produto inserido na tabela produtos
+            ResultSet generatedKeys = stmtProdutos.getGeneratedKeys();
+            int produtoId = 0;
+            if (generatedKeys.next()) {
+                produtoId = generatedKeys.getInt(1);
+            } else {
+                return false; // Se não for possível obter o ID do produto inserido, retorne false
+            }
+
+            // Inserir o produto na tabela deposito
+            stmtDeposito.setInt(1, produtoId);
+            int rowsAffectedDeposito = stmtDeposito.executeUpdate();
+
+            // Verificar se as inserções foram bem-sucedidas
+            return rowsAffectedProdutos > 0 && rowsAffectedDeposito > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -190,6 +211,8 @@ public class FXMLAddProdutosController implements Initializable {
             ConexaoBD.desconectar(conn);
         }
     }
+
+
 
     private void exibirAlerta(String mensagem, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);

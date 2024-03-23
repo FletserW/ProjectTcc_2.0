@@ -38,21 +38,22 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Label>
-                  <HBox prefHeight="24.0" prefWidth="270.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="270.0">
                      <children>
-                        <RadioButton fx:id="radioCaixa" mnemonicParsing="false" selected="true" text="Caixa">
+                        <RadioButton fx:id="radioUnidade" mnemonicParsing="false" selected="true" text="Unidade">
                            <HBox.margin>
-                              <Insets right="30.0" />
+                              <Insets right="15.0" />
                            </HBox.margin>
                            <toggleGroup>
                               <ToggleGroup fx:id="quantidade" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="radioUnidade" mnemonicParsing="false" text="Unidade" toggleGroup="$quantidade">
+                        <RadioButton fx:id="radioCaixa" mnemonicParsing="false" text="Caixa" toggleGroup="$quantidade">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </RadioButton>
+                        <TextField fx:id="txtQuantidadeEstoque" cacheShape="false" centerShape="false" editable="false" focusTraversable="false" pickOnBounds="false" prefHeight="25.0" prefWidth="100.0" scaleShape="false" />
                      </children>
                   </HBox>
                   <Label text="Tipo de ação:">
@@ -65,7 +66,7 @@
                   </Label>
                   <HBox prefHeight="28.0" prefWidth="270.0">
                      <children>
-                        <RadioButton fx:id="radioAdicionar" mnemonicParsing="false" text="Adicionar">
+                        <RadioButton fx:id="radioAdicionar" mnemonicParsing="false" selected="true" text="Adicionar">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
