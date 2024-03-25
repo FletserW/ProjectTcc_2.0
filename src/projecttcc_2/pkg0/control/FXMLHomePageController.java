@@ -11,9 +11,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -82,7 +86,15 @@ public class FXMLHomePageController implements Initializable {
 
     @FXML
     void vendasActionButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLVendas.fxml"));
+            AnchorPane estoquePane = loader.load();
 
+            // Substituir apenas o conteúdo dentro do AnchorPane
+            includeAnchorPane.getChildren().setAll(estoquePane.getChildren());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

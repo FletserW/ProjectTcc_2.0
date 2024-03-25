@@ -123,6 +123,7 @@ public class FXMLInscreverController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setResizable(true);
+            stage.setMaximized(true);
             stage.show();
         } else {
             // deu errado

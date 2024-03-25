@@ -48,3 +48,7 @@
 .titled-pane > .arrow-button > .arrow {
     -fx-background-color: transparent; /* Remove a cor de fundo da seta */
 }
+
+.anchoShadow {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 0);
+}

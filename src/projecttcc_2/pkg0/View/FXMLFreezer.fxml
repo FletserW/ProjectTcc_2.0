@@ -10,33 +10,53 @@
 
 <AnchorPane id="AnchorPane" style="-fx-background-color: #dbe3da;" stylesheets="@../../DTO/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLFreezerController">
    <children>
-      <BorderPane prefHeight="547.0" prefWidth="564.0" style="-fx-background-radius: 20px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <AnchorPane prefHeight="48.0" prefWidth="572.0" style="-fx-background-color: #a8a8a8;" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox alignment="TOP_RIGHT" layoutY="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="572.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <children>
-                        <TextField fx:id="txtPesquisa" prefHeight="30.0" prefWidth="304.0" promptText="Pesquisa" style="-fx-background-radius: 20px;">
-                           <HBox.margin>
-                              <Insets right="30.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <Button fx:id="btnProduto" mnemonicParsing="false" onAction="#addProdutoActionButton" prefHeight="30.0" prefWidth="149.0" style="-fx-background-radius: 15px; -fx-background-color: #3ca64c;" stylesheets="@../../DTO/style.css" text="Adicionar Produto" textFill="WHITE" />
-                     </children>
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
-                  </HBox>
-               </children>
-            </AnchorPane>
-         </top>
-         <center>
-            <TableView fx:id="tblProdutos" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../DTO/style.css" BorderPane.alignment="CENTER">
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+      <AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="564.0" style="-fx-background-color: white;" stylesheets="@../../DTO/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <BorderPane prefHeight="547.0" prefWidth="564.0" style="-fx-background-radius: 20px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <center>
+                   <TableView fx:id="tblProdutos" prefHeight="447.0" prefWidth="564.0" stylesheets="@../../DTO/style.css" BorderPane.alignment="CENTER">
+                     <columnResizePolicy>
+                  
                </columnResizePolicy>
-            </TableView>
-         </center>
-      </BorderPane>
+                  </TableView>
+               </center>
+               <top>
+                  <AnchorPane prefHeight="48.0" prefWidth="572.0" style="-fx-background-color: #a8a8a8; -fx-background-radius: 20 20 0 0;" BorderPane.alignment="CENTER">
+                     <children>
+                        <HBox alignment="TOP_RIGHT" layoutY="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="572.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <TextField fx:id="txtPesquisa" prefHeight="30.0" prefWidth="304.0" promptText="Pesquisa" style="-fx-background-radius: 20px;">
+                                 <HBox.margin>
+                                    <Insets right="30.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button fx:id="btnProduto" mnemonicParsing="false" onAction="#addProdutoActionButton" prefHeight="30.0" prefWidth="149.0" style="-fx-background-radius: 15px; -fx-background-color: #3ca64c;" text="Adicionar Produto" />
+                           </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </top>
+               <bottom>
+                  <AnchorPane prefHeight="55.0" prefWidth="564.0" style="-fx-background-radius: 0 0 20 20; -fx-background-color: #a8a8a8;" BorderPane.alignment="CENTER">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" layoutX="321.0" layoutY="-2.0" prefHeight="69.0" prefWidth="220.0" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="-2.0">
+                           <children>
+                              <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editarProdutoActionButton" prefHeight="35.0" prefWidth="100.0" style="-fx-background-radius: 15px; -fx-background-color: #3ca64c;" text="Editar">
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="btnGerenciar" mnemonicParsing="false" onAction="#gerenciarProdutoActionButton" prefHeight="35.0" prefWidth="100.0" style="-fx-background-radius: 15px; -fx-background-color: #3ca64c;" text="Gerenciar" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </bottom>
+            </BorderPane>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

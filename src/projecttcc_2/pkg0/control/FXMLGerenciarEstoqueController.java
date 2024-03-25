@@ -128,8 +128,6 @@ public class FXMLGerenciarEstoqueController implements Initializable {
         }
     }
 
-
-    
     // Método para receber a referência do tblProdutos do FXMLDepositoController
     public void setTabelaProdutos(TableView<ProdutosDTO> tblProdutos) {
         this.tblProdutos = tblProdutos;

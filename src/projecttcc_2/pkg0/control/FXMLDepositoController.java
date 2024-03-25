@@ -90,7 +90,7 @@ public class FXMLDepositoController implements Initializable {
     @FXML
     void addProdutoActionButton(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLAddProdutos.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLAddProdutosFreezer.fxml"));
             Parent root = loader.load();
 
             FXMLAddProdutosController addProdutosController = loader.getController();
@@ -242,25 +242,29 @@ public class FXMLDepositoController implements Initializable {
     @FXML
     void gerenciarProdutoActionButton(ActionEvent event) {
         ProdutosDTO produtoSelecionado = tblProdutos.getSelectionModel().getSelectedItem();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLGerenciarEstoque.fxml"));
-            Parent root = loader.load();
+        if (produtoSelecionado != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLGerenciarEstoque.fxml"));
+                Parent root = loader.load();
 
-            // Obtém o controlador do arquivo FXMLGerenciarEstoque.fxml
-            FXMLGerenciarEstoqueController gerenciarEstoqueController = loader.getController();
+                // Obtém o controlador do arquivo FXMLGerenciarEstoque.fxml
+                FXMLGerenciarEstoqueController gerenciarEstoqueController = loader.getController();
 
-            // Passa a referência do tblProdutos para o controlador FXMLGerenciarEstoqueController
-            gerenciarEstoqueController.setTabelaProdutos(tblProdutos);
+                // Passa a referência do tblProdutos para o controlador FXMLGerenciarEstoqueController
+                gerenciarEstoqueController.setTabelaProdutos(tblProdutos);
 
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Gerenciar Produto");
-            stage.setScene(new Scene(root));
-            stage.setResizable(false);
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Gerenciar Produto");
+                stage.setScene(new Scene(root));
+                stage.setResizable(false);
 
-            stage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
+                stage.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            System.out.println("Selecione um Produto");
         }
     }
     
