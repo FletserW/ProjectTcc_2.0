@@ -4,6 +4,7 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
@@ -13,8 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="564.0" styleClass="anchoShadow" stylesheets="@../../DTO/style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="projecttcc_2.pkg0.control.FXMLVendasController">
+<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="564.0" styleClass="anchoShadow" stylesheets="@../../DTO/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLVendasController">
    <children>
       <BorderPane layoutX="124.0" layoutY="88.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f0efed;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -32,24 +32,32 @@
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField prefHeight="8.0" prefWidth="216.0" promptText="Nome" style="-fx-background-radius: 20;">
+                              <TextField fx:id="txtPesquisa" prefHeight="8.0" prefWidth="216.0" promptText="Nome" style="-fx-background-radius: 20;">
                                  <VBox.margin>
-                                    <Insets bottom="30.0" />
+                                    <Insets bottom="20.0" />
                                  </VBox.margin>
                               </TextField>
-                              <DatePicker prefHeight="25.0" prefWidth="213.0" promptText="De">
+                              <DatePicker fx:id="dateDe" prefHeight="25.0" prefWidth="213.0" promptText="De">
                                  <VBox.margin>
-                                    <Insets bottom="30.0" />
+                                    <Insets bottom="20.0" />
                                  </VBox.margin>
                               </DatePicker>
-                              <DatePicker prefHeight="25.0" prefWidth="221.0" promptText="Até" />
+                              <DatePicker fx:id="dateAte" prefHeight="25.0" prefWidth="221.0" promptText="Até">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin></DatePicker>
+                              <Button fx:id="btnFiltrar" mnemonicParsing="false" onAction="#filtrarButtonAction" prefHeight="32.0" prefWidth="97.0" style="-fx-background-radius: 20px;" text="Filtrar">
+                                 <font>
+                                    <Font name="Ebrima" size="12.0" />
+                                 </font>
+                              </Button>
                            </children>
                         </VBox>
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="249.0" prefHeight="227.0" prefWidth="315.0" style="-fx-background-color: white; -fx-background-radius: 20;" styleClass="anchoShadow" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="249.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                      <children>
-                        <BarChart layoutX="30.0" layoutY="15.0" prefHeight="300.0" prefWidth="373.0" title="Mais Vendidos" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                        <BarChart fx:id="gfcVendas" layoutX="30.0" layoutY="15.0" prefHeight="300.0" prefWidth="373.0" title="Mais Vendidos" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -68,10 +76,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </BorderPane.margin>
                <children>
-                  <TableView layoutX="12.0" layoutY="10.0" prefHeight="257.0" prefWidth="577.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
+                  <TableView fx:id="tblVendas" layoutX="12.0" layoutY="10.0" prefHeight="257.0" prefWidth="577.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                   </TableView>
                </children>
             </AnchorPane>

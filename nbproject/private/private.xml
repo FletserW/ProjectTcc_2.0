@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/control/FXMLDepositoController.java</file>
-            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/control/FXMLHomePageController.java</file>
-            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/control/FXMLFreezerController.java</file>
-            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/control/FXMLGerenciarEstoqueController.java</file>
+            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/control/FXMLVendasController.java</file>
+            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/DTO/VendasDTO.java</file>
+            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/BD/VendasDAO.java</file>
         </group>
     </open-files>
 </project-private>

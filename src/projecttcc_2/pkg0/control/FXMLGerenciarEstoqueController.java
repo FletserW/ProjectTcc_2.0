@@ -21,6 +21,8 @@ import javafx.stage.Stage;
 import projecttcc_2.BD.DepositoDAO;
 import projecttcc_2.BD.ProdutosDAO;
 import projecttcc_2.DTO.ProdutosDTO;
+import java.time.LocalDate; // Importe a classe LocalDate para obter a data atual
+import projecttcc_2.BD.VendasDAO;
 
 
 /**
@@ -74,6 +76,9 @@ public class FXMLGerenciarEstoqueController implements Initializable {
     private ProdutosDTO produtoSelecionado;
     
     private TableView<ProdutosDTO> tblProdutos; // Declare uma variável para armazenar a referência da tabela
+    
+    @FXML
+    private FXMLDepositoController depositoController;
 
     @FXML
     void cancelarEditarActionButton(ActionEvent event) {
@@ -84,6 +89,7 @@ public class FXMLGerenciarEstoqueController implements Initializable {
     void editarActionButton(ActionEvent event) {
         // Obter o produto selecionado na tabela
         ProdutosDTO produtoSelecionado = tblProdutos.getSelectionModel().getSelectedItem();
+        
 
         // Verificar se um produto foi selecionado
         if (produtoSelecionado != null) {
@@ -111,8 +117,38 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                 produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
             } else if (raddioVender.isSelected()) {
                 produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+                
+                VendasDAO vendasDAO = new VendasDAO();
+                if (vendasDAO.existeRegistroParaProdutoNoMesAtual(produtoSelecionado.getId())) {
+                    // Atualize o registro existente com a nova quantidade vendida
+                    boolean atualizadoComSucesso = vendasDAO.atualizarQuantidadeVendida(produtoSelecionado.getId(), quantidadeDigitada);
+
+                    if (atualizadoComSucesso) {
+                        System.out.println("Quantidade vendida atualizada com sucesso!");
+                    } else {
+                        System.out.println("Erro ao atualizar quantidade vendida.");
+                    }
+                } else {
+                    // Se não houver um registro para o produto no mês atual, adicione um novo registro
+                    LocalDate dataAtual = LocalDate.now(); // Obtenha a data atual
+                    String mesAno = String.format("%02d/%d", dataAtual.getMonthValue(), dataAtual.getYear()); // Formate o mês/ano
+                    boolean adicionadoComSucesso = vendasDAO.adicionarProdutoVendido(produtoSelecionado.getId(), quantidadeDigitada, mesAno);
+
+
+                    if (adicionadoComSucesso) {
+                        System.out.println("Produto vendido adicionado com sucesso!");
+                    } else {
+                        System.out.println("Erro ao adicionar produto vendido.");
+                    }
+                }
+                    
             } else if (radioPerder.isSelected()) {
                 produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+            }
+            
+            // Em algum lugar onde você precisa chamar preencherTabela()
+            if (depositoController != null) {
+                depositoController.preencherTabela();
             }
 
             DepositoDAO depositoDAO = new DepositoDAO();
@@ -132,6 +168,10 @@ public class FXMLGerenciarEstoqueController implements Initializable {
     public void setTabelaProdutos(TableView<ProdutosDTO> tblProdutos) {
         this.tblProdutos = tblProdutos;
     }
+    
+    public void setDepositoController(FXMLDepositoController depositoController) {
+    this.depositoController = depositoController;
+}
     
     // Método para definir o produto selecionado
     public void setProdutoSelecionado(ProdutosDTO produtoSelecionado) {

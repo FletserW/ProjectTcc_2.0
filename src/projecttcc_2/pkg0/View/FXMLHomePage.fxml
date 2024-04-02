@@ -48,7 +48,7 @@
                            </panes>
                         </Accordion>
                         <Button fx:id="btnVendas" mnemonicParsing="false" onAction="#vendasActionButton" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Vendas" />
-                        <Button fx:id="btnPedidos" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Pedidos" />
+                        <Button fx:id="btnPedidos" mnemonicParsing="false" onAction="#pedidosActionButton" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Pedidos" />
                         <Button fx:id="btnRelatorios" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Relatorios" />
                         <Button fx:id="btnCofig" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" styleClass="basicButton" text="Configurções" />
                      </children>

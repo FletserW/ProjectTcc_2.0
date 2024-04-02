@@ -33,3 +33,29 @@ CREATE TABLE fornecedores (
     telefone VARCHAR(15),
     email VARCHAR(100)
 );
+
+CREATE TABLE vendas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_produto INT,
+    quantidade_vendida INT,
+    mes_ano VARCHAR(7),
+    FOREIGN KEY (id_produto) REFERENCES produtos(id)
+);
+
+CREATE TABLE PedidoItens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT,
+    id_produto INT,
+    quantidade INT,
+    FOREIGN KEY (id_pedido) REFERENCES Pedidos(id),
+    FOREIGN KEY (id_produto) REFERENCES Produtos(id)
+);
+
+CREATE TABLE Pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    data_pedido DATE,
+    id_fornecedor INT,
+    valor_total DECIMAL(10,2),
+    FOREIGN KEY (id_fornecedor) REFERENCES Fornecedores(id)
+);
+

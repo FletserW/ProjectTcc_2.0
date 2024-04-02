@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="564.0" style="-fx-background-color: white;" stylesheets="@../../DTO/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLPedidosController">
+   <children>
+      <BorderPane prefHeight="547.0" prefWidth="564.0" style="-fx-background-color: red; -fx-background-radius: 20;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <AnchorPane prefHeight="44.0" prefWidth="564.0" style="-fx-background-color: #a8a8a8; -fx-background-radius: 0 0 20 20;" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" layoutY="8.0" prefHeight="43.0" prefWidth="564.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <Label text="Filtrar Pedido por:">
+                           <font>
+                              <Font name="Ebrima" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Label>
+                        <RadioButton mnemonicParsing="false" selected="true" text="Todos">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="filtrar" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton layoutX="165.0" layoutY="23.0" mnemonicParsing="false" text="Entregues" toggleGroup="$filtrar">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                        <RadioButton layoutX="252.0" layoutY="23.0" mnemonicParsing="false" text="Pendentes" toggleGroup="$filtrar">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </bottom>
+         <top>
+            <AnchorPane prefHeight="48.0" prefWidth="572.0" style="-fx-background-color: #a8a8a8; -fx-background-radius: 20 20 0 0;" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="TOP_RIGHT" layoutX="63.0" layoutY="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="501.0" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <TextField fx:id="txtPesquisa" prefHeight="30.0" prefWidth="304.0" promptText="Pesquisa" style="-fx-background-radius: 20px;">
+                           <HBox.margin>
+                              <Insets right="30.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="btnProduto" mnemonicParsing="false" onAction="#addPedidoActionButton" prefHeight="30.0" prefWidth="149.0" style="-fx-background-radius: 15px; -fx-background-color: #3ca64c;" text="Adicionar Pedido" />
+                     </children>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </HBox>
+                  <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="14.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Elegantthemes-Beautiful-Flat-Truck-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <Pane fx:id="panePedidos" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f0efed;" BorderPane.alignment="CENTER">
+               <children>
+                   <Pane fx:id="paneCardPedido" layoutX="10.0" layoutY="10.0" prefHeight="237.0" prefWidth="169.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20;" styleClass="anchoShadow">
+                     <children>
+                        <Label layoutX="14.0" layoutY="78.0" text="Fornecedor:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="47.0" text="Data:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="107.0" text="Preço:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="141.0" text="Produtos:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="31.0" layoutY="14.0" text="Pedido: N°">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="txtId" layoutX="101.0" layoutY="15.0" text="id" />
+                        <Label fx:id="txtData" layoutX="52.0" layoutY="48.0" text="data" />
+                        <Label fx:id="txtFornecedor" layoutX="97.0" layoutY="79.0" text="fornecedor" />
+                        <Label fx:id="txtPreco" layoutX="61.0" layoutY="110.0" text="Preço" />
+                        <Label fx:id="txtProdutos" layoutX="83.0" layoutY="142.0" text="list" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding></Pane>
+                  <Pane fx:id="paneCardPedido1" layoutX="196.0" layoutY="10.0" prefHeight="237.0" prefWidth="176.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20;" styleClass="anchoShadow">
+                     <children>
+                        <Label layoutX="14.0" layoutY="78.0" text="Fornecedor:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="47.0" text="Data:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="107.0" text="Preço:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="141.0" text="Produtos:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="31.0" layoutY="14.0" text="Pedido: N°">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="txtId1" layoutX="101.0" layoutY="15.0" text="id" />
+                        <Label fx:id="txtData1" layoutX="52.0" layoutY="48.0" text="data" />
+                        <Label fx:id="txtFornecedor1" layoutX="97.0" layoutY="79.0" text="fornecedor" />
+                        <Label fx:id="txtPreco1" layoutX="61.0" layoutY="110.0" text="Preço" />
+                        <Label fx:id="txtProdutos1" layoutX="83.0" layoutY="142.0" text="list" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Pane>
+                  <Pane fx:id="paneCardPedido11" layoutX="382.0" layoutY="10.0" prefHeight="237.0" prefWidth="176.0" style="-fx-background-color: #ffffff; -fx-background-radius: 20;" styleClass="anchoShadow">
+                     <children>
+                        <Label layoutX="14.0" layoutY="78.0" text="Fornecedor:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="47.0" text="Data:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="107.0" text="Preço:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="141.0" text="Produtos:">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="31.0" layoutY="14.0" text="Pedido: N°">
+                           <font>
+                              <Font name="Ebrima Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="txtId11" layoutX="101.0" layoutY="15.0" text="id" />
+                        <Label fx:id="txtData11" layoutX="52.0" layoutY="48.0" text="data" />
+                        <Label fx:id="txtFornecedor11" layoutX="97.0" layoutY="79.0" text="fornecedor" />
+                        <Label fx:id="txtPreco11" layoutX="61.0" layoutY="110.0" text="Preço" />
+                        <Label fx:id="txtProdutos11" layoutX="83.0" layoutY="142.0" text="list" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </Pane>
+
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding></Pane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

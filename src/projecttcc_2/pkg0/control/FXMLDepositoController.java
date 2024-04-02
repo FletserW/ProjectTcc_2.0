@@ -90,7 +90,7 @@ public class FXMLDepositoController implements Initializable {
     @FXML
     void addProdutoActionButton(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLAddProdutosFreezer.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLAddProdutos.fxml"));
             Parent root = loader.load();
 
             FXMLAddProdutosController addProdutosController = loader.getController();
