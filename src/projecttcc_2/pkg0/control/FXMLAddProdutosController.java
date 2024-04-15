@@ -152,7 +152,7 @@ public class FXMLAddProdutosController implements Initializable {
         fecharJanela(event);
     }
 
-    private void preencherComboBoxFornecedores() {
+    public void preencherComboBoxFornecedores() {
         ObservableList<String> fornecedores = FXCollections.observableArrayList();
         Connection conn = ConexaoBD.conectar();
         String query = "SELECT nome FROM fornecedores";

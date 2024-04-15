@@ -9,11 +9,16 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -37,31 +42,28 @@ public class FXMLPedidosController implements Initializable {
     private ToggleGroup filtrar;
 
     @FXML
-    private Pane paneCardPedido;
-
-    @FXML
     private Pane panePedidos;
-
-    @FXML
-    private Label txtData;
-
-    @FXML
-    private Label txtFornecedor;
-
-    @FXML
-    private Label txtId;
 
     @FXML
     private TextField txtPesquisa;
 
     @FXML
-    private Label txtPreco;
-
-    @FXML
-    private Label txtProdutos;
-
-    @FXML
     void addPedidoActionButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLAddPedidos.fxml"));
+            Parent root = loader.load();
 
+            FXMLAddPedidosController addPedidosController = loader.getController();
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Adicionar Produto");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

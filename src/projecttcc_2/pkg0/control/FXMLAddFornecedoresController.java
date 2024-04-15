@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import projecttcc_2.BD.ConexaoBD;
+import projecttcc_2.pkg0.control.FXMLAddProdutosController;
 
 
 public class FXMLAddFornecedoresController {
@@ -35,43 +36,51 @@ public class FXMLAddFornecedoresController {
     
     @FXML
     private AnchorPane addFornecedorInclude;
+    
+    private FXMLAddProdutosController addProdutosController;
 
 
     @FXML
     void registrarAnctionButton(ActionEvent event) {
         // Pegar os valores dos campos do formulário
-                String nome = txtNome.getText();
-                String telefone = txtTelefone.getText();
-                String email = txtEmail.getText(); // Novo campo de e-mail
+        String nome = txtNome.getText();
+        String telefone = txtTelefone.getText();
+        String email = txtEmail.getText(); // Novo campo de e-mail
 
-                try {
-                    // Conectar ao banco de dados
-                    Connection conexao = ConexaoBD.conectar();
+        try {
+            // Conectar ao banco de dados
+            Connection conexao = ConexaoBD.conectar();
 
-                    // Inserção de um novo fornecedor
-                    String sql = "INSERT INTO fornecedores (nome, telefone, email) VALUES (?, ?, ?)";
-                    try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
-                        pstmt.setString(1, nome);
-                        pstmt.setString(2, telefone);
-                        pstmt.setString(3, email);
+            // Inserção de um novo fornecedor
+            String sql = "INSERT INTO fornecedores (nome, telefone, email) VALUES (?, ?, ?)";
+            try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+                pstmt.setString(1, nome);
+                pstmt.setString(2, telefone);
+                pstmt.setString(3, email);
 
-                        int linhasAfetadas = pstmt.executeUpdate();
-                        if (linhasAfetadas > 0) {
-                            JOptionPane.showMessageDialog(null, "Fornecedor salvo com sucesso!");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Falha ao salvar o fornecedor.");
-                        }
-                    }
-
-                    // Fechar a conexão
-                    conexao.close();
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados.");
+                int linhasAfetadas = pstmt.executeUpdate();
+                if (linhasAfetadas > 0) {
+                    JOptionPane.showMessageDialog(null, "Fornecedor salvo com sucesso!");
+                    addProdutosController.preencherComboBoxFornecedores();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Falha ao salvar o fornecedor.");
                 }
             }
+
+            // Fechar a conexão
+            conexao.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados.");
         }
+    }
+    
+    // Método para definir o controlador da classe DepositoController
+    public void setAddProdutosController(FXMLAddProdutosController addProdutosController) {
+        this.addProdutosController = addProdutosController;
+    }
+}
 
 
     

@@ -20,7 +20,7 @@
          <bottom>
             <AnchorPane prefHeight="44.0" prefWidth="564.0" style="-fx-background-color: #a8a8a8; -fx-background-radius: 0 0 20 20;" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER_LEFT" layoutY="8.0" prefHeight="43.0" prefWidth="564.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <HBox alignment="CENTER_LEFT" layoutY="8.0" prefHeight="43.0" prefWidth="525.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="39.0">
                      <children>
                         <Label text="Filtrar Pedido por:">
                            <font>
