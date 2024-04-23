@@ -5,13 +5,10 @@
 package projecttcc_2.BD;
 
 /**
- *
- * @author reido
+ * Classe responsável pela conexão com o banco de dados.
+ * Esta classe fornece métodos para conectar e desconectar do banco de dados.
+ * É utilizada para estabelecer uma conexão com o banco de dados MySQL.
  */
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -63,4 +60,3 @@ public class ConexaoBD {
         }
     }
 }
-
