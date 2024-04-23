@@ -43,6 +43,7 @@ Desenvolvido como parte do trabalho de conclusão de curso, este projeto busca a
 - Linguagem de programação: Java
 - Framework para interface gráfica: JavaFX
 - Ferramenta para design de interface: Scene Builder
+- Banco de Dados: MySQL
 - IDE: NetBeans
 
 - ## 🔎 Status do Projeto
