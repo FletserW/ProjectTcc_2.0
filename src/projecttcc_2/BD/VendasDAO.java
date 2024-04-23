@@ -83,5 +83,32 @@ public class VendasDAO {
         }
     }
     
-   
+    // Método para registrar uma nova venda de produto
+    public boolean registrarVenda(int idProduto, int quantidadeVendida) {
+        PreparedStatement stmt = null;
+
+        try {
+            String query = "INSERT INTO vendas (id_produto, quantidade_vendida, mes_ano) VALUES (?, ?, ?)";
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, idProduto);
+            stmt.setInt(2, quantidadeVendida);
+            stmt.setString(3, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+
+            int linhasAfetadas = stmt.executeUpdate();
+            return linhasAfetadas > 0; // Retorna true se houver linhas afetadas (inserção bem-sucedida)
+        } catch (SQLException e) {
+            System.out.println("Erro ao registrar venda: " + e.getMessage());
+            return false;
+        } finally {
+            // Fecha o statement para liberar recursos
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    System.out.println("Erro ao fechar o statement: " + e.getMessage());
+                }
+            }
+        }
+    }
+
 }

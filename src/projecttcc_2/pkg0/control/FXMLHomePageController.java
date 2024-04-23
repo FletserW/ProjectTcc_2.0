@@ -110,6 +110,19 @@ public class FXMLHomePageController implements Initializable {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    void relatorioActionButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLRelatorios.fxml"));
+            AnchorPane estoquePane = loader.load();
+
+            // Substituir apenas o conteúdo dentro do AnchorPane
+            includeAnchorPane.getChildren().setAll(estoquePane.getChildren());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
      
     
 }

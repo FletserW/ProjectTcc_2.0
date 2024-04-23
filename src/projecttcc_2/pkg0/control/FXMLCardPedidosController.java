@@ -47,34 +47,10 @@ public class FXMLCardPedidosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        List<PedidosDTO> pedidos = recuperarPedidosDoBancoDeDados();
-
-        // Criar um card para cada pedido
-        for (PedidosDTO pedido : pedidos) {
-            criarCardPedido(pedido);
-        }
+       
     }    
+
     
-    private void criarCardPedido(PedidosDTO pedido) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/caminho/para/CardPedido.fxml"));
-            Parent cardPedido = loader.load();
-
-            // Obtendo o controlador do card
-            FXMLCardPedidosController cardPedidoController = loader.getController();
-
-            // Configurando os dados do pedido no card
-            FXMLCardPedidosController.setIdPedido(pedido.getId());
-            FXMLCardPedidosController.setDataPedido(pedido.getDataPedido());
-            cardPedidoController.setFornecedor(pedido.getIdFornecedor());
-            cardPedidoController.setPreco(pedido.getValorTotal());
-
-            // Adicionando o card à lista de pedidos
-            panePedidos.getChildren().add(cardPedido);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
      // Método para definir o ID do pedido no label
     public void setIdPedido(int id) {
         txtId.setText(String.valueOf(id));

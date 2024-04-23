@@ -4,6 +4,7 @@
  */
 package projecttcc_2.pkg0.control;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -19,6 +20,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import projecttcc_2.DTO.PedidosDTO;
+
 
 /**
  * FXML Controller class
@@ -32,7 +35,7 @@ public class FXMLPedidosController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }    
     
     @FXML
