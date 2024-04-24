@@ -45,14 +45,33 @@ public class FXMLCardPedidosController implements Initializable {
     @FXML
     private Label txtProdutos;
 
+    private PedidosDTO pedido;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        
     }    
-
     
-     // Método para definir o ID do pedido no label
-    public void setIdPedido(int id) {
-        txtId.setText(String.valueOf(id));
+    public void setPedido(PedidosDTO pedido) {
+        if (pedido != null) {
+            this.pedido = pedido;
+
+            // Preencher os campos do card com os dados do pedido
+            if (txtId != null) {
+                txtId.setText(String.valueOf(pedido.getId()));
+            }
+            if (txtData != null && pedido.getDataPedido() != null) {
+                txtData.setText(pedido.getDataPedido().toString());
+            }
+            if (txtFornecedor != null) {
+                txtFornecedor.setText(String.valueOf(pedido.getIdFornecedor()));
+            }
+            if (txtPreco != null && pedido.getValorTotal() != null) {
+                txtPreco.setText(pedido.getValorTotal().toString());
+            }
+        } else {
+            System.err.println("Pedido é nulo.");
+        }
     }
+
 }
