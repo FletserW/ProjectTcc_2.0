@@ -13,11 +13,20 @@ public class PedidosDTO {
     private Date dataPedido;
     private int idFornecedor;
     private BigDecimal valorTotal;
+    private String nomeFornecedor;
 
     // Construtor
     public PedidosDTO(Date dataPedido, int idFornecedor, BigDecimal valorTotal) {
         this.dataPedido = dataPedido;
         this.idFornecedor = idFornecedor;
+        this.valorTotal = valorTotal;
+    }
+    
+    public PedidosDTO(int id, Date dataPedido, int idFornecedor, String nomeFornecedor, BigDecimal valorTotal) {
+        this.id = id;
+        this.dataPedido = dataPedido;
+        this.idFornecedor = idFornecedor;
+        this.nomeFornecedor = nomeFornecedor;
         this.valorTotal = valorTotal;
     }
 
@@ -44,6 +53,15 @@ public class PedidosDTO {
 
     public void setIdFornecedor(int idFornecedor) {
         this.idFornecedor = idFornecedor;
+    }
+    
+    // Getters e Setters
+    public String getNomeFornecedor() {
+        return nomeFornecedor;
+    }
+
+    public void setNomeFornecedor(String nomeFornecedor) {
+        this.nomeFornecedor = nomeFornecedor;
     }
 
     public BigDecimal getValorTotal() {

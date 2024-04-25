@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="564.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLPedidosController">
+<AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="564.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLPedidosController">
     <children>
         <BorderPane prefHeight="547.0" prefWidth="564.0" style="-fx-background-color: red; -fx-background-radius: 20;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <bottom>
@@ -59,7 +59,7 @@
             <top>
                 <AnchorPane prefHeight="48.0" prefWidth="572.0" style="-fx-background-color: #a8a8a8; -fx-background-radius: 20 20 0 0;" BorderPane.alignment="CENTER">
                     <children>
-                        <HBox alignment="TOP_RIGHT" layoutX="63.0" layoutY="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="501.0" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="0.0">
+                        <HBox alignment="TOP_RIGHT" layoutX="63.0" layoutY="7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="409.0" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="0.0">
                             <children>
                                 <TextField fx:id="txtPesquisa" prefHeight="30.0" prefWidth="304.0" promptText="Pesquisa" style="-fx-background-radius: 20px;">
                                     <HBox.margin>
@@ -84,15 +84,9 @@
                 <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <content>
                         <GridPane fx:id="gridPedidos" hgap="10.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
                         </GridPane>
                     </content>
                 </ScrollPane>
