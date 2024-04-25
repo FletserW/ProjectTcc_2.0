@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -25,10 +26,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import projecttcc_2.BD.ConexaoBD;
 import projecttcc_2.DTO.PedidosDTO;
+import projecttcc_2.DTO.ItemPedidoDTO;
 
 /**
  * FXML Controller class
@@ -180,8 +183,90 @@ public class FXMLPedidosController implements Initializable {
         // Adicione os Labels ao Pane
         paneCardPedido.getChildren().addAll(lblId, lblData, lblFornecedor, lblPreco, lblProdutos);
         
-        
+        // Adicione um evento de clique ao card
+        paneCardPedido.setOnMouseClicked(event -> {
+            abrirJanelaItensPedido(pedido);
+        });
         
         return paneCardPedido;
+    }
+    
+    // Método para abrir uma nova janela mostrando os itens do pedido
+    private void abrirJanelaItensPedido(PedidosDTO pedido) {
+        // Criar uma nova janela
+        Stage stage = new Stage();
+        stage.setTitle("Itens do Pedido");
+
+        // Criar um VBox para conter os checkboxes
+        VBox vbox = new VBox();
+
+        // Recuperar os itens do pedido do banco de dados
+        List<ItemPedidoDTO> itensPedido = buscarItensPedidoDoBancoDeDados(pedido.getId());
+
+        // Adicionar um checkbox para cada item do pedido
+        for (ItemPedidoDTO item : itensPedido) {
+            CheckBox checkBox = new CheckBox(item.getNomeProduto() + " - Quantidade: " + item.getQuantidade());
+            vbox.getChildren().add(checkBox);
+        }
+
+        // Criar uma cena e adicionar o VBox a ela
+        Scene scene = new Scene(vbox, 400, 300);
+        stage.setScene(scene);
+
+        // Mostrar a janela
+        stage.show();
+    }
+
+// Método para buscar os itens do pedido do banco de dados
+    private List<ItemPedidoDTO> buscarItensPedidoDoBancoDeDados(int idPedido) {
+        List<ItemPedidoDTO> itensPedido = new ArrayList<>();
+
+        // Conectar ao banco de dados e executar a consulta SQL para recuperar os itens do pedido
+        try (Connection conexao = ConexaoBD.conectar()) {
+            if (conexao != null) {
+                String sql = "SELECT * FROM PedidoItens WHERE id_pedido = ?";
+                try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                    stmt.setInt(1, idPedido);
+                    try (ResultSet rs = stmt.executeQuery()) {
+                        while (rs.next()) {
+                            int idItem = rs.getInt("id");
+                            int idProduto = rs.getInt("id_produto");
+                            int quantidade = rs.getInt("quantidade");
+                            // Você precisará buscar o nome do produto com base no idProduto
+                            // Aqui estou assumindo que você tem um método para isso
+                            String nomeProduto = buscarNomeProduto(idProduto);
+
+                            ItemPedidoDTO item = new ItemPedidoDTO(idItem, idPedido, idProduto, quantidade, nomeProduto);
+                            itensPedido.add(item);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return itensPedido;
+    }
+    
+    // Método para buscar o nome do produto com base no ID do produto
+    private String buscarNomeProduto(int idProduto) {
+        String nomeProduto = "";
+
+        try (Connection conexao = ConexaoBD.conectar()) {
+            String sql = "SELECT nome FROM produtos WHERE id = ?";
+            try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                stmt.setInt(1, idProduto);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        nomeProduto = rs.getString("nome");
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return nomeProduto;
     }
 }
