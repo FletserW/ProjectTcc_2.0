@@ -11,10 +11,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="547.0" prefWidth="564.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projecttcc_2.pkg0.control.FXMLPedidosController">
@@ -33,7 +31,7 @@
                                         <Insets left="15.0" />
                                     </HBox.margin>
                                 </Label>
-                                <RadioButton mnemonicParsing="false" selected="true" text="Todos">
+                                <RadioButton fx:id="radioTodos" mnemonicParsing="false" selected="true" text="Todos">
                                     <HBox.margin>
                                         <Insets left="20.0" />
                                     </HBox.margin>
@@ -41,12 +39,12 @@
                                         <ToggleGroup fx:id="filtrar" />
                                     </toggleGroup>
                                 </RadioButton>
-                                <RadioButton layoutX="165.0" layoutY="23.0" mnemonicParsing="false" text="Entregues" toggleGroup="$filtrar">
+                                <RadioButton fx:id="radioEntregue" layoutX="165.0" layoutY="23.0" mnemonicParsing="false" text="Entregues" toggleGroup="$filtrar">
                                     <HBox.margin>
                                         <Insets left="20.0" />
                                     </HBox.margin>
                                 </RadioButton>
-                                <RadioButton layoutX="252.0" layoutY="23.0" mnemonicParsing="false" text="Pendentes" toggleGroup="$filtrar">
+                                <RadioButton fx:id="radioPendente" layoutX="252.0" layoutY="23.0" mnemonicParsing="false" text="Pendentes" toggleGroup="$filtrar">
                                     <HBox.margin>
                                         <Insets left="20.0" />
                                     </HBox.margin>

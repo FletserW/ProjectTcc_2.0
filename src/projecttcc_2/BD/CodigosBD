@@ -56,6 +56,7 @@ CREATE TABLE Pedidos (
     data_pedido DATE,
     id_fornecedor INT,
     valor_total DECIMAL(10,2),
+    status ENUM('pendente', 'concluido') NOT NULL,
     FOREIGN KEY (id_fornecedor) REFERENCES Fornecedores(id)
 );
 

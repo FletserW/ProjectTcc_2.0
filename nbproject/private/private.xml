@@ -4,11 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/control/FXMLPedidosController.java</file>
-            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/View/FXMLCardPedidos.fxml</file>
-            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/BD/CodigosBD</file>
+            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/control/FXMLChecklistPedidosController.java</file>
             <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/DTO/PedidosDTO.java</file>
-            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/control/FXMLCardPedidosController.java</file>
-            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/pkg0/View/FXMLPedidos.fxml</file>
+            <file>file:/C:/Users/reido/OneDrive/Documents/NetBeansProjects/ProjectTcc_2.0/src/projecttcc_2/DTO/ItemPedidoDTO.java</file>
         </group>
     </open-files>
 </project-private>

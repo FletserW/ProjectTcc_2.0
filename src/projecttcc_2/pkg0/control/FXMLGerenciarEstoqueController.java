@@ -115,6 +115,8 @@ public class FXMLGerenciarEstoqueController implements Initializable {
             if (radioCaixa.isSelected()) {
                 // Multiplicar pela quantidade do produto se a opção "radioCaixa" estiver selecionada
                 quantidadeDigitada *= produtoSelecionado.getQuantidade();
+                System.out.println(quantidadeDigitada *= produtoSelecionado.getQuantidade());
+                System.out.println("QUantidade do produto selecionado: " + produtoSelecionado.getQuantidade());
             }
 
             if (radioAdicionar.isSelected()) {

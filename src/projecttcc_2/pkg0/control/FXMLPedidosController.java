@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
@@ -47,7 +48,8 @@ public class FXMLPedidosController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // Chamado quando a janela é inicializada
         // Aqui você pode buscar os pedidos do banco de dados e exibi-los
-        List<PedidosDTO> pedidos = buscarPedidosDoBancoDeDados(); // Implemente este método
+        List<PedidosDTO> pedidos = buscarPedidosDoBancoDeDados(); // Chamada corrigida
+
         exibirPedidos(pedidos);
     }
 
@@ -56,6 +58,15 @@ public class FXMLPedidosController implements Initializable {
 
     @FXML
     private ToggleGroup filtrar;
+
+    @FXML
+    private RadioButton radioEntregue;
+
+    @FXML
+    private RadioButton radioPendente;
+
+    @FXML
+    private RadioButton radioTodos;
 
     @FXML
     private GridPane gridPedidos;
@@ -82,23 +93,52 @@ public class FXMLPedidosController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
+    @FXML
+    void radioFiltrarPedidos(ActionEvent event) {
+        
+        System.out.println("Radio Filtrar Pedidos");    
+        if (radioEntregue.isSelected()) {
+            List<PedidosDTO> pedidos = buscarPedidosDoBancoDeDados(); // Chamada corrigida
+            System.out.println("Radio Entrada");
+            exibirPedidos(pedidos);
+        } else if (radioPendente.isSelected()) {
+            List<PedidosDTO> pedidos = buscarPedidosDoBancoDeDados(); // Chamada corrigida
+            exibirPedidos(pedidos);
+            System.out.println("Radio Pendente");
+        } else {
+            List<PedidosDTO> pedidos = buscarPedidosDoBancoDeDados(); // Chamada corrigida
+            exibirPedidos(pedidos);
+            System.out.println("Radio todos");
+        }
+     
+    }
+
     // Método para buscar os pedidos do banco de dados
-    private List<PedidosDTO> buscarPedidosDoBancoDeDados() {
+    private List<PedidosDTO> buscarPedidosDoBancoDeDados() { // Parâmetro removido
         List<PedidosDTO> pedidos = new ArrayList<>();
 
-        // Estabelecer a conexão com o banco de dados
         try (Connection conexao = ConexaoBD.conectar()) {
-            // Verificar se a conexão foi estabelecida corretamente
             if (conexao != null) {
-                // Preparar a consulta SQL com junção entre Pedidos e Fornecedores
-                String sql = "SELECT p.id, p.data_pedido, p.id_fornecedor, f.nome AS nome_fornecedor, p.valor_total "
-                        + "FROM Pedidos p "
-                        + "JOIN Fornecedores f ON p.id_fornecedor = f.id";
+                String sql;
+                // Verifica qual botão de rádio está selecionado para determinar o status
+                if (radioEntregue.isSelected()) {
+                    sql = "SELECT p.id, p.data_pedido, p.id_fornecedor, f.nome AS nome_fornecedor, p.valor_total "
+                            + "FROM Pedidos p "
+                            + "JOIN Fornecedores f ON p.id_fornecedor = f.id "
+                            + "WHERE p.status = 'concluido'";
+                } else if (radioPendente.isSelected()) {
+                    sql = "SELECT p.id, p.data_pedido, p.id_fornecedor, f.nome AS nome_fornecedor, p.valor_total "
+                            + "FROM Pedidos p "
+                            + "JOIN Fornecedores f ON p.id_fornecedor = f.id "
+                            + "WHERE p.status = 'pendente'";
+                } else {
+                    sql = "SELECT p.id, p.data_pedido, p.id_fornecedor, f.nome AS nome_fornecedor, p.valor_total "
+                            + "FROM Pedidos p "
+                            + "JOIN Fornecedores f ON p.id_fornecedor = f.id";
+                }
                 try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-                    // Executar a consulta
                     try (ResultSet rs = stmt.executeQuery()) {
-                        // Processar o resultado da consulta
                         while (rs.next()) {
                             int id = rs.getInt("id");
                             Date dataPedido = rs.getDate("data_pedido");
@@ -106,7 +146,6 @@ public class FXMLPedidosController implements Initializable {
                             String nomeFornecedor = rs.getString("nome_fornecedor");
                             BigDecimal valorTotal = rs.getBigDecimal("valor_total");
 
-                            // Criar um objeto PedidosDTO com os dados do resultado
                             PedidosDTO pedido = new PedidosDTO(id, dataPedido, idFornecedor, nomeFornecedor, valorTotal);
                             pedidos.add(pedido);
                         }
@@ -114,19 +153,18 @@ public class FXMLPedidosController implements Initializable {
                 }
             }
         } catch (SQLException ex) {
-            // Lidar com exceções de SQL
             ex.printStackTrace();
         }
 
         return pedidos;
     }
-    
+
     // Método para criar e exibir os cards de pedidos
     public void exibirPedidos(List<PedidosDTO> pedidos) {
         int row = 0;
         int col = 0;
         int maxCols = 5; // Máximo de colunas por linha
-        
+
         // Configura as colunas para terem o mesmo tamanho
         for (int i = 0; i < maxCols; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
@@ -175,46 +213,48 @@ public class FXMLPedidosController implements Initializable {
         Label lblPreco = new Label("Preço: " + pedido.getValorTotal());
         lblPreco.setLayoutX(14);
         lblPreco.setLayoutY(107);
-        
+
         Label lblProdutos = new Label("Produtos: +");
         lblProdutos.setLayoutX(14);
         lblProdutos.setLayoutY(136);
 
         // Adicione os Labels ao Pane
         paneCardPedido.getChildren().addAll(lblId, lblData, lblFornecedor, lblPreco, lblProdutos);
-        
+
         // Adicione um evento de clique ao card
         paneCardPedido.setOnMouseClicked(event -> {
             abrirJanelaItensPedido(pedido);
         });
-        
+
         return paneCardPedido;
     }
-    
-    // Método para abrir uma nova janela mostrando os itens do pedido
+
     private void abrirJanelaItensPedido(PedidosDTO pedido) {
-        // Criar uma nova janela
-        Stage stage = new Stage();
-        stage.setTitle("Itens do Pedido");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLChecklistPedidos.fxml"));
+            Parent root = loader.load();
 
-        // Criar um VBox para conter os checkboxes
-        VBox vbox = new VBox();
+            FXMLChecklistPedidosController checklistController = loader.getController();
 
-        // Recuperar os itens do pedido do banco de dados
-        List<ItemPedidoDTO> itensPedido = buscarItensPedidoDoBancoDeDados(pedido.getId());
+            // Busca os itens do pedido do banco de dados
+            List<ItemPedidoDTO> itensPedido = buscarItensPedidoDoBancoDeDados(pedido.getId());
 
-        // Adicionar um checkbox para cada item do pedido
-        for (ItemPedidoDTO item : itensPedido) {
-            CheckBox checkBox = new CheckBox(item.getNomeProduto() + " - Quantidade: " + item.getQuantidade());
-            vbox.getChildren().add(checkBox);
+            // Configura a lista de itens do pedido no controlador do checklist
+            checklistController.configurarItensPedido(itensPedido);
+
+            // Cria uma nova janela
+            Stage stage = new Stage();
+            stage.setTitle("Checklist do Pedido");
+
+            // Define a cena com o layout do checklist
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+
+            // Mostra a janela
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        // Criar uma cena e adicionar o VBox a ela
-        Scene scene = new Scene(vbox, 400, 300);
-        stage.setScene(scene);
-
-        // Mostrar a janela
-        stage.show();
     }
 
 // Método para buscar os itens do pedido do banco de dados
@@ -248,7 +288,7 @@ public class FXMLPedidosController implements Initializable {
 
         return itensPedido;
     }
-    
+
     // Método para buscar o nome do produto com base no ID do produto
     private String buscarNomeProduto(int idProduto) {
         String nomeProduto = "";
