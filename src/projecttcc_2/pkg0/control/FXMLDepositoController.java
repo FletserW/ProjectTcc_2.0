@@ -38,7 +38,7 @@ import javafx.collections.transformation.FilteredList;
  *
  * @author reido
  */
-public class FXMLDepositoController implements Initializable {
+public class FXMLDepositoController implements Initializable, DepositoObserver  {
     
     private ObservableList<ProdutosDTO> dadosTabela;
 
@@ -260,13 +260,16 @@ public class FXMLDepositoController implements Initializable {
                 stage.setResizable(false);
 
                 stage.showAndWait();
+                atualizarTabela(); 
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             System.out.println("Selecione um Produto");
         }
     }
+
     
     private void filtrarTabela(String textoPesquisa) {
         // Se o texto de pesquisa estiver vazio, mostra todos os itens
@@ -300,5 +303,12 @@ public class FXMLDepositoController implements Initializable {
         tblProdutos.getColumns().clear();
         tblProdutos.getItems().clear();
     }
+    
+    
+    public void atualizar() {
+        limparTabela();
+        preencherTabela();
+    }
+
     
 }

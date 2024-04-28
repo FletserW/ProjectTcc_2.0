@@ -63,8 +63,8 @@ CREATE TABLE Pedidos (
 CREATE TABLE Carteira (
     id INT AUTO_INCREMENT PRIMARY KEY,
     mes_ano VARCHAR(7),
-    valor_gasto DECIMAL(10, 2),
-    valor_lucro DECIMAL(10, 2),
-    valor_prejuizo DECIMAL(10, 2)
+    valor_gasto DECIMAL(10, 2)NOT NULL DEFAULT 0,
+    valor_lucro DECIMAL(10, 2)NOT NULL DEFAULT 0,
+    valor_prejuizo DECIMAL(10, 2)NOT NULL DEFAULT 0
 );
 

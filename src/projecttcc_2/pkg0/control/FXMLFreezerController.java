@@ -259,6 +259,7 @@ public class FXMLFreezerController implements Initializable {
                 stage.setResizable(false);
 
                 stage.showAndWait();
+                atualizarTabela(); 
             } catch (Exception e) {
                 e.printStackTrace();
             }

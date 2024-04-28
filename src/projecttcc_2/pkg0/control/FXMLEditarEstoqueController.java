@@ -70,7 +70,7 @@ public class FXMLEditarEstoqueController {
             produtoSelecionado.setNome(novoNome);
             produtoSelecionado.setPreco(novoPreco);
             produtoSelecionado.setPreco_venda(novoPrecoVenda);
-            // Atualize outros campos, se necessário
+            
 
             // Atualizar o produto no banco de dados
             produtosDAO.atualizarProduto(produtoSelecionado);

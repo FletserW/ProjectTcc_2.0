@@ -40,6 +40,13 @@ public class ProdutosDTO {
         this.fornecedor_nome = fornecedor_nome;
     }
 
+    public ProdutosDTO(int id, int quantidade) {
+        this.id = id;
+        this.quantidade = quantidade;
+    }
+    
+    
+
 
     // Métodos getters e setters para cada campo
 

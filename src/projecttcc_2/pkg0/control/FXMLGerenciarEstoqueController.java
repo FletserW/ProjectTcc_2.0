@@ -4,6 +4,7 @@
  */
 package projecttcc_2.pkg0.control;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -29,6 +30,9 @@ import projecttcc_2.BD.ProdutosDAO;
 import projecttcc_2.BD.VendasDAO;
 import projecttcc_2.DTO.ProdutosDTO;
 import java.time.LocalDate; // Importe a classe LocalDate para obter a data atual
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import projecttcc_2.BD.ConexaoBD;
 
 /**
@@ -42,8 +46,8 @@ public class FXMLGerenciarEstoqueController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    public void initialize(URL url, ResourceBundle rb) {       
+        
     }
 
     @FXML
@@ -75,6 +79,9 @@ public class FXMLGerenciarEstoqueController implements Initializable {
 
     @FXML
     public TextField txtQtdDeposito;
+    
+    @FXML
+    private Stage stage;
 
     @FXML
     private TextField txtQuantidadeEstoque;
@@ -113,14 +120,29 @@ public class FXMLGerenciarEstoqueController implements Initializable {
 
             // Verificar se a opção "radioCaixa" está selecionada
             if (radioCaixa.isSelected()) {
-                // Multiplicar pela quantidade do produto se a opção "radioCaixa" estiver selecionada
-                quantidadeDigitada *= produtoSelecionado.getQuantidade();
-                System.out.println(quantidadeDigitada *= produtoSelecionado.getQuantidade());
-                System.out.println("QUantidade do produto selecionado: " + produtoSelecionado.getQuantidade());
+                try (Connection conexao = ConexaoBD.conectar()) {
+                    // Consulta para obter a quantidade do produto
+                    String consultaQuantidade = "SELECT quantidade FROM produtos WHERE id = ?";
+                    try (PreparedStatement stmtConsultaQuantidade = conexao.prepareStatement(consultaQuantidade)) {
+                        stmtConsultaQuantidade.setInt(1, produtoSelecionado.getId());
+                        try (ResultSet rsQuantidade = stmtConsultaQuantidade.executeQuery()) {
+                            if (rsQuantidade.next()) {
+                                int quantidadeProduto = rsQuantidade.getInt("quantidade");
+                                quantidadeDigitada *= quantidadeProduto; // Multiplica pela quantidade do produto no banco de dados
+                                System.out.println("Quantidade selecionada: " + quantidadeProduto);
+                            } else {
+                                System.out.println("Erro: Produto não encontrado no banco de dados.");
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    // Trate a exceção conforme necessário
+                }
             }
 
             if (radioAdicionar.isSelected()) {
-                System.out.println(produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
+                System.out.println("Novo valor no estoque: " + produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
                 produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
                 try (Connection conexao = ConexaoBD.conectar()) {
                     // Consulta para obter o preço e a quantidade do produto
@@ -131,69 +153,185 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                             if (rsConsulta.next()) {
                                 BigDecimal precoUnitario = new BigDecimal(rsConsulta.getString("preco")).divide(new BigDecimal(rsConsulta.getInt("quantidade")), 2, RoundingMode.HALF_UP);
 
-                                // Atualiza o estoque do produto
-                                String atualizarEstoque = "UPDATE deposito SET quantidade_estoque = quantidade_estoque + ? WHERE produto_id = ?";
-                                try (PreparedStatement stmtAtualizarEstoque = conexao.prepareStatement(atualizarEstoque)) {
-                                    stmtAtualizarEstoque.setInt(1, quantidadeDigitada);
-                                    stmtAtualizarEstoque.setInt(2, produtoSelecionado.getId());
-                                    stmtAtualizarEstoque.executeUpdate();
-                                }
+                                // Calcula os gastos com o produto
+                                BigDecimal gastosProduto = precoUnitario.multiply(BigDecimal.valueOf(quantidadeDigitada).multiply(BigDecimal.valueOf(rsConsulta.getInt("quantidade"))));
 
-                                // Calcula o lucro
-                                BigDecimal precoVenda = new BigDecimal(String.valueOf(produtoSelecionado.getPreco_venda()));
-                                BigDecimal lucro = precoVenda.subtract(precoUnitario).multiply(BigDecimal.valueOf(quantidadeDigitada));
-
-                                // Atualiza o valor do lucro na carteira
-                                String atualizarLucro = "UPDATE Carteira SET valor_lucro = valor_lucro + ? WHERE mes_ano = ?";
-                                try (PreparedStatement stmtAtualizarLucro = conexao.prepareStatement(atualizarLucro)) {
-                                    stmtAtualizarLucro.setBigDecimal(1, lucro);
-                                    stmtAtualizarLucro.setString(2, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
-                                    stmtAtualizarLucro.executeUpdate();
+                                // Verifica se já existe um registro para o mês/ano atual na tabela Carteira
+                                String verificarRegistro = "SELECT * FROM Carteira WHERE mes_ano = ?";
+                                try (PreparedStatement stmtVerificarRegistro = conexao.prepareStatement(verificarRegistro)) {
+                                    stmtVerificarRegistro.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                    try (ResultSet rsVerificarRegistro = stmtVerificarRegistro.executeQuery()) {
+                                        if (rsVerificarRegistro.next()) {
+                                            // Se já existe um registro, atualize-o com os novos valores
+                                            String atualizarGastos = "UPDATE Carteira SET valor_gasto = valor_gasto + ? WHERE mes_ano = ?";
+                                            try (PreparedStatement stmtAtualizarGastos = conexao.prepareStatement(atualizarGastos)) {
+                                                stmtAtualizarGastos.setBigDecimal(1, gastosProduto);
+                                                stmtAtualizarGastos.setString(2, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                                stmtAtualizarGastos.executeUpdate();
+                                            }
+                                        } else {
+                                            // Se não existe um registro, insira um novo registro
+                                            String inserirGastos = "INSERT INTO Carteira (mes_ano, valor_gasto) VALUES (?, ?)";
+                                            try (PreparedStatement stmtInserirGastos = conexao.prepareStatement(inserirGastos)) {
+                                                stmtInserirGastos.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                                stmtInserirGastos.setBigDecimal(2, gastosProduto);
+                                                stmtInserirGastos.executeUpdate();
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
-
-
-
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
                     // Trate a exceção conforme necessário
                 }
             } else if (raddioVender.isSelected()) {
-                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
-
-                VendasDAO vendasDAO = new VendasDAO();
-                if (vendasDAO.existeRegistroParaProdutoNoMesAtual(produtoSelecionado.getId())) {
-                    // Atualize o registro existente com a nova quantidade vendida
-                    boolean atualizadoComSucesso = vendasDAO.atualizarQuantidadeVendida(produtoSelecionado.getId(), quantidadeDigitada);
-
-                    if (atualizadoComSucesso) {
-                        System.out.println("Quantidade vendida atualizada com sucesso!");
-                    } else {
-                        System.out.println("Erro ao atualizar quantidade vendida.");
-                    }
-                } else {
-                    // Se não houver um registro para o produto no mês atual, adicione um novo registro
-                    LocalDate dataAtual = LocalDate.now(); // Obtenha a data atual
-                    String mesAno = String.format("%02d/%d", dataAtual.getMonthValue(), dataAtual.getYear()); // Formate o mês/ano
-                    boolean adicionadoComSucesso = vendasDAO.adicionarProdutoVendido(produtoSelecionado.getId(), quantidadeDigitada, mesAno);
-
-                    if (adicionadoComSucesso) {
-                        System.out.println("Produto vendido adicionado com sucesso!");
-                    } else {
-                        System.out.println("Erro ao adicionar produto vendido.");
-                    }
+                // Verifica se a quantidade digitada é maior que zero
+                if (quantidadeDigitada <= 0) {
+                    System.out.println("A quantidade digitada deve ser maior que zero.");
+                    return;
                 }
 
-            } else if (radioPerder.isSelected()) {
+                // Verifica se a quantidade digitada é maior que a quantidade em estoque
+                if (quantidadeDigitada > produtoSelecionado.getQuantidadeEstoque()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erro");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Valor invalido, adicione um valor menor que estoque!");
+                    alert.showAndWait();
+                    return;
+                }
                 produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
-            }
+                try (Connection conexao = ConexaoBD.conectar()) {
+                    // Consulta para obter o preço e a quantidade do produto
+                    String consulta = "SELECT preco, quantidade FROM produtos WHERE id = ?";
+                    try (PreparedStatement stmtConsulta = conexao.prepareStatement(consulta)) {
+                        stmtConsulta.setInt(1, produtoSelecionado.getId());
+                        try (ResultSet rsConsulta = stmtConsulta.executeQuery()) {
+                            if (rsConsulta.next()) {
+                                BigDecimal precoUnitario = new BigDecimal(rsConsulta.getString("preco")).divide(new BigDecimal(rsConsulta.getInt("quantidade")), 2, RoundingMode.HALF_UP);
 
+                                BigDecimal precoVenda = produtoSelecionado.getPreco_venda(); // Obtenha o preço de venda do produto
+                                // Verifique se o preço de venda não é nulo
+                                if (precoVenda != null) {
+                                    // Calcula o lucro por unidade vendida
+                                    BigDecimal lucroPorUnidade = precoVenda.subtract(precoUnitario);
+                                    // Calcula o lucro total
+                                    BigDecimal lucroTotal = lucroPorUnidade.multiply(BigDecimal.valueOf(quantidadeDigitada));
+
+                                    // Verifica se já existe um registro para o mês/ano atual na tabela Carteira
+                                    String verificarRegistro = "SELECT * FROM Carteira WHERE mes_ano = ?";
+                                    try (PreparedStatement stmtVerificarRegistro = conexao.prepareStatement(verificarRegistro)) {
+                                        stmtVerificarRegistro.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                        try (ResultSet rsVerificarRegistro = stmtVerificarRegistro.executeQuery()) {
+                                            if (rsVerificarRegistro.next()) {
+                                                // Se já existe um registro, atualize o valor do lucro
+                                                String atualizarLucro = "UPDATE Carteira SET valor_lucro = valor_lucro + ? WHERE mes_ano = ?";
+                                                try (PreparedStatement stmtAtualizarLucro = conexao.prepareStatement(atualizarLucro)) {
+                                                    stmtAtualizarLucro.setBigDecimal(1, lucroTotal);
+                                                    stmtAtualizarLucro.setString(2, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                                    stmtAtualizarLucro.executeUpdate();
+                                                }
+                                            } else {
+                                                // Se não existe um registro, insira um novo registro
+                                                String inserirLucro = "INSERT INTO Carteira (mes_ano, valor_lucro) VALUES (?, ?)";
+                                                try (PreparedStatement stmtInserirLucro = conexao.prepareStatement(inserirLucro)) {
+                                                    stmtInserirLucro.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                                    stmtInserirLucro.setBigDecimal(2, lucroTotal);
+                                                    stmtInserirLucro.executeUpdate();
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    System.out.println("Preço de venda não definido.");
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    // Trate a exceção conforme necessário
+                }
+            } else if (radioPerder.isSelected()) {
+                // Verifica se a quantidade digitada é maior que zero
+                if (quantidadeDigitada <= 0) {
+                    System.out.println("A quantidade digitada deve ser maior que zero.");
+                    return;
+                }
+
+                // Verifica se a quantidade digitada é maior que a quantidade em estoque
+                if (quantidadeDigitada > produtoSelecionado.getQuantidadeEstoque()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erro");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Valor invalido, adicione um valor menor que estoque!");
+                    alert.showAndWait();
+                    return;
+                }
+                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+                try (Connection conexao = ConexaoBD.conectar()) {
+                    // Consulta para obter o preço e a quantidade do produto
+                    String consulta = "SELECT preco, quantidade FROM produtos WHERE id = ?";
+                    try (PreparedStatement stmtConsulta = conexao.prepareStatement(consulta)) {
+                        stmtConsulta.setInt(1, produtoSelecionado.getId());
+                        try (ResultSet rsConsulta = stmtConsulta.executeQuery()) {
+                            if (rsConsulta.next()) {
+                                BigDecimal precoUnitario = new BigDecimal(rsConsulta.getString("preco")).divide(new BigDecimal(rsConsulta.getInt("quantidade")), 2, RoundingMode.HALF_UP);
+
+                                // Calcula a perda por unidade
+                                BigDecimal perdaPorUnidade = produtoSelecionado.getPreco_venda().subtract(precoUnitario);
+
+                                // Calcula a perda total
+                                BigDecimal perdaTotal = perdaPorUnidade.multiply(BigDecimal.valueOf(quantidadeDigitada));
+
+                                // Verifica se o lucro atual é maior que zero
+                                BigDecimal lucroAtual = getValorAtualLucro();
+                                if (lucroAtual.compareTo(BigDecimal.ZERO) > 0) {
+                                    // Se o lucro atual for maior que zero, subtraia a perda do lucro
+                                    BigDecimal novoLucro = lucroAtual.subtract(perdaTotal);
+                                    // Verifica se o novo lucro é negativo
+                                    if (novoLucro.compareTo(BigDecimal.ZERO) < 0) {
+                                        // Se o novo lucro for negativo, ajuste para zero e defina o valor do prejuízo
+                                        perdaTotal = lucroAtual;
+                                        novoLucro = BigDecimal.ZERO;
+                                    }
+                                    // Atualiza o valor do lucro e do prejuízo na tabela Carteira
+                                    String atualizarCarteira = "UPDATE Carteira SET valor_lucro = ?, valor_prejuizo = valor_prejuizo + ? WHERE mes_ano = ?";
+                                    try (PreparedStatement stmtAtualizarCarteira = conexao.prepareStatement(atualizarCarteira)) {
+                                        stmtAtualizarCarteira.setBigDecimal(1, novoLucro);
+                                        stmtAtualizarCarteira.setBigDecimal(2, perdaTotal);
+                                        stmtAtualizarCarteira.setString(3, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                        stmtAtualizarCarteira.executeUpdate();
+                                    }
+                                } else {
+                                    // Se o lucro atual for zero ou negativo, apenas adicione a perda ao prejuízo
+                                    String atualizarCarteira = "UPDATE Carteira SET valor_prejuizo = valor_prejuizo + ? WHERE mes_ano = ?";
+                                    try (PreparedStatement stmtAtualizarCarteira = conexao.prepareStatement(atualizarCarteira)) {
+                                        stmtAtualizarCarteira.setBigDecimal(1, perdaTotal);
+                                        stmtAtualizarCarteira.setString(2, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                        stmtAtualizarCarteira.executeUpdate();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    // Trate a exceção conforme necessário
+                }
+            }
             // Em algum lugar onde você precisa chamar preencherTabela()
             if (depositoController != null) {
+                System.out.println("Deposito chamdo com exito");
+                depositoController.limparTabela();
                 depositoController.preencherTabela();
+            }else{
+                System.out.println("Deposito null");
             }
+            
 
             DepositoDAO depositoDAO = new DepositoDAO();
             // Atualizar o estoque no banco de dados utilizando o DepositoDAO
@@ -206,7 +344,28 @@ public class FXMLGerenciarEstoqueController implements Initializable {
             alert.setContentText("Por favor, selecione um produto para editar.");
             alert.showAndWait();
         }
+        fecharJanela(event);
+        
     }
+    
+    public BigDecimal getValorAtualLucro() throws SQLException {
+        BigDecimal valorAtualLucro = BigDecimal.ZERO; // Inicialmente, define o valor do lucro como zero
+
+        try (Connection conexao = ConexaoBD.conectar()) {
+            String consulta = "SELECT valor_lucro FROM Carteira WHERE mes_ano = ?";
+            try (PreparedStatement stmtConsulta = conexao.prepareStatement(consulta)) {
+                stmtConsulta.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                try (ResultSet rsConsulta = stmtConsulta.executeQuery()) {
+                    if (rsConsulta.next()) {
+                        valorAtualLucro = rsConsulta.getBigDecimal("valor_lucro");
+                    }
+                }
+            }
+        }
+
+        return valorAtualLucro;
+    }
+
 
     // Método para receber a referência do tblProdutos do FXMLDepositoController
     public void setTabelaProdutos(TableView<ProdutosDTO> tblProdutos) {
