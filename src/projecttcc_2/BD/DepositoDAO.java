@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -44,6 +44,19 @@ public class DepositoDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar a quantidade_estoque: " + e.getMessage());
             return false;
+        }
+    }
+    
+    public static void atualizarQuantidadeEstoque2(String nomeProduto, int quantidade) {
+        try (Connection conexao = ConexaoBD.conectar()) {
+            String sql = "UPDATE deposito SET quantidade_estoque = quantidade_estoque + ? WHERE produto_id = (SELECT id FROM produtos WHERE nome = ?)";
+            try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                stmt.setInt(1, quantidade);
+                stmt.setString(2, nomeProduto);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
 

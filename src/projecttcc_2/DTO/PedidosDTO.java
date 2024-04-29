@@ -5,7 +5,7 @@
 package projecttcc_2.DTO;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 public class PedidosDTO {
 
@@ -14,6 +14,7 @@ public class PedidosDTO {
     private int idFornecedor;
     private BigDecimal valorTotal;
     private String nomeFornecedor;
+    private String status;
 
     // Construtor
     public PedidosDTO(Date dataPedido, int idFornecedor, BigDecimal valorTotal) {
@@ -29,6 +30,16 @@ public class PedidosDTO {
         this.nomeFornecedor = nomeFornecedor;
         this.valorTotal = valorTotal;
     }
+
+    public PedidosDTO(int id, Date dataPedido, int idFornecedor, BigDecimal valorTotal, String nomeFornecedor) {
+        this.id = id;
+        this.dataPedido = dataPedido;
+        this.idFornecedor = idFornecedor;
+        this.valorTotal = valorTotal;
+        this.nomeFornecedor = nomeFornecedor;
+    }
+    
+    
 
     // Getters e Setters
     public int getId() {
@@ -70,5 +81,12 @@ public class PedidosDTO {
 
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;
+    }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
