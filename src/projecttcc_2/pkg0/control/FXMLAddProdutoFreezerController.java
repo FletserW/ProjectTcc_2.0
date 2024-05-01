@@ -91,12 +91,18 @@ public class FXMLAddProdutoFreezerController implements Initializable {
             // Atualiza a localização do produto no banco de dados
             atualizarLocalizacaoNoBanco(produtoSelecionado);
 
+            // Recupera o ID do produto selecionado
+            int produtoId = recuperarIdProduto(produtoSelecionado.getNome());
+
+            // Adiciona o produto ao Freezer
+            adicionarAoFreezer(produtoId);
+
             // Atualiza a exibição da tabela
             tblNovoProdutoFreezer.refresh();
 
             // Preenche novamente a tabela para garantir que os dados estejam atualizados
             preencherTabela();
-            
+
             // Atualiza a exibição da tabela na janela FXMLFreezer
             if (freezerController != null) {
                 freezerController.atualizarTabela();
@@ -188,6 +194,48 @@ public class FXMLAddProdutoFreezerController implements Initializable {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    private void adicionarAoFreezer(int produtoId) {
+        try {
+            Connection conexao = ConexaoBD.conectar();
+            Statement stmt = conexao.createStatement();
+
+            // Insere o produto no Freezer com uma quantidade inicial de 1
+            String sql = "INSERT INTO Freezer (produto_id, quantidade_freezer) VALUES (" + produtoId + ", 1)";
+            stmt.executeUpdate(sql);
+
+            // Fecha a conexão com o banco de dados
+            conexao.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private int recuperarIdProduto(String nomeProduto) {
+        int id = 0; // Valor padrão se não encontrar o ID
+
+        try {
+            Connection conexao = ConexaoBD.conectar();
+            Statement stmt = conexao.createStatement();
+
+            // Consulta para obter o ID do produto pelo nome
+            String sql = "SELECT id FROM produtos WHERE nome = '" + nomeProduto + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            // Verifica se o resultado da consulta não está vazio
+            if (rs.next()) {
+                // Recupera o ID do produto
+                id = rs.getInt("id");
+            }
+
+            // Fecha a conexão com o banco de dados
+            conexao.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return id;
     }
 
 }

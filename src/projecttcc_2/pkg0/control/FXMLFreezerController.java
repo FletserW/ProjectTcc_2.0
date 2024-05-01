@@ -108,16 +108,15 @@ public class FXMLFreezerController implements Initializable {
     }
 
     public void preencherTabela() {
-
         limparTabela(); // Limpar a tabela antes de preencher com novos dados
 
         try {
             Connection conexao = ConexaoBD.conectar();
 
-            String sql = "SELECT p.id, p.nome, p.preco, p.preco_venda, d.quantidade_estoque AS quantidade_estoque, p.fornecedor_id, f.nome AS fornecedor_nome "
+            String sql = "SELECT p.id, p.nome, p.preco, p.preco_venda, f.quantidade_freezer, p.fornecedor_id, fr.nome AS fornecedor_nome "
                     + "FROM produtos p "
-                    + "LEFT JOIN deposito d ON p.id = d.produto_id "
-                    + "LEFT JOIN fornecedores f ON p.fornecedor_id = f.id "
+                    + "LEFT JOIN freezer f ON p.id = f.produto_id "
+                    + "LEFT JOIN fornecedores fr ON p.fornecedor_id = fr.id "
                     + "WHERE p.localizacao = 'freezer'";
 
             try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
@@ -135,7 +134,7 @@ public class FXMLFreezerController implements Initializable {
                             rs.getString("fornecedor_nome")
                     );
 
-                    produtoDTO.setQuantidadeEstoque(rs.getInt("quantidade_estoque"));
+                    produtoDTO.setQuantidadeEstoque(rs.getInt("quantidade_freezer")); // Definindo a quantidade do freezer
                     dadosTabela.add(produtoDTO);
                 }
 
@@ -148,6 +147,8 @@ public class FXMLFreezerController implements Initializable {
             JOptionPane.showMessageDialog(null, "Erro ao preencher a tabela de produtos.");
         }
     }
+
+
 
     private void inicializarColunasTabela() {
         tblProdutos.getColumns().clear();

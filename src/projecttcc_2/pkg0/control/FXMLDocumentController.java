@@ -4,7 +4,12 @@
  */
 package projecttcc_2.pkg0.control;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,9 +64,32 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
-    }    
+        try {
+            // Determina o caminho absoluto do arquivo de propriedades com base no idioma
+            String fileName = "/projecttcc_2/ProjectTcc_2.0/src/resources/resources_en_US.properties";
+
+            // Mensagem de depuração
+            System.out.println("Arquivo de propriedades: " + fileName);
+
+            // Carrega o arquivo de propriedades
+            InputStream inputStream = new FileInputStream(fileName);
+
+            // Arquivo de propriedades encontrado, carrega
+            Properties properties = new Properties();
+            properties.load(inputStream);
+
+            // Define o texto dos botões usando as mensagens do arquivo de propriedades
+            bntCadastrar.setText(properties.getProperty("button.register"));
+            bntEntrar.setText(properties.getProperty("button.enter"));
+            bntSair.setText(properties.getProperty("button.exit"));
+
+            // Fecha o fluxo de entrada
+            inputStream.close();
+        } catch (IOException e) {
+            System.err.println("Erro ao carregar o arquivo de propriedades: " + e.getMessage());
+        }
+    }
+
     
     /*    public void setScreenManager(ScreenManager screenManager) {
     this.screenManager = screenManager;

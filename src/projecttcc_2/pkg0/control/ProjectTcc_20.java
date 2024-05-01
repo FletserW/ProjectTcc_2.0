@@ -5,6 +5,7 @@
  */
 package projecttcc_2.pkg0.control;
 
+import java.util.Locale;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +21,9 @@ public class ProjectTcc_20 extends Application {
     
    @Override
     public void start(Stage stage) throws Exception {
+        // Define o idioma padrão como inglês (Estados Unidos)
+        Locale.setDefault(Locale.US);
+        
         ScreenManager screenManager = new ScreenManager(stage);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLDocument.fxml"));

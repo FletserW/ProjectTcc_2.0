@@ -142,51 +142,79 @@ public class FXMLGerenciarEstoqueController implements Initializable {
             }
 
             if (radioAdicionar.isSelected()) {
-                System.out.println("Novo valor no estoque: " + produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
-                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
+                System.out.println("Novo valor no estoque: " + (produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada));
                 try (Connection conexao = ConexaoBD.conectar()) {
+                    // Verifica se o produto está no freezer
+                    String verificarFreezer = "SELECT COUNT(*) FROM freezer WHERE produto_id = ?";
+                    try (PreparedStatement stmtVerificarFreezer = conexao.prepareStatement(verificarFreezer)) {
+                        stmtVerificarFreezer.setInt(1, produtoSelecionado.getId());
+                        try (ResultSet rsVerificarFreezer = stmtVerificarFreezer.executeQuery()) {
+                            if (rsVerificarFreezer.next() && rsVerificarFreezer.getInt(1) > 0) {
+                                // Se o produto está no freezer, atualiza o estoque no freezer
+                                String updateFreezer = "UPDATE freezer SET quantidade_freezer = quantidade_freezer + ? WHERE produto_id = ?";
+                                try (PreparedStatement stmtUpdateFreezer = conexao.prepareStatement(updateFreezer)) {
+                                    stmtUpdateFreezer.setInt(1, quantidadeDigitada);
+                                    stmtUpdateFreezer.setInt(2, produtoSelecionado.getId());
+                                    stmtUpdateFreezer.executeUpdate();
+                                }
+                                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+                            } else {
+                                // Se o produto não está no freezer, atualiza o estoque principal (deposito)
+                                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() + quantidadeDigitada);
+                            }
+                        }
+                    }
+
                     // Consulta para obter o preço e a quantidade do produto
                     String consulta = "SELECT preco, quantidade FROM produtos WHERE id = ?";
                     try (PreparedStatement stmtConsulta = conexao.prepareStatement(consulta)) {
                         stmtConsulta.setInt(1, produtoSelecionado.getId());
                         try (ResultSet rsConsulta = stmtConsulta.executeQuery()) {
                             if (rsConsulta.next()) {
-                                BigDecimal precoUnitario = new BigDecimal(rsConsulta.getString("preco")).divide(new BigDecimal(rsConsulta.getInt("quantidade")), 2, RoundingMode.HALF_UP);
+                                int quantidade = rsConsulta.getInt("quantidade");
 
-                                // Calcula os gastos com o produto
-                                BigDecimal gastosProduto = precoUnitario.multiply(BigDecimal.valueOf(quantidadeDigitada).multiply(BigDecimal.valueOf(rsConsulta.getInt("quantidade"))));
+                                if (quantidade != 0) {
+                                    BigDecimal precoUnitario = new BigDecimal(rsConsulta.getString("preco")).divide(new BigDecimal(quantidade), 2, RoundingMode.HALF_UP);
 
-                                // Verifica se já existe um registro para o mês/ano atual na tabela Carteira
-                                String verificarRegistro = "SELECT * FROM Carteira WHERE mes_ano = ?";
-                                try (PreparedStatement stmtVerificarRegistro = conexao.prepareStatement(verificarRegistro)) {
-                                    stmtVerificarRegistro.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
-                                    try (ResultSet rsVerificarRegistro = stmtVerificarRegistro.executeQuery()) {
-                                        if (rsVerificarRegistro.next()) {
-                                            // Se já existe um registro, atualize-o com os novos valores
-                                            String atualizarGastos = "UPDATE Carteira SET valor_gasto = valor_gasto + ? WHERE mes_ano = ?";
-                                            try (PreparedStatement stmtAtualizarGastos = conexao.prepareStatement(atualizarGastos)) {
-                                                stmtAtualizarGastos.setBigDecimal(1, gastosProduto);
-                                                stmtAtualizarGastos.setString(2, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
-                                                stmtAtualizarGastos.executeUpdate();
-                                            }
-                                        } else {
-                                            // Se não existe um registro, insira um novo registro
-                                            String inserirGastos = "INSERT INTO Carteira (mes_ano, valor_gasto) VALUES (?, ?)";
-                                            try (PreparedStatement stmtInserirGastos = conexao.prepareStatement(inserirGastos)) {
-                                                stmtInserirGastos.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
-                                                stmtInserirGastos.setBigDecimal(2, gastosProduto);
-                                                stmtInserirGastos.executeUpdate();
+                                    // Calcula os gastos com o produto
+                                    BigDecimal gastosProduto = precoUnitario.multiply(BigDecimal.valueOf(quantidadeDigitada).multiply(BigDecimal.valueOf(quantidade)));
+
+                                    // Verifica se já existe um registro para o mês/ano atual na tabela Carteira
+                                    String verificarRegistro = "SELECT * FROM Carteira WHERE mes_ano = ?";
+                                    try (PreparedStatement stmtVerificarRegistro = conexao.prepareStatement(verificarRegistro)) {
+                                        stmtVerificarRegistro.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                        try (ResultSet rsVerificarRegistro = stmtVerificarRegistro.executeQuery()) {
+                                            if (rsVerificarRegistro.next()) {
+                                                // Se já existe um registro, atualize-o com os novos valores
+                                                String atualizarGastos = "UPDATE Carteira SET valor_gasto = valor_gasto + ? WHERE mes_ano = ?";
+                                                try (PreparedStatement stmtAtualizarGastos = conexao.prepareStatement(atualizarGastos)) {
+                                                    stmtAtualizarGastos.setBigDecimal(1, gastosProduto);
+                                                    stmtAtualizarGastos.setString(2, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                                    stmtAtualizarGastos.executeUpdate();
+                                                }
+                                            } else {
+                                                // Se não existe um registro, insira um novo registro
+                                                String inserirGastos = "INSERT INTO Carteira (mes_ano, valor_gasto) VALUES (?, ?)";
+                                                try (PreparedStatement stmtInserirGastos = conexao.prepareStatement(inserirGastos)) {
+                                                    stmtInserirGastos.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                                    stmtInserirGastos.setBigDecimal(2, gastosProduto);
+                                                    stmtInserirGastos.executeUpdate();
+                                                }
                                             }
                                         }
                                     }
+                                } else {
+                                    // Trate o caso de quantidade igual a zero
+                                    System.out.println("Quantidade do produto é zero. Não é possível calcular o preço unitário.");
                                 }
                             }
                         }
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    // Trate a exceção conforme necessário
-                }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        // Trate a exceção conforme necessário
+                    }
+
             } else if (raddioVender.isSelected()) {
                 // Verifica se a quantidade digitada é maior que zero
                 if (quantidadeDigitada <= 0) {
@@ -199,12 +227,30 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Erro");
                     alert.setHeaderText(null);
-                    alert.setContentText("Valor invalido, adicione um valor menor que estoque!");
+                    alert.setContentText("Valor inválido. Adicione uma quantidade menor ou igual ao estoque!");
                     alert.showAndWait();
                     return;
                 }
-                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+
                 try (Connection conexao = ConexaoBD.conectar()) {
+                    // Verifica se o produto está no freezer
+                    String verificarFreezer = "SELECT COUNT(*) FROM freezer WHERE produto_id = ?";
+                    try (PreparedStatement stmtVerificarFreezer = conexao.prepareStatement(verificarFreezer)) {
+                        stmtVerificarFreezer.setInt(1, produtoSelecionado.getId());
+                        try (ResultSet rsVerificarFreezer = stmtVerificarFreezer.executeQuery()) {
+                            if (rsVerificarFreezer.next() && rsVerificarFreezer.getInt(1) > 0) {
+                                // Se o produto está no freezer, atualiza o estoque no freezer
+                                String updateFreezer = "UPDATE freezer SET quantidade_freezer = quantidade_freezer - ? WHERE produto_id = ?";
+                                try (PreparedStatement stmtUpdateFreezer = conexao.prepareStatement(updateFreezer)) {
+                                    stmtUpdateFreezer.setInt(1, quantidadeDigitada);
+                                    stmtUpdateFreezer.setInt(2, produtoSelecionado.getId());
+                                    stmtUpdateFreezer.executeUpdate();
+                                }
+                            } else {
+                                    produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+                                }
+                            }
+                        }
                     // Consulta para obter o preço e a quantidade do produto
                     String consulta = "SELECT preco, quantidade FROM produtos WHERE id = ?";
                     try (PreparedStatement stmtConsulta = conexao.prepareStatement(consulta)) {
@@ -230,7 +276,7 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                                                 // Se já existe um registro, atualize o valor do lucro
                                                 String atualizarLucro = "UPDATE Carteira SET valor_lucro = valor_lucro + ? WHERE mes_ano = ?";
                                                 try (PreparedStatement stmtAtualizarLucro = conexao.prepareStatement(atualizarLucro)) {
-                                                    stmtAtualizarLucro.setBigDecimal(1, lucroTotal);
+                                                    stmtAtualizarLucro.setBigDecimal(1, lucroTotal); // Aqui está a correção
                                                     stmtAtualizarLucro.setString(2, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
                                                     stmtAtualizarLucro.executeUpdate();
                                                 }
@@ -251,6 +297,7 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                             }
                         }
                     }
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                     // Trate a exceção conforme necessário
@@ -258,7 +305,11 @@ public class FXMLGerenciarEstoqueController implements Initializable {
             } else if (radioPerder.isSelected()) {
                 // Verifica se a quantidade digitada é maior que zero
                 if (quantidadeDigitada <= 0) {
-                    System.out.println("A quantidade digitada deve ser maior que zero.");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erro");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Valor invalido, adicione um valor maior que zero!");
+                    alert.showAndWait();
                     return;
                 }
 
@@ -271,7 +322,25 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                     alert.showAndWait();
                     return;
                 }
-                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+                
+                // Atualiza a quantidade no freezer se o produto estiver no freezer
+                try (Connection conexao = ConexaoBD.conectar()) {
+                    // Verifica se o produto está no freezer
+                    String verificarFreezer = "SELECT COUNT(*) FROM freezer WHERE produto_id = ?";
+                    try (PreparedStatement stmtVerificarFreezer = conexao.prepareStatement(verificarFreezer)) {
+                        stmtVerificarFreezer.setInt(1, produtoSelecionado.getId());
+                        try (ResultSet rsVerificarFreezer = stmtVerificarFreezer.executeQuery()) {
+                            if (rsVerificarFreezer.next() && rsVerificarFreezer.getInt(1) > 0) {
+                                // Se o produto está no freezer, atualiza o estoque no freezer
+                                String updateFreezer = "UPDATE freezer SET quantidade_freezer = quantidade_freezer - ? WHERE produto_id = ?";
+                                try (PreparedStatement stmtUpdateFreezer = conexao.prepareStatement(updateFreezer)) {
+                                    stmtUpdateFreezer.setInt(1, quantidadeDigitada);
+                                    stmtUpdateFreezer.setInt(2, produtoSelecionado.getId());
+                                    stmtUpdateFreezer.executeUpdate();
+                                }
+                            } else {
+                    produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
+                }}}}
                 try (Connection conexao = ConexaoBD.conectar()) {
                     // Consulta para obter o preço e a quantidade do produto
                     String consulta = "SELECT preco, quantidade FROM produtos WHERE id = ?";
