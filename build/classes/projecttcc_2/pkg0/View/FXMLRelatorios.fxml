@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,7 +21,7 @@
          <top>
             <AnchorPane prefHeight="48.0" prefWidth="572.0" style="-fx-background-color: #a8a8a8; -fx-background-radius: 20 20 0 0;" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER_LEFT" layoutX="328.0" layoutY="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="274.0" AnchorPane.rightAnchor="-2.0">
+                  <HBox alignment="CENTER_LEFT" layoutX="328.0" layoutY="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="304.0" AnchorPane.rightAnchor="-2.0">
                      <padding>
                         <Insets right="20.0" />
                      </padding>
@@ -42,7 +42,12 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Label>
-                        <DatePicker fx:id="datePeriodo" prefHeight="25.0" prefWidth="164.0" promptText="Selecione um mes" showWeekNumbers="true" />
+                        <ComboBox fx:id="dateMes" prefHeight="25.0" prefWidth="108.0" promptText="Mês" style="-fx-background-color: #9c9c9c; -fx-background-radius: 20;">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                        <ComboBox fx:id="dateAno" layoutX="101.0" layoutY="17.0" prefHeight="25.0" prefWidth="82.0" promptText="Ano" style="-fx-background-color: #9c9c9c; -fx-background-radius: 20;" />
                      </children>
                   </HBox>
                   <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="14.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
@@ -136,7 +141,7 @@
          <bottom>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <PieChart fx:id="pieGastos" layoutX="-99.0" layoutY="-85.0" prefHeight="219.0" prefWidth="356.0" title="Gastos" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                  <PieChart fx:id="pieGastos" layoutX="-99.0" layoutY="-85.0" legendVisible="false" prefHeight="219.0" prefWidth="356.0" title="Gastos" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                </children>
             </AnchorPane>
          </bottom>
