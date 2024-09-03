@@ -30,6 +30,7 @@ import projecttcc_2.BD.ProdutosDAO;
 import projecttcc_2.BD.VendasDAO;
 import projecttcc_2.DTO.ProdutosDTO;
 import java.time.LocalDate; // Importe a classe LocalDate para obter a data atual
+import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -215,7 +216,8 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                         // Trate a exceção conforme necessário
                     }
 
-            } else if (raddioVender.isSelected()) {
+            } else // Verificar se a opção "raddioVender" está selecionada
+            if (raddioVender.isSelected()) {
                 // Verifica se a quantidade digitada é maior que zero
                 if (quantidadeDigitada <= 0) {
                     System.out.println("A quantidade digitada deve ser maior que zero.");
@@ -233,6 +235,15 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                 }
 
                 try (Connection conexao = ConexaoBD.conectar()) {
+                    // Insere os dados de venda na tabela vendas
+                    String inserirVenda = "INSERT INTO vendas (id_produto, quantidade_vendida, mes_ano) VALUES (?, ?, ?)";
+                    try (PreparedStatement stmtInserirVenda = conexao.prepareStatement(inserirVenda)) {
+                        stmtInserirVenda.setInt(1, produtoSelecionado.getId());
+                        stmtInserirVenda.setInt(2, quantidadeDigitada);
+                        stmtInserirVenda.setString(3, LocalDate.now().format(DateTimeFormatter.ofPattern("MM/yyyy")));
+                        stmtInserirVenda.executeUpdate();
+                    }
+
                     // Verifica se o produto está no freezer
                     String verificarFreezer = "SELECT COUNT(*) FROM freezer WHERE produto_id = ?";
                     try (PreparedStatement stmtVerificarFreezer = conexao.prepareStatement(verificarFreezer)) {
@@ -247,10 +258,11 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                                     stmtUpdateFreezer.executeUpdate();
                                 }
                             } else {
-                                    produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
-                                }
+                                produtoSelecionado.setQuantidadeEstoque(produtoSelecionado.getQuantidadeEstoque() - quantidadeDigitada);
                             }
                         }
+                    }
+
                     // Consulta para obter o preço e a quantidade do produto
                     String consulta = "SELECT preco, quantidade FROM produtos WHERE id = ?";
                     try (PreparedStatement stmtConsulta = conexao.prepareStatement(consulta)) {
@@ -270,21 +282,21 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                                     // Verifica se já existe um registro para o mês/ano atual na tabela Carteira
                                     String verificarRegistro = "SELECT * FROM Carteira WHERE mes_ano = ?";
                                     try (PreparedStatement stmtVerificarRegistro = conexao.prepareStatement(verificarRegistro)) {
-                                        stmtVerificarRegistro.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                        stmtVerificarRegistro.setString(1, LocalDate.now().format(DateTimeFormatter.ofPattern("MM/yyyy")));
                                         try (ResultSet rsVerificarRegistro = stmtVerificarRegistro.executeQuery()) {
                                             if (rsVerificarRegistro.next()) {
                                                 // Se já existe um registro, atualize o valor do lucro
                                                 String atualizarLucro = "UPDATE Carteira SET valor_lucro = valor_lucro + ? WHERE mes_ano = ?";
                                                 try (PreparedStatement stmtAtualizarLucro = conexao.prepareStatement(atualizarLucro)) {
-                                                    stmtAtualizarLucro.setBigDecimal(1, lucroTotal); // Aqui está a correção
-                                                    stmtAtualizarLucro.setString(2, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                                    stmtAtualizarLucro.setBigDecimal(1, lucroTotal);
+                                                    stmtAtualizarLucro.setString(2, LocalDate.now().format(DateTimeFormatter.ofPattern("MM/yyyy")));
                                                     stmtAtualizarLucro.executeUpdate();
                                                 }
                                             } else {
                                                 // Se não existe um registro, insira um novo registro
                                                 String inserirLucro = "INSERT INTO Carteira (mes_ano, valor_lucro) VALUES (?, ?)";
                                                 try (PreparedStatement stmtInserirLucro = conexao.prepareStatement(inserirLucro)) {
-                                                    stmtInserirLucro.setString(1, LocalDate.now().toString().substring(0, 7)); // Obtém o mês/ano atual
+                                                    stmtInserirLucro.setString(1, LocalDate.now().format(DateTimeFormatter.ofPattern("MM/yyyy")));
                                                     stmtInserirLucro.setBigDecimal(2, lucroTotal);
                                                     stmtInserirLucro.executeUpdate();
                                                 }
@@ -302,6 +314,7 @@ public class FXMLGerenciarEstoqueController implements Initializable {
                     e.printStackTrace();
                     // Trate a exceção conforme necessário
                 }
+            
             } else if (radioPerder.isSelected()) {
                 // Verifica se a quantidade digitada é maior que zero
                 if (quantidadeDigitada <= 0) {

@@ -136,7 +136,8 @@ public class FXMLRelatoriosController implements Initializable {
                 // Atualizar Labels
                 atualizarLabels(df, valorGasto, valorPrejuizo, valorLucro);
             } else {
-                System.out.println("Não há valores para o mês/ano selecionados.");
+                atualizarPieChart(0, 0, 0);
+                atualizarLabels(df, 0, 0, 0);
             }
         } catch (SQLException e) {
             System.err.println("Erro ao carregar valores do banco de dados: " + e.getMessage());

@@ -58,18 +58,20 @@ public class FXMLChecklistPedidosController implements Initializable {
 
 // Método para obter o ID do pedido selecionado a partir do nome do produto
     private int obterIdPedidoSelecionado(String nomeProduto) {
-        // Itera sobre a lista de pedidos para encontrar o pedido correspondente ao nome do produto
-        for (PedidosDTO pedido : pedidos) {
-            // Se o nome do produto do pedido for igual ao nome do produto passado como parâmetro
-            // Retorna o ID desse pedido
-            if (pedido.getNomeFornecedor().equals(nomeProduto)) {
-                return pedido.getId();
+        // Verifica se pedidos está inicializado
+        if (pedidos != null) {
+            // Itera sobre a lista de pedidos para encontrar o pedido correspondente ao nome do produto
+            for (PedidosDTO pedido : pedidos) {
+                // Se o nome do produto do pedido for igual ao nome do produto passado como parâmetro
+                // Retorna o ID desse pedido
+                if (pedido.getNomeFornecedor().equals(nomeProduto)) {
+                    return pedido.getId();
+                }
             }
         }
-        return -1; // Retorna -1 se não encontrar o pedido correspondente
+        return -1; // Retorna -1 se não encontrar o pedido correspondente ou se pedidos for nulo
     }
-
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Nenhum item é exibido inicialmente

@@ -23,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import projecttcc_2.BD.ConexaoBD;
@@ -107,13 +108,18 @@ public class FXMLPedidosController implements Initializable {
     public void exibirPedidos(List<PedidosDTO> pedidos) {
         int row = 0;
         int col = 0;
-        int maxCols = 5;
+        int maxCols = 6;
 
-        for (int i = 0; i < maxCols; i++) {
-            ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setPercentWidth(100.0 / maxCols);
-            gridPedidos.getColumnConstraints().add(colConstraints);
+        gridPedidos.getRowConstraints().clear(); // Limpa as constraints de linhas existentes
+
+        // Adiciona uma nova RowConstraints para cada linha
+        for (int i = 0; i < pedidos.size() / maxCols + 1; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPrefHeight(240); // Altura desejada para cada linha
+            gridPedidos.getRowConstraints().add(rowConstraints);
         }
+
+        gridPedidos.getChildren().clear(); // Limpa os pedidos antigos
 
         for (PedidosDTO pedido : pedidos) {
             Pane cardPedido = criarCardPedido(pedido);
@@ -126,10 +132,11 @@ public class FXMLPedidosController implements Initializable {
         }
     }
 
+
     private Pane criarCardPedido(PedidosDTO pedido) {
         Pane paneCardPedido = new Pane();
         paneCardPedido.setPrefHeight(237);
-        paneCardPedido.setPrefWidth(169);
+        paneCardPedido.setMinWidth(169);
         paneCardPedido.setStyle("-fx-background-color: #fffff5; -fx-background-radius: 20;");
         paneCardPedido.getStyleClass().add("anchoShadow");
 
@@ -167,11 +174,11 @@ public class FXMLPedidosController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/projecttcc_2/pkg0/View/FXMLChecklistPedidos.fxml"));
             Parent root = loader.load();
 
-            FXMLChecklistPedidosController checklistController = loader.getController();
+            FXMLChecklistPedidosController controller = loader.getController();
 
             List<ItemPedidoDTO> itensPedido = buscarItensPedidoDoBancoDeDados(pedido.getId());
-            checklistController.configurarItensPedido(itensPedido);
-            checklistController.setPedidoId(pedido.getId()); // Passa o ID do pedido para o controlador do checklist
+            controller.configurarItensPedido(itensPedido);
+            controller.setPedidoId(pedido.getId()); // Passa o ID do pedido para o controlador do checklist
 
             Stage stage = new Stage();
             stage.setTitle("Checklist do Pedido");

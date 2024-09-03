@@ -65,7 +65,9 @@ public class FXMLAddFornecedoresController {
                     JOptionPane.showMessageDialog(null, "Fornecedor salvo com sucesso!");
 
                     // Atualizar a lista de fornecedores no controlador de produtos
-                    addProdutosController.preencherComboBoxFornecedores();
+                    if (addProdutosController != null) {
+                        addProdutosController.preencherComboBoxFornecedores();
+                    }
                 } else {
                     // Exibir mensagem de falha
                     JOptionPane.showMessageDialog(null, "Falha ao salvar o fornecedor.");
@@ -81,6 +83,7 @@ public class FXMLAddFornecedoresController {
             JOptionPane.showMessageDialog(null, "Erro ao conectar ao banco de dados.");
         }
     }
+
 
     // Método para definir o controlador da classe FXMLAddProdutosController
     public void setAddProdutosController(FXMLAddProdutosController addProdutosController) {

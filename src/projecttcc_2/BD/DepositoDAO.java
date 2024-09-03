@@ -53,12 +53,19 @@ public class DepositoDAO {
             try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
                 stmt.setInt(1, quantidade);
                 stmt.setString(2, nomeProduto);
-                stmt.executeUpdate();
+                int rowsAffected = stmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Quantidade de estoque atualizada com sucesso para o produto: " + nomeProduto);
+                } else {
+                    System.out.println("Nenhum registro atualizado para o produto: " + nomeProduto);
+                }
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+
 
     // Método para fechar a conexão com o banco de dados
     public void fecharConexao() {

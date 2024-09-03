@@ -119,7 +119,8 @@ public class FXMLDepositoController implements Initializable, DepositoObserver  
                     + "FROM produtos p "
                     + "LEFT JOIN deposito d ON p.id = d.produto_id "
                     + "LEFT JOIN fornecedores f ON p.fornecedor_id = f.id "
-                    + "WHERE p.localizacao = 'deposito'";
+                    + "WHERE p.localizacao = 'deposito'"
+                    + "ORDER BY p.nome";
 
             try (Statement stmt = conexao.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
                 dadosTabela = FXCollections.observableArrayList();
